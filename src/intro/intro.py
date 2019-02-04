@@ -14,6 +14,8 @@ crashed = False
 
 carImg = pygame.image.load('/users/info/etu-s3/deniaul/Morpion/Jeu_morpion/Morpion/src/morpion/images/jouer.png')
 
+animation = {1:1,2:4,3:2,4:1,3:3,4:1,3:1,4:2,1:8,5:1,6:2,7:1,8:1,9:1,10:2,11:1,12:1,13:1,14:2,15:1,16:1,17:1,18:1,19:2,20:1,21:2,19:2,22:1,21:11}
+
 def car(x,y):
     gameDisplay.blit(carImg, (x,y))
 
