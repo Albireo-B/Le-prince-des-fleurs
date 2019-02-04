@@ -37,10 +37,14 @@ while not crashed:
                 y_change = -5
             elif event.key == pygame.K_DOWN:
                 y_change = 5
+        if event.type == pygame.MOUSEBUTTONDOWN:
+            x_change = pygame.MOUSEBUTTONDOWN.real
         if event.type == pygame.KEYUP:
-            if event.key == pygame.K_LEFT or event.key == pygame.K_RIGHT or event.key == pygame.K_UP or event.key == pygame.K_DOWN:
+            if event.key == pygame.K_LEFT or event.key == pygame.K_RIGHT:
                 x_change = 0
+            elif event.key == pygame.K_UP or event.key == pygame.K_DOWN:
                 y_change = 0
+
         ######################
     ##
     x += x_change
