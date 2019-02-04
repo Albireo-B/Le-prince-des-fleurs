@@ -17,27 +17,25 @@ carImg = pygame.image.load('/users/info/etu-s3/deniaul/Morpion/Jeu_morpion/Morpi
 def car(x,y):
     gameDisplay.blit(carImg, (x,y))
 
-    x =  (display_width / 3)
-    y = (display_height / 3)
+x =  (display_width / 3)
+y = (display_height / 2)
 
-x_change = 0
+y_change = 0
 pygame.mixer.Sound.play(logo_sound)
 while not crashed:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             crashed = True
             ############################
-        if pygame.time.get_ticks()>2000:
-            x_change = 10
-            ########################
-        x += x_change
-        ##
-        gameDisplay.fill(white)
-        car(x,y)
-
-
-        pygame.display.update()
-        clock.tick(60)
-
+    if pygame.time.get_ticks()>2500:
+        y_change = -5
+        print('bob')
+        ########################
+    y += y_change
+    ##
+    gameDisplay.fill(white)
+    car(x,y)
+    pygame.display.update()
+    clock.tick(60)
 pygame.quit()
 quit()
