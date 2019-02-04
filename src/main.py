@@ -1,6 +1,6 @@
 import pygame
 
-<<<<<<< HEAD
+
 pygame.init()
 display_width=800
 display_height=600
@@ -10,8 +10,6 @@ pygame.display.set_caption('Le Prince Des Fleurs')
 black = (0,0,0)
 white = (255,255,255)
 clock = pygame.time.Clock()
-
-crashed = False
 
 carImg = pygame.image.load('../../Downloads/racecar.png')
 
@@ -23,6 +21,8 @@ y = (display_height * 0.8)
 x_change = 0
 y_change = 0
 car_speed = 0
+
+crashed = False
 
 while not crashed:
     for event in pygame.event.get():
@@ -38,10 +38,14 @@ while not crashed:
                 y_change = -5
             elif event.key == pygame.K_DOWN:
                 y_change = 5
+        if event.type == pygame.MOUSEBUTTONDOWN:
+            x_change = pygame.MOUSEBUTTONDOWN.real
         if event.type == pygame.KEYUP:
-            if event.key == pygame.K_LEFT or event.key == pygame.K_RIGHT or event.key == pygame.K_UP or event.key == pygame.K_DOWN:
+            if event.key == pygame.K_LEFT or event.key == pygame.K_RIGHT:
                 x_change = 0
+            elif event.key == pygame.K_UP or event.key == pygame.K_DOWN:
                 y_change = 0
+
         ######################
     ##
     x += x_change
