@@ -24,9 +24,24 @@ def readIntro(fenetre):
         formattedImg = pygame.transform.scale(img.subsurface((150, 30, 900, 650)), (100, 100))
         imgList[i] = formattedImg
 
+    imgcadr = {}
+    for i in range(1,5):
+        img = pygame.image.load("img/t"+str(i)+".png").convert_alpha()
+        formattedImg = pygame.transform.scale(img, (100, 150))
+        imgcadr[i] = formattedImg
+
     for key in tabFrame:
         fenetre.blit(imgList[key], (width/2,heigh/2))
         pygame.display.flip()
+        if key>8:
+            if key<10:
+                fenetre.blit(imgcadr[1], (width/2,heigh/2))
+            elif key<13:
+                fenetre.blit(imgcadr[2], (width/2,heigh/2))
+            elif key<15:
+                fenetre.blit(imgcadr[3], (width/2,heigh/2))
+            elif key<17:
+                fenetre.blit(imgcadr[4], (width/2,heigh/2))
         time.sleep(tabFrame[key]/24)
 
     logo = pygame.image.load("img/logo.png").convert()
