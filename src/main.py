@@ -1,3 +1,5 @@
+<<<<<<< HEAD
+=======
 import pygame
 
 pygame.init()
@@ -59,3 +61,4 @@ while not crashed:
 
 pygame.quit()
 quit()
+>>>>>>> 283e7507f71dcaac4ff01e0c925c3493d76140b4
