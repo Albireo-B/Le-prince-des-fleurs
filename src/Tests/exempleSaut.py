@@ -13,7 +13,7 @@ class Player(pygame.sprite.Sprite):
 
 
 pygame.init()
-GRAVITY = .9
+GRAVITY =0.9
 window_height = 600
 screen = pygame.display.set_mode((800, window_height))
 player = Player(200, 50, 40, 30)
