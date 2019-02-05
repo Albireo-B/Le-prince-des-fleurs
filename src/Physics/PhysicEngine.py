@@ -1,3 +1,4 @@
+from CollisionShape import *
 
 class PhysicEngine:
 

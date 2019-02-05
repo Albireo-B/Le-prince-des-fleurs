@@ -1,7 +1,8 @@
+from pygame.math import Vector2
 
 class Object:
     def __init__(self, path):
-        self.position = (0,0)
+        self.position = Vector2(0,0)
         self.parent = None
         self.imgPath = path
 
