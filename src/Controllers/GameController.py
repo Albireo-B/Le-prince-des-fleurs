@@ -1,16 +1,16 @@
 import sys
+sys.path.insert(0, "../Draw")
+try:
+    from VolcanoEruption import *
+except ImportError:
+    print('No Import')
+
 sys.path.insert(0, "../Objects")
 try:
     import Planet
     from  Object import *
     from Volcano import *
     from  VueScreen import *
-except ImportError:
-    print('No Import')
-
-sys.path.insert(0, "../Draw")
-try:
-    from VolcanoEruption import *
 except ImportError:
     print('No Import')
 
@@ -74,3 +74,6 @@ class GameController:
             self.planetes[key].planetCenter = self.planetes[key].imgPlanet.get_rect(center=self.planetes[key].rectplanet.center)
             self.planetes[key].volcano.rectVolcano = self.planetes[key].volcano.imgVolcano.get_rect(center=(self.planetes[key].positionx+math.cos(math.radians(-self.planetes[key].rotationAngle))*self.planetes[key].width/1.8,self.planetes[key].positiony+math.sin(math.radians(-self.planetes[key].rotationAngle))*self.planetes[key].width/1.8))
             self.planetes[key].volcano.volcanoCenter = self.planetes[key].volcano.imgVolcano.get_rect(center=self.planetes[key].volcano.rectVolcano.center)
+
+
+a=GameController()
