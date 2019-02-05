@@ -10,8 +10,8 @@ def main():
 
     launchIntro(gameDisplay)
 
-    gameController = MenuController(gameDisplay)
-    gameController.run()
+    #gameController = MenuController(gameDisplay)
+    #gameController.run()
 
     pygame.quit()
     quit()
