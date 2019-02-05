@@ -11,6 +11,7 @@ class Volcano:
 
     def __init__(self,imgPath,positionX,positionY,width,height):
         self.angle=0
+        self.cycle=0
         self.imgVolcano=pygame.image.load(imgPath)
         self.width=width
         self.height=height

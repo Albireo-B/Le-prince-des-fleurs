@@ -1,9 +1,7 @@
-from Physics import *
-from Draw.DrawEngine import *
 from pygame.math import Vector2
 
 """ Stock le masque de collision"""
-class PhysicObject(Object):
+class PhysicObject():
     def __init__(self, position, parent, path):
         super().__init__(position, parent, path)
         img = loadImage(path)

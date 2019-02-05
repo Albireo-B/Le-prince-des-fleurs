@@ -4,6 +4,10 @@ from Objects.Object import *
 
 class MenuController:
 
+<<<<<<< HEAD
+    def __init__(self):
+        pass
+=======
     def __init__(self, gameDisplay):
         clock = pygame.time.Clock()
 
@@ -40,3 +44,4 @@ class MenuController:
             gameDisplay.blit(text,clickable_area)
             pygame.display.update()
             clock.tick(15)
+>>>>>>> e1172be0b7985d13682ac45d11e506a917f7f331
