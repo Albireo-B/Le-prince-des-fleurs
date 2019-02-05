@@ -8,6 +8,12 @@ try:
 except ImportError:
     print('No Import')
 
+sys.path.insert(0, "../Draw")
+try:
+    from VolcanoEruption import *
+except ImportError:
+    print('No Import')
+
 import pygame
 pygame.init()
 
