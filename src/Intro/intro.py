@@ -50,8 +50,11 @@ def launchIntro(fenetre):
 
     logo = pygame.image.load(path+"cadre2.png").convert()
     logo = pygame.transform.scale(logo, (lwidth, int(lheight*1.2)))
+    angle=0
     for i in range(0,int(heigh/(2*5))):
-        #logo = pygame.transform.rotate(logo, -math.pi/8)
+        logoCopie=logo.copy()
+        angle += 1
+        logo=pygame.transform.rotozoom(logoCopie,50,1)
         fenetre.blit(logo, (width/2 - lwidth/2, heigh/2-i*20 - lheight/2))
         pygame.display.flip()
         time.sleep(1/24)

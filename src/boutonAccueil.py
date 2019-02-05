@@ -24,6 +24,7 @@ while intro:
             if event.button == 1: # 1= clique gauche
                 if clickable_area.collidepoint(event.pos):
                     print("bouton bien cliqué")
+                    import main
                     intro=False
 
     gameDisplay.fill(white)
