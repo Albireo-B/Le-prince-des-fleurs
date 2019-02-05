@@ -4,28 +4,60 @@ from pygame.locals import *
 import math
 
 pygame.init()
-display_width=800
-display_height=600
+i=0
+j=0
+t=0
+image = (0,0,0,0)
+clock = pygame.time.Clock()
+display_width=950
+display_height=650
 fenetre = pygame.display.set_mode((display_width,display_height))
-
 def volcan(fenetre):
+    t=0
+    while t<100:
+        i=0
+        j=0
+        white = (255,255,255)
 
+        path = "../../images/volcan"
+        img = pygame.image.load(path+".png").convert()
+        width, heigh = pygame.display.get_surface().get_size()
+        if (t>=0 and t<33):
+            image =(160, 16, 750, 200)
+        elif (t>33 and t<66):
+            image=(160, 226, 750, 260)
+        else :
+            image = (160, 360, 750, 404)
+        while i<50 and j<25:
+            lwidth = 600+i
+            lheight = 200+j
+            position = (display_width/2 - lwidth/2, display_height/2 - lheight/2)
+            formattedImg = pygame.transform.scale(img.subsurface(image), (lwidth, lheight))
+            fenetre.fill(white)
+            fenetre.blit(formattedImg, position)
+            time.sleep(1/24)
+            pygame.display.flip()
+            i=i+2
+            j=j+1
 
-    black = (0,0,0)
+        while i>0 and j>0:
+            lwidth = 600+i
+            lheight = 200+j
+            position = (display_width/2 - lwidth/2, display_height/2 - lheight/2)
+            formattedImg = pygame.transform.scale(img.subsurface(image), (lwidth, lheight))
+            fenetre.fill(white)
+            fenetre.blit(formattedImg, position)
+            time.sleep(1/50)
+            pygame.display.flip()
 
-    lwidth = 1036
-    lheight = 752
-    position = (display_width/2 - lwidth/2, display_height/2 - lheight/2)
+            i=i-2
+            j=j-1
 
-    path = "../images/volcan"
-    width, heigh = pygame.display.get_surface().get_size()
-    img = pygame.image.load(path+".png").convert()
-    formattedImg = pygame.transform.scale(img.subsurface((152, 14, 810, 194)), (lwidth, lheight))
+        t=t+1
+        print(t)
+while True :
 
-    fenetre.blit(formattedImg, position)
-    time.sleep(1/24)
-    fenetre.fill(Color("black"))
+    volcan(fenetre)
 
-volcan(fenetre)
 pygame.quit()
 quit()
