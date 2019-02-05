@@ -1,6 +1,5 @@
 import pygame
-
-
+import math
 
 class Player(pygame.sprite.Sprite):
 
@@ -13,26 +12,40 @@ class Player(pygame.sprite.Sprite):
 
 
 pygame.init()
-GRAVITY =0.9
+GRAVITY = .9
 window_height = 600
 screen = pygame.display.set_mode((800, window_height))
 player = Player(200, 50, 40, 30)
 all_sprites_list = pygame.sprite.Group(player)
 clock = pygame.time.Clock()
-move = False
-running = True
 
-while running:
+pui = 0
+angle = 35
+done=False
+volcanoCenter = 100,500
+move = False
+while not done:
+    pui -= 20
+    if pui < 0:
+        pui = 0
     for event in pygame.event.get():
-     if event.type == pygame.QUIT:
-      running = False
-     if event.type == pygame.KEYDOWN:
-      move = True
-     if event.type == pygame.KEYUP:
-      move = False
+        if event.type == pygame.quit:
+            done=True
+    if event.type == pygame.KEYDOWN:
+        if event.key == pygame.K_DOWN:
+            pui += 40
+            if pui > 1000:
+                pui = 1000
+        elif event.key == pygame.K_SPACE:
+            if player.y_change == 0:
+                move = True
+
+
+    print("jump : " + str(pui))
 
     if move: # Fly upwards.
-     player.y_change = -9
+     player.y_change = -pui/25
+     move = False
     else: # Add the gravity to the y-velocity.
      player.y_change += GRAVITY
     player.rect.move_ip(0, player.y_change)
@@ -50,6 +63,5 @@ while running:
     pygame.display.flip()
     pygame.display.update()
     clock.tick(30)
-
 pygame.quit()
-sys.exit()
+quit()
