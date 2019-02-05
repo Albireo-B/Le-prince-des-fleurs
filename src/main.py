@@ -7,7 +7,7 @@ def main():
     display_height=600
     gameDisplay = pygame.display.set_mode((display_width,display_height))
 
-    
+
 
     pygame.display.set_caption('Le Prince Des Fleurs')
     gameController = MenuController(gameDisplay)
