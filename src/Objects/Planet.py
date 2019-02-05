@@ -16,7 +16,8 @@ class Planet:
         self.rotationSpeed=rotationAngle
         self.rotationAngle=0
         self.withPrince=False
-
+        self.volcano=Volcano("../../../images/volcan.png",centerPositionx,centerPositiony)
+        self.gravityForce = 100
 
         #change la taille de l'image
         self.imgPlanet=pygame.transform.scale(self.imgPlanet,self.size)
