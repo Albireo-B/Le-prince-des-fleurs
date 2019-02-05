@@ -1,12 +1,14 @@
 import pygame
 from pygame.math import Vector2
 
+
 from Objects.Planet import *
 from Objects.Object import *
 from Objects.Volcano import *
 from Objects.VueScreen import *
 from Objects.Prince import *
 from Objects.PhysicObject import *
+
 
 
 class GameController:
@@ -75,3 +77,11 @@ class GameController:
             planet.planetCenter = planet.imgPlanet.get_rect(center=planet.rectplanet.center)
             planet.volcano.rectVolcano = planet.volcano.imgVolcano.get_rect(center=(planet.positionx+math.cos(math.radians(-planet.rotationAngle))*planet.width/1.8,planet.positiony+math.sin(math.radians(-planet.rotationAngle))*planet.width/1.8))
             planet.volcano.volcanoCenter = planet.volcano.imgVolcano.get_rect(center=planet.volcano.rectVolcano.center)
+
+        for key in self.planetes:
+            self.planetes[key].rotationAngle += self.planetes[key].rotationSpeed
+            self.planetes[key].imgPlanet=pygame.transform.rotozoom(self.planetes[key].imgPlaneteCopie,self.planetes[key].rotationAngle,1)
+            self.planetes[key].volcano.imgVolcano=pygame.transform.rotozoom(self.planetes[key].volcano.imgVolcanCopie,self.planetes[key].rotationAngle,1)
+            self.planetes[key].planetCenter = self.planetes[key].imgPlanet.get_rect(center=self.planetes[key].rectplanet.center)
+            self.planetes[key].volcano.rectVolcano = self.planetes[key].volcano.imgVolcano.get_rect(center=(self.planetes[key].positionx+math.cos(math.radians(-self.planetes[key].rotationAngle))*self.planetes[key].width/1.8,self.planetes[key].positiony+math.sin(math.radians(-self.planetes[key].rotationAngle))*self.planetes[key].width/1.8))
+            self.planetes[key].volcano.volcanoCenter = self.planetes[key].volcano.imgVolcano.get_rect(center=self.planetes[key].volcano.rectVolcano.center)
