@@ -16,19 +16,7 @@ perso = pygame.image.load("perso.png").convert_alpha()
 aaa =  pygame.transform.scale(perso.subsurface((30, 30, 50, 50)), (10, 10))
 #fenetre.blit(aaa, (10,10))
 
-def readIntro(fenetre):
-    width, heigh = pygame.display.get_surface().get_size()
-    tabFrame = {1 : 1, 2 : 1}
-    imgList = {}
-    for i in range(1,14):
-        img = pygame.image.load("intro/img/"+str(i)+".png").convert()
-        formattedImg = pygame.transform.scale(img.subsurface((150, 30, 900, 650)), (100, 100))
-        imgList[i] = formattedImg
 
-    for key in tabFrame:
-        fenetre.blit(imgList[key], (width/2,heigh/2))
-        pygame.display.flip()
-        time.sleep(tabFrame[key])
 
 #Boucle infinie
 readIntro(fenetre)

@@ -22,7 +22,7 @@ y = (display_height / 2)
 x_change = 0
 y_change = 0
 car_speed = 0
-pygame.mixer.Sound.play(logo_sound)
+pygame.mixer.Sound.play(logo_MenuControllersound)
 while not crashed:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
