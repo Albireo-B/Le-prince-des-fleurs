@@ -1,6 +1,6 @@
 import pygame
 import math
-import Planet
+import Objects.Planet
 
 class Volcano:
 

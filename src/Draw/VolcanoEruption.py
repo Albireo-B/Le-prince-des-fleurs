@@ -68,6 +68,3 @@ def eruption():
     while True :
 
         volcan(fenetre)
-
-pygame.quit()
-quit()
