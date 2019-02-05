@@ -9,3 +9,6 @@ class PhysicEngine:
 
     def areColliding(obj1, obj2):
         pass
+        
+    def PrinceFlight():
+        pass
