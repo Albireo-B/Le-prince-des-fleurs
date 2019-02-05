@@ -15,7 +15,7 @@ class Planet:
         self.imgPlanet=pygame.image.load(self.imgPath)
         self.rotationSpeed=rotationAngle
         self.rotationAngle=0
-        self.withPrince=False
+        self.prince=None
         self.volcano=Volcano("../images/volcan.png",centerPositionx,centerPositiony,width,height)
         self.gravityForce = 50*self.width
 
@@ -31,13 +31,12 @@ class Planet:
 
 
 
-    def addPrince(self):
-
-
-        self.withPrince=True
-
+    def addPrince(self,prince):
+        self.prince=prince
+        self.prince.isFlying = False
 
     def removePrince(self):
 
 
-        self.withPrince=False
+        self.prince=None
+        self.prince.isFlying = True
