@@ -1,7 +1,7 @@
 
 import pygame
 
-from Volcano import *
+from Objects.Volcano import *
 
 class Planet:
 
@@ -16,8 +16,8 @@ class Planet:
         self.rotationSpeed=rotationAngle
         self.rotationAngle=0
         self.withPrince=False
-        self.volcano=Volcano("../../images/volcan.png",centerPositionx,centerPositiony,width,height)
-        self.gravityForce = 100
+        self.volcano=Volcano("../images/volcan.png",centerPositionx,centerPositiony,width,height)
+        self.gravityForce = 50*self.width
 
         #change la taille de l'image
         self.imgPlanet=pygame.transform.scale(self.imgPlanet,self.size)
@@ -25,7 +25,7 @@ class Planet:
         self.rectplanet = self.imgPlanet.get_rect(center=(centerPositionx,centerPositiony))
         self.planetCenter=self.imgPlanet.get_rect(center=self.rectplanet.center)
 
-        self.volcano=Volcano("../../images/volcan.png",centerPositionx,centerPositiony,width,height)
+        self.volcano=Volcano("../images/volcan.png",centerPositionx,centerPositiony,width,height)
         self.imgPlaneteCopie=self.imgPlanet.copy()
 
 

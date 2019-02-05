@@ -14,15 +14,15 @@ from Objects.PhysicObject import *
 class GameController:
 
     def __init__(self):
-        self.vueScreen=VueScreen((1500,750))
+        self.vueScreen=VueScreen((1680,980))
         self.planetes=[]
         self.prince=Prince("../images/animIntro/1.png")
         #self.prince=Prince()
-        self.createPlanet("../../images/Planet.png",50,50,375,100,-0.2)
-        self.createPlanet("../../images/Planet.png",500,500,750,300,0.4)
-        self.createPlanet("../../images/Planet.png",300,300,1200,600,-0.1)
-        self.createPlanet("../../images/Planet.png",200,200,375,600,0.10)
-        self.createPlanet("../../images/Planet.png",100,100,1350,150,-0.7)
+        self.createPlanet("../images/Planet0.png",50,50,375,100,-0.2)
+        self.createPlanet("../images/Planet0.png",500,500,750,300,0.4)
+        self.createPlanet("../images/Planet1.png",300,300,1200,600,-0.1)
+        self.createPlanet("../images/Planet2.png",200,200,375,600,0.10)
+        self.createPlanet("../images/Planet1.png",100,100,1350,150,-0.7)
         self.display()
         self.play()
 
