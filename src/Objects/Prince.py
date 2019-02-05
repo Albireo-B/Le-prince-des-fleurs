@@ -1,9 +1,8 @@
 import pygame
 
-class Prince:
+class Prince(PhysicObject):
 
-    def __init__(self,imgPath,centerPositionx,centerPositiony):
+    def __init__(self,imgPath):
         self.imgPath=imgPath
         self.imgPrince=pygame.image.load(self.imgPath)
-        self.direction = 0;
-        self.force = 0;
+        self.speedVector = vector2(0,0)
