@@ -24,11 +24,11 @@ class GameController:
         self.planetes=[]
         self.prince=Prince("../../images/animIntro/1.png")
         #self.prince=Prince()
-        self.createPlanet("../../images/Planet.png",50,50,375,100,2)
-        self.createPlanet("../../images/Planet.png",500,500,750,300,4)
-        self.createPlanet("../../images/Planet.png",300,300,1200,600,1)
-        self.createPlanet("../../images/Planet.png",200,200,375,600,10)
-        self.createPlanet("../../images/Planet.png",100,100,1350,150,7)
+        self.createPlanet("../../images/Planet.png",50,50,375,100,-0.2)
+        self.createPlanet("../../images/Planet.png",500,500,750,300,0.4)
+        self.createPlanet("../../images/Planet.png",300,300,1200,600,-0.1)
+        self.createPlanet("../../images/Planet.png",200,200,375,600,0.10)
+        self.createPlanet("../../images/Planet.png",100,100,1350,150,-0.7)
         self.display()
         self.play()
 
@@ -42,7 +42,6 @@ class GameController:
         prince.position += prince.speedVector
         self.prince.rectPrinc = self.prince.imgPrince.get_rect(center=self.prince.position)
         self.prince.princeCenter = self.prince.imgPrince.get_rect(center=self.prince.rectPrinc.center)
-        print(prince.princeCenter)
 
 
     def createPlanet(self,imgPath,width,height,centerPositionx,centerPositiony,rotationAngle):
@@ -73,15 +72,16 @@ class GameController:
             for event in pygame.event.get():
                 if event.type == pygame.quit:
                     done=True
-            self.rotate()
+            self.update_planet()
             self.PrinceFlight(self.prince)
             self.display()
             pygame.display.update()
-            self.vueScreen.clock.tick(30)
+            self.vueScreen.clock.tick(60)
 
-    def rotate(self):
-<<<<<<< HEAD
+    def update_planet(self):
+
         for planet in self.planetes:
+            planet.volcano.chauffe()
             planet.rotationAngle += planet.rotationSpeed
             planet.imgPlanet=pygame.transform.rotozoom(planet.imgPlaneteCopie,planet.rotationAngle,1)
             planet.volcano.imgVolcano=pygame.transform.rotozoom(planet.volcano.imgVolcanCopie,planet.rotationAngle,1)
@@ -92,18 +92,3 @@ class GameController:
 
 
 controleur=GameController()
-=======
-        for key in self.planetes:
-            self.planetes[key].rotationAngle += self.planetes[key].rotationSpeed
-            self.planetes[key].imgPlanet=pygame.transform.rotozoom(self.planetes[key].imgPlaneteCopie,self.planetes[key].rotationAngle,1)
-            self.planetes[key].volcano.imgVolcano=pygame.transform.rotozoom(self.planetes[key].volcano.imgVolcanCopie,self.planetes[key].rotationAngle,1)
-            self.planetes[key].planetCenter = self.planetes[key].imgPlanet.get_rect(center=self.planetes[key].rectplanet.center)
-            self.planetes[key].volcano.rectVolcano = self.planetes[key].volcano.imgVolcano.get_rect(center=(self.planetes[key].positionx+math.cos(math.radians(-self.planetes[key].rotationAngle))*self.planetes[key].width/1.8,self.planetes[key].positiony+math.sin(math.radians(-self.planetes[key].rotationAngle))*self.planetes[key].width/1.8))
-            self.planetes[key].volcano.volcanoCenter = self.planetes[key].volcano.imgVolcano.get_rect(center=self.planetes[key].volcano.rectVolcano.center)
-<<<<<<< HEAD
-
-
-a=GameController()
-=======
->>>>>>> e1172be0b7985d13682ac45d11e506a917f7f331
->>>>>>> 57c2253e6d4be2107a0e7fb0e2dbea446e0072c1
