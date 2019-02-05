@@ -3,20 +3,17 @@ import time
 from pygame.locals import *
 import math
 
-pygame.init()
-display_width=1500
-display_height=800
-gameDisplay = pygame.display.set_mode((display_width,display_height))
-pygame.display.set_caption('Le Prince Des Fleurs')
-logo_sound = pygame.mixer.Sound('SCREW_GRAVITY.wav')
-black = (0,0,0)
-white = (255,255,255)
-clock = pygame.time.Clock()
+def launchIntro(fenetre):
+    logo_sound = pygame.mixer.Sound('SCREW_GRAVITY.wav')
+    black = (0,0,0)
+    white = (255,255,255)
+    clock = pygame.time.Clock()
 
-crashed = False
-lwidth = 238
-lheight = 314
-def readIntro(fenetre):
+    crashed = False
+    lwidth = 238
+    lheight = 314
+
+    pygame.mixer.Sound.play(logo_sound)
     width, heigh = pygame.display.get_surface().get_size()
     tabFrame = {1:1,2:4,3:2,4:1,3:3,4:1,3:1,4:2,1:8,5:1,6:2,7:1,8:1,9:1,10:2,11:1,12:1,13:1,14:2,15:1,16:1,17:1,18:1,19:2,20:1,21:2,19:2,22:1,21:11}
     imgList = {}
@@ -57,8 +54,3 @@ def readIntro(fenetre):
         pygame.display.flip()
         time.sleep(1/24)
         fenetre.fill(Color("black"))
-
-pygame.mixer.Sound.play(logo_sound)
-readIntro(gameDisplay)
-pygame.quit()
-quit()

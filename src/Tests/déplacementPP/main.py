@@ -5,9 +5,9 @@ pygame.init()
 window = pygame.display.set_mode((750,750))
 pygame.display.set_caption('Le Prince Des Fleurs')
 clock = pygame.time.Clock()
-imgVolcan=pygame.image.load("../perso.png")
+imgVolcan=pygame.image.load("perso.png").convert_alpha()
 imgVolcan=pygame.transform.rotate(imgVolcan,-85)
-imgPlanete=pygame.image.load("../../images/planèteTest.jpg")
+imgPlanete=pygame.image.load("../../images/planèteTest.jpg").convert_alpha()
 
 #change la taille de l'image
 imgVolcan=pygame.transform.scale(imgVolcan,(66,66))
