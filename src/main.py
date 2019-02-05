@@ -1,18 +1,17 @@
 import pygame
-from Intro.intro import launchIntro
+from Intro.intro import *
+
+from Controllers.MenuController import *
 
 def main():
     pygame.init()
-    display_width=1500
-    display_height=750
-    gameDisplay = pygame.display.set_mode((display_width,display_height))
+    gameDisplay = pygame.display.set_mode((1500,750))
     pygame.display.set_caption('Le Prince Des Fleurs')
 
     launchIntro(gameDisplay)
 
-    gameController = MenuController(gameDisplay)
-    gameController.run()
-
+    menuController = MenuController(gameDisplay)
+    menuController.run()
     pygame.quit()
     quit()
 

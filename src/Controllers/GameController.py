@@ -68,7 +68,3 @@ class GameController:
             self.planetes[key].planetCenter = self.planetes[key].imgPlanet.get_rect(center=self.planetes[key].rectplanet.center)
             self.planetes[key].volcano.rectVolcano = self.planetes[key].volcano.imgVolcano.get_rect(center=(self.planetes[key].positionx+math.cos(math.radians(-self.planetes[key].rotationAngle))*self.planetes[key].width/1.8,self.planetes[key].positiony+math.sin(math.radians(-self.planetes[key].rotationAngle))*self.planetes[key].width/1.8))
             self.planetes[key].volcano.volcanoCenter = self.planetes[key].volcano.imgVolcano.get_rect(center=self.planetes[key].volcano.rectVolcano.center)
-
-
-
-controleur=GameController()
