@@ -12,12 +12,11 @@ class Planet:
         self.width=width
         self.height=height
         self.size=(width,height)
-        self.imgPlanet=pygame.image.load(self.imgPath)
+        self.imgPlanet=pygame.image.load(self.imgPath).convert_alpha()
         self.rotationSpeed=rotationAngle
         self.rotationAngle=0
         self.withPrince=False
-        self.volcano=Volcano("../../../images/volcan.png",centerPositionx,centerPositiony)
-        self.gravityForce = 100
+        self.gravityForce = 500
 
         #change la taille de l'image
         self.imgPlanet=pygame.transform.scale(self.imgPlanet,self.size)
