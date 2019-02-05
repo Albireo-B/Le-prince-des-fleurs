@@ -4,6 +4,7 @@ from pygame.locals import *
 import math
 
 def launchIntro(fenetre):
+    fenetre.fill(Color("black"))
     logo_sound = pygame.mixer.Sound('../Sounds/SCREW_GRAVITY.wav')
     black = (0,0,0)
     white = (255,255,255)
@@ -50,11 +51,12 @@ def launchIntro(fenetre):
 
     logo = pygame.image.load(path+"cadre2.png").convert()
     logo = pygame.transform.scale(logo, (lwidth, int(lheight*1.2)))
+    logoCopie=logo.copy()
+    rectLogo = logo.get_rect(center=(width/2 - lwidth/2, heigh/2 - lheight/2))
     angle=0
     for i in range(0,int(heigh/(2*5))):
-        logoCopie=logo.copy()
-        angle += 1
-        logo=pygame.transform.rotozoom(logoCopie,50,1)
+        angle += 4
+        logo=pygame.transform.rotozoom(logoCopie,angle,1)
         fenetre.blit(logo, (width/2 - lwidth/2, heigh/2-i*20 - lheight/2))
         pygame.display.flip()
         time.sleep(1/24)

@@ -11,6 +11,12 @@ try:
 except ImportError:
     print('No Import')
 
+sys.path.insert(0, "../Draw")
+try:
+    from VolcanoEruption import *
+except ImportError:
+    print('No Import')
+
 import pygame
 pygame.init()
 
@@ -80,6 +86,7 @@ class GameController:
             self.vueScreen.clock.tick(30)
 
     def rotate(self):
+<<<<<<< HEAD
         for planet in self.planetes:
             planet.rotationAngle += planet.rotationSpeed
             planet.imgPlanet=pygame.transform.rotozoom(planet.imgPlaneteCopie,planet.rotationAngle,1)
@@ -91,3 +98,12 @@ class GameController:
 
 
 controleur=GameController()
+=======
+        for key in self.planetes:
+            self.planetes[key].rotationAngle += self.planetes[key].rotationSpeed
+            self.planetes[key].imgPlanet=pygame.transform.rotozoom(self.planetes[key].imgPlaneteCopie,self.planetes[key].rotationAngle,1)
+            self.planetes[key].volcano.imgVolcano=pygame.transform.rotozoom(self.planetes[key].volcano.imgVolcanCopie,self.planetes[key].rotationAngle,1)
+            self.planetes[key].planetCenter = self.planetes[key].imgPlanet.get_rect(center=self.planetes[key].rectplanet.center)
+            self.planetes[key].volcano.rectVolcano = self.planetes[key].volcano.imgVolcano.get_rect(center=(self.planetes[key].positionx+math.cos(math.radians(-self.planetes[key].rotationAngle))*self.planetes[key].width/1.8,self.planetes[key].positiony+math.sin(math.radians(-self.planetes[key].rotationAngle))*self.planetes[key].width/1.8))
+            self.planetes[key].volcano.volcanoCenter = self.planetes[key].volcano.imgVolcano.get_rect(center=self.planetes[key].volcano.rectVolcano.center)
+>>>>>>> e1172be0b7985d13682ac45d11e506a917f7f331
