@@ -3,6 +3,7 @@ import time
 from pygame.locals import *
 import math
 
+
 def launchIntro(fenetre):
     fenetre.fill(Color("black"))
     logo_sound = pygame.mixer.Sound('../Sounds/SCREW_GRAVITY.wav')

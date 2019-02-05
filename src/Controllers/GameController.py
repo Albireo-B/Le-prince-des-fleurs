@@ -1,28 +1,22 @@
-import sys
-from pygame.math import Vector2
-sys.path.insert(0, "../Objects")
-try:
-    import Planet
-    from  Object import *
-    from Volcano import *
-    from  VueScreen import *
-    from  Prince import *
-    from  PhysicObject import *
-except ImportError:
-    print('No Import')
-
 import pygame
-pygame.init()
+from pygame.math import Vector2
+
+
+from Objects.Planet import *
+from Objects.Object import *
+from Objects.Volcano import *
+from Objects.VueScreen import *
+from Objects.Prince import *
+from Objects.PhysicObject import *
+
+
 
 class GameController:
-
-
-
 
     def __init__(self):
         self.vueScreen=VueScreen((1500,750))
         self.planetes=[]
-        self.prince=Prince("../../images/animIntro/1.png")
+        self.prince=Prince("../images/animIntro/1.png")
         #self.prince=Prince()
         self.createPlanet("../../images/Planet.png",50,50,375,100,-0.2)
         self.createPlanet("../../images/Planet.png",500,500,750,300,0.4)
@@ -45,7 +39,7 @@ class GameController:
 
 
     def createPlanet(self,imgPath,width,height,centerPositionx,centerPositiony,rotationAngle):
-        planet = Planet.Planet(imgPath,width,height,centerPositionx,centerPositiony,rotationAngle)
+        planet = Planet(imgPath,width,height,centerPositionx,centerPositiony,rotationAngle)
         self.planetes.append(planet)
 
     def addPrinceOnPlanet(self,planet):
@@ -53,10 +47,6 @@ class GameController:
 
     def removePrinceFromPlanet(self,planet):
         planet.removePrince(prince)
-
-
-
-
 
     def display(self):
         #couleur blanche a virer
@@ -79,7 +69,6 @@ class GameController:
             self.vueScreen.clock.tick(60)
 
     def update_planet(self):
-
         for planet in self.planetes:
             planet.volcano.chauffe()
             planet.rotationAngle += planet.rotationSpeed
@@ -88,7 +77,3 @@ class GameController:
             planet.planetCenter = planet.imgPlanet.get_rect(center=planet.rectplanet.center)
             planet.volcano.rectVolcano = planet.volcano.imgVolcano.get_rect(center=(planet.positionx+math.cos(math.radians(-planet.rotationAngle))*planet.width/1.8,planet.positiony+math.sin(math.radians(-planet.rotationAngle))*planet.width/1.8))
             planet.volcano.volcanoCenter = planet.volcano.imgVolcano.get_rect(center=planet.volcano.rectVolcano.center)
-
-
-
-controleur=GameController()

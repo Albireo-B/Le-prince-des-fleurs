@@ -1,7 +1,7 @@
 import pygame
 import math
-import Planet
-import sys
+import Objects.Planet
+
 class Volcano:
 
     def __init__(self,imgPath,positionX,positionY,width,height):
