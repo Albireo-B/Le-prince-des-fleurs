@@ -1,6 +1,7 @@
 import pygame
 from pygame.locals import *
 from Controllers.GameController import GameController
+import sys
 
 white = (255,255,255)
 black = (0,0,0)
@@ -8,34 +9,55 @@ skyblue = (135,206,235)
 
 class MenuController:
 
-    def __init__(self, gameDisplay):
-        clock = pygame.time.Clock()
+    def __init__(self, screen):
+        white= (255,255,255)
+        screen.fill(white)
+        fortgroud = pygame.image.load('../images/menu.png').convert()
+        background = pygame.image.load('../images/menu.png').convert_alpha()
 
-        menu = True
+        myFont = pygame.font.SysFont('arial',38)
 
-        gameDisplay.fill(white)
-        largeText = pygame.font.Font('freesansbold.ttf',85)
-        TextSurf, TextRect = self.text_objects("Le Prince Des Fleurs", largeText)
-        TextRect.center = ((1500/2),(750/2))
-        gameDisplay.blit(TextSurf, TextRect)
-        clickable_area = pygame.Rect((1500/2-100, 750/2+200), (200, 100))
-        rect_surf = pygame.Surface(clickable_area.size)
-        rect_surf.fill(skyblue)
-        text,text_rect = self.text_objects("Start",largeText)
-        gameDisplay.blit(rect_surf, clickable_area)
-        gameDisplay.blit(text,clickable_area)
-        pygame.display.update()
-        clock.tick(15)
+        start  = myFont.render("start",True,[135,206,235])
+        button_rect_start=start.get_rect(topleft=(50,200))
+        scores = myFont.render("scores",True,[135,206,235])
+        button_rect_scores=scores.get_rect(topleft=(50,300))
+        credits= myFont.render("credits",True,[135,206,235])
+        button_rect_credits=credits.get_rect(topleft=(50,400))
+        quit   = myFont.render("quit",True,[135,206,235])
+        button_rect_quit=quit.get_rect(topleft=(50,500))
 
-        while menu:
+        while True:
             for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                    menu=False
-                elif event.type == pygame.MOUSEBUTTONUP: # quand je relache le bouton
-                    if event.button == 1: # 1= clique gauche
-                        if clickable_area.collidepoint(event.pos):
-                            self.run()
-                            menu=False
+                if event.type==QUIT:
+                    pygame.quit()
+                if event.type== pygame.MOUSEBUTTONDOWN:
+                    pygame.mouse.get_pos()
+                    if button_rect_start.collidepoint(event.pos):#event to be changed
+                        print('Button pressed.')
+                        sys.exit()
+                    if button_rect_scores.collidepoint(event.pos):#event to be changed
+                        print('Button pressed.')
+                        sys.exit()
+                    if button_rect_credits.collidepoint(event.pos):#event to be changed
+                        print('Button pressed.')
+                        sys.exit()
+                    if button_rect_quit.collidepoint(event.pos):#event to be changed
+                        print('Button pressed.')
+                        sys.exit()
+
+
+        # position of buttons can be changed
+            screen.blit(start,(50,200))
+
+            screen.blit(scores,(50,300))
+
+            screen.blit(credits,(50,400))
+
+            screen.blit(quit,(50,500))
+
+            screen.blit(background,(400,0))
+
+            pygame.display.update()
 
     def text_objects(self, text, font):
         textSurface = font.render(text, True, black)
