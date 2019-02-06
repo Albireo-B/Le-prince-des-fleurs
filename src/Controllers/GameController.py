@@ -61,10 +61,14 @@ class GameController:
 
     def play(self):
         done=False
+        counter,text=10,"10".rjust(3)
+        pygame.time.set_timer(pygame.USEREVENT,1000)
+        font=pygame.font.SysFont("Consolas",30)
         while not done:
             for event in pygame.event.get():
                 if event.type == pygame.quit:
                     done=True
+<<<<<<< HEAD
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_LEFT:
                     self.prince.princeAnglePlanet += 6
@@ -74,9 +78,23 @@ class GameController:
                     if not self.prince.isFlying:
                         self.removePrinceFromPlanet()
 
+=======
+            if event.type == pygame.USEREVENT:
+                counter-=1
+                text=str(counter).rjust(3) if counter > 0 else 'boom!'
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_LEFT:
+                    self.prince.princeAnglePlanet += 6
+                    print("left pressed")
+                elif event.key == pygame.K_RIGHT:
+                    print("right pressed")
+                    self.prince.princeAnglePlanet -= 6
+>>>>>>> facd52461e8c92d00fc46fc739ff7b7d8a0df451
             self.update_flight(self.prince)
             self.update_planet()
+            self.updateTimer()
             self.display()
+            self.vueScreen.window.blit(font.render(text,True,(0,0,0)),(32,48))
             pygame.display.update()
             self.vueScreen.clock.tick(60)
 
