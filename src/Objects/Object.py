@@ -17,12 +17,15 @@ class Object:
     def loadImage(self, imgPath):
         self.imgCopie = pygame.image.load(imgPath)
         self.imgCopie = pygame.transform.scale(self.imgCopie,self.size)
-        if self.parent != None:
-            self.imgCopie = pygame.transform.rotate(self.imgCopie,-85)
+        self.imgCopie = pygame.transform.rotate(self.imgCopie,-85)
         self.img = self.imgCopie.copy()
 
         self.rect = self.img.get_rect(center=(self.position.x,self.position.y))
         self.imgCenter=self.img.get_rect(center=self.rect.center)
+
+    def rotateAroundParent(self, amount):
+        self.rotationAngle += amount
+        self.angleToParent += amount
 
     def setParent(self, parent):
         self.parent = parent

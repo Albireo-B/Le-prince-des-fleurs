@@ -22,7 +22,7 @@ class GameController:
         self.planetes=[]
         self.etoiles=[]
         self.nbFlowers=0
-        self.prince=Prince("../images/animIntro/1.png",Vector2(50,250))
+        self.prince=Prince("../images/animIntro/1.png",(100,100))
         self.PhysicEngine.addPhysicObject(self.prince)
         self.createPlanet("../images/Planet0.png",50,50,500,350,-2)
         self.createPlanet("../images/Planet0.png",500,500,1100,350,0.4)
@@ -52,15 +52,15 @@ class GameController:
         self.prince.imgCenter = self.prince.img.get_rect(center=self.prince.rect.center)
 
 
-    def createPlanet(self,imgPath,width,height,centerPositionx,centerPositiony,rotationAngle, radius = -1):
-        planet = Planet(imgPath,(width,height),Vector2(centerPositionx,centerPositiony),rotationAngle, radius)
+    def createPlanet(self,imgPath,width,height,centerPositionx,centerPositiony,rotationSpeed, radius = -1):
+        planet = Planet(imgPath,(width,height),Vector2(centerPositionx,centerPositiony),rotationSpeed, radius)
         self.planetes.append(planet)
         self.PhysicEngine.addPhysicObject(planet)
         self.PhysicEngine.addPhysicObject(planet.volcano)
         self.PhysicEngine.addPhysicObject(planet.flower)
 
-    def createEtoile(self,imgPath,centerPositionx,centerPositiony,rotationAngle):
-        etoile = Etoile(imgPath,centerPositionx,centerPositiony,rotationAngle)
+    def createEtoile(self,imgPath,centerPositionx,centerPositiony,rotationSpeed):
+        etoile = Etoile(imgPath,centerPositionx,centerPositiony,rotationSpeed)
         self.etoiles.append(etoile)
 
     def addPrinceOnPlanet(self,planet):
@@ -108,11 +108,11 @@ class GameController:
                     done=True
                 elif event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_LEFT:
-                        self.prince.angleToParent += 6
+                        self.prince.rotateAroundParent(6)
                         print("left pressed")
                     elif event.key == pygame.K_RIGHT:
                         print("right pressed")
-                        self.prince.angleToParent -= 6
+                        self.prince.rotateAroundParent(-6)
 
             if time.time()-start>=180:
                 done=True
@@ -135,7 +135,7 @@ class GameController:
     def update_etoiles(self):
         for etoile in self.etoiles:
             etoile.rotationAngle += etoile.rotationSpeed
-            etoile.imgEtoile=pygame.transform.rotozoom(etoile.imgEtoileCopie,etoile.rotationAngle,1)
+            etoile.imgEtoile = pygame.transform.rotozoom(etoile.imgEtoileCopie,etoile.rotationAngle,1)
             etoile.etoileCenter = etoile.imgEtoile.get_rect(center=etoile.rectEtoile.center)
 
 
@@ -148,5 +148,3 @@ class GameController:
             if prince.speedVector.length()!= 0:
                 prince.rotationAngle=Vector2(1,0).angle_to(Vector2(prince.speedVector.x,-prince.speedVector.y))
             prince.imgPrince=pygame.transform.rotozoom(prince.imgCopie,prince.rotationAngle,1)
-        else:
-            self.prince.rotationAngle = self.prince.parent.rotationAngle -90 +self.prince.angleToParent
