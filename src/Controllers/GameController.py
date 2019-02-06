@@ -23,7 +23,7 @@ class GameController:
         self.createPlanet("../images/Planet1.png",300,300,1200,600,-0.1)
         self.createPlanet("../images/Planet2.png",200,200,375,600,0.10)
         self.createPlanet("../images/Planet1.png",100,100,1350,150,-0.7)
-        self.planetes[1].addPrince(self.prince)
+        #self.addPrinceOnPlanet(self.planetes[1])
         self.play()
 
     def PrinceFlight(self, prince):
@@ -34,6 +34,7 @@ class GameController:
             temps = 1
             prince.speedVector += normaVect * acceleration * temps
         prince.position += prince.speedVector
+        prince.position.x = prince.position.x % 1680
         self.prince.rectPrinc = self.prince.imgPrince.get_rect(center=self.prince.position)
         self.prince.princeCenter = self.prince.imgPrince.get_rect(center=self.prince.rectPrinc.center)
 
@@ -43,10 +44,12 @@ class GameController:
         self.planetes.append(planet)
 
     def addPrinceOnPlanet(self,planet):
-        planet.addPrince(prince)
+        planet.addPrince(self.prince)
 
-    def removePrinceFromPlanet(self,planet):
-        planet.removePrince(prince)
+    def removePrinceFromPlanet(self):
+        for planet in self.planetes:
+            planet.removePrince()
+
 
     def display(self):
         #couleur blanche a virer
@@ -62,11 +65,15 @@ class GameController:
             for event in pygame.event.get():
                 if event.type == pygame.quit:
                     done=True
-                if event.type == pygame.KEYDOWN:
-                    if event.key == pygame.K_LEFT:
-                        self.prince.princeAnglePlanet += 6
-                    elif event.key == pygame.K_RIGHT:
-                        self.prince.princeAnglePlanet -= 6
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_LEFT:
+                    self.prince.princeAnglePlanet += 6
+                elif event.key == pygame.K_RIGHT:
+                    self.prince.princeAnglePlanet -= 6
+                elif event.key == pygame.K_SPACE:
+                    if not self.prince.isFlying:
+                        self.removePrinceFromPlanet()
+
             self.update_flight(self.prince)
             self.update_planet()
             self.display()
