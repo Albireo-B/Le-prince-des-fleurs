@@ -24,15 +24,18 @@ class GameController:
         self.nbFlowers=0
         self.prince=Prince("../images/animIntro/1.png",Vector2(50,250))
         self.PhysicEngine.addPhysicObject(self.prince)
-        self.createPlanet("../images/Planet0.png",50,50,375,100,-0.2)
-        self.createPlanet("../images/Planet0.png",500,500,750,300,0.4)
-        self.createPlanet("../images/Planet1.png",300,300,1200,600,-0.1)
-        self.createPlanet("../images/Planet2.png",200,200,375,600,1, 160)
-        self.createPlanet("../images/Planet2.png",100,100,1350,150,-0.7, 160)
+        self.createPlanet("../images/Planet0.png",50,50,500,350,-2)
+        self.createPlanet("../images/Planet0.png",500,500,1100,350,0.4)
+        self.createPlanet("../images/Planet1.png",300,300,375,750,-0.1)
+        self.createPlanet("../images/Planet2.png",200,200,200,150,1, 160)
+        self.createPlanet("../images/Planet2.png",100,100,1150,800,-0.7, 160)
         self.createEtoile("../images/Etoile.png",600,600,-1)
-        self.createEtoile("../images/Etoile.png",1200,350,1)
-        self.createEtoile("../images/Etoile.png",200,250,-0.5)
+        self.createEtoile("../images/Etoile.png",750,50,1)
+        self.createEtoile("../images/Etoile.png",200,325,-0.5)
         self.createEtoile("../images/Etoile.png",1400,750,0.5)
+        self.createEtoile("../images/Etoile.png",1650,300,3)
+        self.createEtoile("../images/Etoile.png",750,920,-2)
+        self.createEtoile("../images/Etoile.png",100,900,0.2)
         self.addPrinceOnPlanet(self.planetes[1])
         self.play()
 
@@ -54,6 +57,7 @@ class GameController:
         self.planetes.append(planet)
         self.PhysicEngine.addPhysicObject(planet)
         self.PhysicEngine.addPhysicObject(planet.volcano)
+        self.PhysicEngine.addPhysicObject(planet.flower)
 
     def createEtoile(self,imgPath,centerPositionx,centerPositiony,rotationAngle):
         etoile = Etoile(imgPath,centerPositionx,centerPositiony,rotationAngle)
@@ -66,10 +70,11 @@ class GameController:
         planet.removePrince(initialSpeed)
 
     def display(self):
-        #couleur blanche a virer
         self.vueScreen.window.fill((255,255,255))
         for planet in self.planetes:
             self.vueScreen.window.blit(planet.volcano.img, planet.volcano.imgCenter)
+            if planet.isFlower :
+                self.vueScreen.window.blit(planet.flower.img, planet.flower.imgCenter)
             self.vueScreen.window.blit(planet.img, planet.imgCenter)
         self.vueScreen.window.blit(self.prince.img, self.prince.imgCenter)
         for etoile in self.etoiles:
@@ -80,7 +85,6 @@ class GameController:
         counter,text=10,"10".rjust(3)
         pygame.time.set_timer(pygame.USEREVENT,1000)
         myfont=pygame.font.SysFont("Consolas",30)
-        #stockage de 2 position   MOUSEBUTTONDOWN et MOUSEBUTTONUP
         start = time.time()
         while time.time() - start < .5:
             a = pygame.event.get()
@@ -117,6 +121,8 @@ class GameController:
             score+=self.nbFlowers
             self.update_etoiles()
             self.update_prince(self.prince)
+            for planet in self.planetes:
+                planet.volcano.chauffe()
             self.PhysicEngine.updatePhysics()
             score+=self.nbFlowers
             self.display()
