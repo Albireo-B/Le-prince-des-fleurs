@@ -1,24 +1,45 @@
-import sys
-from PyQt5 import QtWidgets
-from PyQt5.QtWidgets import QMainWindow
-from test import Ui_MainWindow
-from PyQt5.QtWidgets import QFileDialog
+import pygame
+from pygame.locals import *
+from Controllers.GameController import GameController
 
+white = (255,255,255)
+black = (0,0,0)
+skyblue = (135,206,235)
 
-class MenuController(QMainWindow,Ui_MainWindow):
-    def __init__(self):
-        super(self).int()
-        self.setupUi(self)
+class MenuController:
 
-    def pushButton_click(self):
-        self.showText.setText()
-        dir_path=QFileDialog.getExistingDirectory(self,)
-        self.showText.setText(dir_path)
+    def __init__(self, gameDisplay):
+        clock = pygame.time.Clock()
 
+        menu = True
 
+        gameDisplay.fill(white)
+        largeText = pygame.font.Font('freesansbold.ttf',85)
+        TextSurf, TextRect = self.text_objects("Le Prince Des Fleurs", largeText)
+        TextRect.center = ((1500/2),(750/2))
+        gameDisplay.blit(TextSurf, TextRect)
+        clickable_area = pygame.Rect((1500/2-100, 750/2+200), (200, 100))
+        rect_surf = pygame.Surface(clickable_area.size)
+        rect_surf.fill(skyblue)
+        text,text_rect = self.text_objects("Start",largeText)
+        gameDisplay.blit(rect_surf, clickable_area)
+        gameDisplay.blit(text,clickable_area)
+        pygame.display.update()
+        clock.tick(15)
 
-if __name__ == '__main__':
-    app = QtWidgets.QApplication(sys.argv)
-    my_pyqt_form = MyPyQT_Form()
-    my_pyqt_form.show()
-    sys.exit(app.exec_())
+        while menu:
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    menu=False
+                elif event.type == pygame.MOUSEBUTTONUP: # quand je relache le bouton
+                    if event.button == 1: # 1= clique gauche
+                        if clickable_area.collidepoint(event.pos):
+                            self.run()
+                            menu=False
+
+    def text_objects(self, text, font):
+        textSurface = font.render(text, True, black)
+        return textSurface, textSurface.get_rect()
+
+    def run(self):
+        controleur = GameController()

@@ -23,7 +23,10 @@ class GameController:
         self.createPlanet("../images/Planet1.png",300,300,1200,600,-0.1)
         self.createPlanet("../images/Planet2.png",200,200,375,600,0.10)
         self.createPlanet("../images/Planet1.png",100,100,1350,150,-0.7)
-        self.display()
+
+
+        self.planetes[1].addPrince(self.prince)
+
         self.play()
 
     def PrinceFlight(self, prince):
@@ -62,11 +65,22 @@ class GameController:
             for event in pygame.event.get():
                 if event.type == pygame.quit:
                     done=True
+                if event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_LEFT:
+                        self.prince.princeAnglePlanet += 6
+                    elif event.key == pygame.K_RIGHT:
+                        self.prince.princeAnglePlanet -= 6
+            self.update_flight(self.prince)
             self.update_planet()
-            self.PrinceFlight(self.prince)
             self.display()
             pygame.display.update()
             self.vueScreen.clock.tick(60)
+
+    def update_flight(self,prince):
+        if prince.isFlying:
+            prince.princeAngle=Vector2(0,0).angle_to(prince.speedVector)
+            prince.imgPrince=pygame.transform.rotozoom(prince.imgPrinceCopie,prince.princeAngle,1)
+            self.PrinceFlight(self.prince)
 
     def update_planet(self):
         for planet in self.planetes:
@@ -77,3 +91,8 @@ class GameController:
             planet.planetCenter = planet.imgPlanet.get_rect(center=planet.rectplanet.center)
             planet.volcano.rectVolcano = planet.volcano.imgVolcano.get_rect(center=(planet.positionx+math.cos(math.radians(-planet.rotationAngle))*planet.width/1.8,planet.positiony+math.sin(math.radians(-planet.rotationAngle))*planet.width/1.8))
             planet.volcano.volcanoCenter = planet.volcano.imgVolcano.get_rect(center=planet.volcano.rectVolcano.center)
+            if planet.prince!=None:
+                planet.prince.princeAngle = planet.rotationAngle -90 +self.prince.princeAnglePlanet
+                self.prince.imgPrince=pygame.transform.rotozoom(self.prince.imgPrinceCopie,self.prince.princeAngle,1)
+                self.prince.rectPrince = self.prince.imgPrince.get_rect(center=(planet.positionx+math.cos(math.radians(-planet.rotationAngle-self.prince.princeAnglePlanet))*planet.width/1.8,planet.positiony+math.sin(math.radians(-planet.rotationAngle-self.prince.princeAnglePlanet))*planet.width/1.8))
+                self.prince.princeCenter = self.prince.imgPrince.get_rect(center=self.prince.rectPrince.center)
