@@ -23,7 +23,7 @@ def launchIntro(fenetre):
     imgList = {}
     for i in range(1,23):
         img = pygame.image.load(path+str(i)+".png").convert()
-        formattedImg = pygame.transform.scale(img.subsurface((150, 30, 900, 650)), (lwidth, lheight))
+        formattedImg = pygame.transform.scale(img.subsurface((150, 0, 900, 650)), (lwidth, lheight - 20))
         imgList[i] = formattedImg
 
     imgcadr = {}
@@ -56,7 +56,7 @@ def launchIntro(fenetre):
     rectLogo = logo.get_rect(center=(width/2 - lwidth/2, heigh/2 - lheight/2))
     angle=0
     for i in range(0,int(heigh/(2*5))):
-        angle += 4
+        angle -= 0.5
         logo=pygame.transform.rotozoom(logoCopie,angle,1)
         fenetre.blit(logo, (width/2 - lwidth/2, heigh/2-i*20 - lheight/2))
         pygame.display.flip()

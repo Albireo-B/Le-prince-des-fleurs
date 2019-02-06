@@ -88,7 +88,7 @@ class GameController:
                 text=myfont.render(str(int(180 -(time.time() -start)))+" seconds left !",True, (0, 0, 0), (32, 48))
 
             score+=self.nbFlowers
-            
+
 
             self.update_flight(self.prince)
             self.update_planet()
