@@ -13,16 +13,18 @@ class Planet(PhysicObject):
         self.rotationAngle=0
         self.prince=None
         self.gravityForce = 50 * self.size[0]
-        self.volcano=Volcano("../images/volcanTest.jpg", position, size, self)
+        self.volcano=Volcano("../images/volcan0.png", position, size, self)
 
     def addPrince(self,prince):
         self.prince = prince
         self.prince.parent = self
         self.prince.isFlying = False
 
-    def removePrince(self):
+    def removePrince(self, initialSpeed):
         if self.prince != None:
-            self.prince.parent = None
+            self.prince.volcano = None
             self.prince.isFlying = True
-            self.prince.position = Vector2(self.prince.imgCenter.center)
+            self.prince.position = Vector2(self.prince.princeCenter.center)
+            prince.speedVector = (prince.position - self.position).normalize()*initialSpeed
+            # self.prince.initialSpeed=Vector2(distance)
             self.prince=None

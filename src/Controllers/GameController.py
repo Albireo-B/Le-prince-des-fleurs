@@ -1,7 +1,6 @@
 import pygame
-import time
 from pygame.math import Vector2
-from pygame.locals import *
+
 
 from Objects.Planet import *
 from Objects.Object import *
@@ -13,14 +12,13 @@ from Objects.Etoile import *
 
 from Physics.PhysicEngine import *
 
+import time
 
 class GameController:
 
     def __init__(self):
-        pygame.mixer.music.load('../Sounds/jeu.wav')
         self.vueScreen=VueScreen((1680,980))
         self.PhysicEngine = PhysicEngine()
-        pygame.mixer.music.play()
         self.planetes=[]
         self.etoiles=[]
         self.nbFlowers=0
@@ -40,9 +38,9 @@ class GameController:
 
     def PrinceFlight(self, prince):
         for planet in self.planetes:
-            distance = prince.position.distance_to(planet.position)
+            distance = prince.position.distance_to(Vector2(planet.positionx,planet.positiony))
             acceleration = planet.gravityForce/(distance*distance)
-            normaVect = (planet.position - prince.position).normalize()
+            normaVect = ((planet.positionx,planet.positiony) - prince.position).normalize()
             temps = 1
             prince.speedVector += normaVect * acceleration * temps
         prince.position += prince.speedVector
@@ -64,13 +62,12 @@ class GameController:
     def addPrinceOnPlanet(self,planet):
         planet.addPrince(self.prince)
 
-    def removePrinceFromPlanet(self):
-        for planet in self.planetes:
-            planet.removePrince()
+    def removePrinceFromPlanet(self,planet,initialSpeed):
+        planet.removePrince(initialSpeed)
 
 
     def display(self):
-        #couleur blanche à virer
+        #couleur blanche a virer
         self.vueScreen.window.fill((255,255,255))
         for planet in self.planetes:
             self.vueScreen.window.blit(planet.volcano.img, planet.volcano.imgCenter)
@@ -80,10 +77,15 @@ class GameController:
             self.vueScreen.window.blit(etoile.imgEtoile,etoile.etoileCenter)
 
     def play(self):
-        myfont = pygame.font.SysFont("Consolas",35)
-        start=time.time()
         done=False
+        counter,text=10,"10".rjust(3)
+        pygame.time.set_timer(pygame.USEREVENT,1000)
+        myfont=pygame.font.SysFont("Consolas",30)
+        #stockage de 2 position   MOUSEBUTTONDOWN et MOUSEBUTTONUP
+        start = time.time()
         score=0
+        down = False
+        posMouse = Vector2(0,0)
         while not done:
             for event in pygame.event.get():
                 if event.type == QUIT:
@@ -100,27 +102,21 @@ class GameController:
                         self.removePrinceFromPlanet()
 
             if time.time()-start>=180:
-                print("Time's up:")
                 done=True
             else:
                 text=myfont.render(str(int(180 -(time.time() -start)))+" seconds left !",True, (0, 0, 0), (32, 48))
-
-
             score+=self.nbFlowers
-
             self.update_etoiles()
-
             self.PhysicEngine.updatePhysics()
-
             score+=self.nbFlowers
 
             self.update_prince(self.prince)
             self.display()
             self.vueScreen.window.blit(text,(1450,25))
-            textScore=myfont.render("Score : "+str(score),True, (0, 0, 0), (32, 48))
+            textScore=myfont.render("Score :"+str(score),True,(0,0,0),(32,48))
             self.vueScreen.window.blit(textScore,(1450,80))
             pygame.display.update()
-            self.vueScreen.clock.tick(60)
+            self.vueScreen.clock.tick(100)
 
     def update_etoiles(self):
         for etoile in self.etoiles:
