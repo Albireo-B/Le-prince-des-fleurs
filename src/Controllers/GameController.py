@@ -14,6 +14,10 @@ from Physics.PhysicEngine import *
 
 import time
 
+MIN_SPEED_TO_LEAVE_PLANET = 8
+MAX_SPEED = 15
+IMMUNITY_THRESHOLD = 10
+
 class GameController:
 
     def __init__(self):
@@ -30,8 +34,8 @@ class GameController:
         self.createPlanet("../images/Planet0.png",50,50,500,350,-2)
         self.createPlanet("../images/Planet0.png",500,500,1100,350,0.4)
         self.createPlanet("../images/Planet1.png",300,300,375,750,-0.1)
-        self.createPlanet("../images/Planet2.png",200,200,200,150,1, 160)
-        self.createPlanet("../images/Planet2.png",100,100,1150,800,-0.7, 160)
+        self.createPlanet("../images/Planet0.png",200,200,200,150,1, 160)
+        self.createPlanet("../images/Planet1.png",100,100,1150,800,-0.7, 160)
 
         self.createEtoile("../images/Etoile.png",600,600,-1)
         self.createEtoile("../images/Etoile.png",750,50,1)
@@ -99,6 +103,8 @@ class GameController:
         down = False
         posMouse = Vector2(0,0)
         pygame.key.set_repeat(True)
+
+        self.immunity = 100 # immunity to planet collisions
         while not done:
             for event in pygame.event.get():
                 if self.prince.parent != None:
@@ -110,7 +116,11 @@ class GameController:
                         pos2 = Vector2(pygame.mouse.get_pos())
                         distance = posMouse.distance_to(pos2)
                         vitesse = distance*0.08
-                        self.removePrinceFromPlanet(self.prince.parent, vitesse)
+                        if vitesse > MAX_SPEED:
+                            vitesse = MAX_SPEED
+                        if vitesse > MIN_SPEED_TO_LEAVE_PLANET:
+                            self.removePrinceFromPlanet(self.prince.parent, vitesse)
+                            self.immunity = 0
                     if event.type == QUIT:
                         done=True
                     elif event.type == pygame.KEYDOWN:
@@ -120,6 +130,7 @@ class GameController:
                             self.prince.rotateAroundParent(-6)
                     #bloc a rajouter dans le cas de la collision avec une étoile:
                     #    etoile.removeEtoile
+            self.immunity += 1
 
             if time.time()-start>=180:
                 done=True
@@ -145,12 +156,14 @@ class GameController:
             etoile.imgEtoile = pygame.transform.rotozoom(etoile.imgEtoileCopie,etoile.rotationAngle,1)
             etoile.etoileCenter = etoile.imgEtoile.get_rect(center=etoile.rectEtoile.center)
 
-
     def update_prince(self,prince):
-        if prince.isFlying:
-            for planet in self.planetes:
-                prince.isColliding(planet)
-            self.PrinceFlight(self.prince)
-            if prince.speedVector.length()!= 0:
+        if prince.parent == None:
+            if prince.speedVector.length() != 0:
                 prince.rotationAngle=Vector2(1,0).angle_to(Vector2(prince.speedVector.x,-prince.speedVector.y))
-            prince.imgPrince=pygame.transform.rotozoom(prince.imgCopie,prince.rotationAngle,1)
+
+            if self.immunity > IMMUNITY_THRESHOLD:
+                for planet in self.planetes:
+                    if self.prince.isColliding(planet):
+                        planet.addPrince(self.prince)
+                        break
+            self.PrinceFlight(self.prince)

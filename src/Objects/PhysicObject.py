@@ -11,10 +11,7 @@ class PhysicObject(Object):
         self.mask = pygame.mask.from_surface(self.img, 50)
 
     def isColliding(self, obj):
-        offset = obj.position - self.position
-        offset_x = obj.rect.x  - self.rect.x
-        offset_y = obj.rect.y  - self.rect.y
+        offset_x = obj.imgCenter.x  - self.imgCenter.x
+        offset_y = obj.imgCenter.y  - self.imgCenter.y
         colliding = self.mask.overlap(obj.mask, (int(offset_x), int(offset_y)))
-        print(colliding)
-        print(offset_x)
-        print(offset_y)
+        return colliding
