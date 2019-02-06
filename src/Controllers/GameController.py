@@ -23,10 +23,7 @@ class GameController:
         self.createPlanet("../images/Planet1.png",300,300,1200,600,-0.1)
         self.createPlanet("../images/Planet2.png",200,200,375,600,0.10)
         self.createPlanet("../images/Planet1.png",100,100,1350,150,-0.7)
-
-
         self.planetes[1].addPrince(self.prince)
-
         self.play()
 
     def PrinceFlight(self, prince):
@@ -65,13 +62,11 @@ class GameController:
             for event in pygame.event.get():
                 if event.type == pygame.quit:
                     done=True
-            if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_LEFT:
-                    self.prince.princeAnglePlanet += 6
-                    print("left pressed")
-                elif event.key == pygame.K_RIGHT:
-                    print("right pressed")
-                    self.prince.princeAnglePlanet -= 6
+                if event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_LEFT:
+                        self.prince.princeAnglePlanet += 6
+                    elif event.key == pygame.K_RIGHT:
+                        self.prince.princeAnglePlanet -= 6
             self.update_flight(self.prince)
             self.update_planet()
             self.display()
