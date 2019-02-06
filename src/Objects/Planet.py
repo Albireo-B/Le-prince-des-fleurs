@@ -18,17 +18,18 @@ class Planet(PhysicObject):
         self.flower=Flower("../images/rose.png",position,size,self)
 
     def addPrince(self,prince):
-        self.prince=prince
-        self.prince.volcano = self
+        self.prince = prince
+        self.prince.setParent(self)
         self.prince.isFlying = False
 
     def removePrince(self, initialSpeed):
         if self.prince != None:
             self.prince.volcano = None
             self.prince.isFlying = True
-            self.prince.position = Vector2(self.prince.princeCenter.center)
-            prince.speedVector = (prince.position - self.position).normalize()*initialSpeed
+            self.prince.position = Vector2(self.prince.imgCenter.center)
+            self.prince.speedVector = (self.prince.position - self.position).normalize()*initialSpeed
             # self.prince.initialSpeed=Vector2(distance)
+            self.prince.setParent(None)
             self.prince=None
 
     def addFlower(self):
