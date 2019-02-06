@@ -36,15 +36,13 @@ while 1:
     # see how far the balloon rect is offset from the terrain rect.
     offset_x = balloon_rect[0] - terrain1_rect[0]
     offset_y = balloon_rect[1] - terrain1_rect[1]
-
+    if terrain1_mask.overlap(balloon_mask, (offset_x, offset_y)):
+        print("cool")
     # draw the background color, and the terrain.
     screen.fill((0,0,0))
     screen.blit(terrain1, (terrain1_rect.x,0))
 
     screen.blit(balloon, (balloon_rect[0], balloon_rect[1]) )
-
-    if terrain1_mask.overlap(balloon_mask, (offset_x, offset_y)):
-        print("cool")
 
     # flip the display.
     pygame.display.flip()
