@@ -23,10 +23,7 @@ class GameController:
         self.createPlanet("../images/Planet1.png",300,300,1200,600,-0.1)
         self.createPlanet("../images/Planet2.png",200,200,375,600,0.10)
         self.createPlanet("../images/Planet1.png",100,100,1350,150,-0.7)
-
-
         self.planetes[1].addPrince(self.prince)
-
         self.play()
 
     def PrinceFlight(self, prince):

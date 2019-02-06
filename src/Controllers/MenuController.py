@@ -34,7 +34,7 @@ class MenuController:
                     pygame.mouse.get_pos()
                     if button_rect_start.collidepoint(event.pos):#event to be changed
                         print('Button pressed.')
-                        sys.exit()
+                        self.run()
                     if button_rect_scores.collidepoint(event.pos):#event to be changed
                         print('Button pressed.')
                         sys.exit()
