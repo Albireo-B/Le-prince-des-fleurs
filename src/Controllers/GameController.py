@@ -38,9 +38,9 @@ class GameController:
 
     def PrinceFlight(self, prince):
         for planet in self.planetes:
-            distance = prince.position.distance_to(Vector2(planet.positionx,planet.positiony))
+            distance = prince.position.distance_to(Vector2(planet.position.x,planet.position.y))
             acceleration = planet.gravityForce/(distance*distance)
-            normaVect = ((planet.positionx,planet.positiony) - prince.position).normalize()
+            normaVect = ((planet.position.x,planet.position.y) - prince.position).normalize()
             temps = 1
             prince.speedVector += normaVect * acceleration * temps
         prince.position += prince.speedVector
