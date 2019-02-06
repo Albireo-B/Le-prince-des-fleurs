@@ -29,7 +29,7 @@ class GameController:
         self.createPlanet("../images/Planet1.png",300,300,1200,600,-0.1)
         self.createPlanet("../images/Planet2.png",200,200,375,600,0.10)
         self.createPlanet("../images/Planet1.png",100,100,1350,150,-0.7)
-        #self.addPrinceOnPlanet(self.planetes[1])
+        self.addPrinceOnPlanet(self.planetes[1])
         self.play()
 
     def PrinceFlight(self, prince):
@@ -109,7 +109,6 @@ class GameController:
         if prince.isFlying:
             self.PrinceFlight(self.prince)
             if prince.speedVector.length()!= 0:
-                print(prince.speedVector.normalize())
                 prince.princeAngle=Vector2(0,1).angle_to(Vector2(prince.speedVector.x,-prince.speedVector.y))
             prince.imgPrince=pygame.transform.rotozoom(prince.imgPrinceCopie,prince.princeAngle,1)
 
