@@ -1,5 +1,5 @@
 import pygame
-
+from pygame.math import Vector2
 from Objects.Volcano import *
 from Objects.PhysicObject import *
 from Physics.PhysicEngine import *
@@ -17,5 +17,7 @@ class Planet(PhysicObject):
         self.prince.isFlying = False
 
     def removePrince(self):
-        self.prince=None
-        self.prince.isFlying = True
+        if self.prince != None:
+            self.prince.isFlying = True
+            self.prince.position = Vector2(self.prince.princeCenter.center)
+            self.prince=None

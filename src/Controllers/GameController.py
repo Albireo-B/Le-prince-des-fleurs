@@ -1,4 +1,5 @@
 import pygame
+import time
 from pygame.math import Vector2
 from pygame.locals import *
 
@@ -19,6 +20,7 @@ class GameController:
         self.PhysicEngine = PhysicEngine()
 
         self.planetes=[]
+        self.nbFlowers=0
         self.prince=Prince("../images/animIntro/1.png")
         #self.prince=Prince()
         self.createPlanet("../images/Planet0.png",50,50,375,100,-0.2)
@@ -26,9 +28,7 @@ class GameController:
         self.createPlanet("../images/Planet1.png",300,300,1200,600,-0.1)
         self.createPlanet("../images/Planet2.png",200,200,375,600,0.10)
         self.createPlanet("../images/Planet1.png",100,100,1350,150,-0.7)
-
-        self.planetes[1].addPrince(self.prince)
-
+        #self.addPrinceOnPlanet(self.planetes[1])
         self.play()
 
     def PrinceFlight(self, prince):
@@ -39,6 +39,7 @@ class GameController:
             temps = 1
             prince.speedVector += normaVect * acceleration * temps
         prince.position += prince.speedVector
+        prince.position.x = prince.position.x % 1680
         self.prince.rectPrinc = self.prince.imgPrince.get_rect(center=self.prince.position)
         self.prince.princeCenter = self.prince.imgPrince.get_rect(center=self.prince.rectPrinc.center)
 
@@ -49,10 +50,12 @@ class GameController:
         self.PhysicEngine.addPhysicObject(planet)
 
     def addPrinceOnPlanet(self,planet):
-        planet.addPrince(prince)
+        planet.addPrince(self.prince)
 
-    def removePrinceFromPlanet(self,planet):
-        planet.removePrince(prince)
+    def removePrinceFromPlanet(self):
+        for planet in self.planetes:
+            planet.removePrince()
+
 
     def display(self):
         #couleur blanche à virer
@@ -63,7 +66,10 @@ class GameController:
         self.vueScreen.window.blit(self.prince.imgPrince,self.prince.princeCenter)
 
     def play(self):
+        myfont = pygame.font.SysFont("Consolas",35)
+        start=time.time()
         done=False
+        score=0
         while not done:
             for event in pygame.event.get():
                 if event.type == pygame.quit:
@@ -75,17 +81,32 @@ class GameController:
                 elif event.key == pygame.K_RIGHT:
                     print("right pressed")
                     self.prince.princeAnglePlanet -= 6
+                elif event.key == pygame.K_SPACE:
+                    if not self.prince.isFlying:
+                        self.removePrinceFromPlanet()
+
+            if time.time()-start>=180:
+                print("Time's up:")
+                done=True
+            else:
+                text=myfont.render(str(int(180 -(time.time() -start)))+" seconds left !",True, (0, 0, 0), (32, 48))
 
             self.PhysicEngine.updatePhysics()
+
+            score+=self.nbFlowers
             self.update_flight(self.prince)
             self.update_planet()
             self.display()
+            self.vueScreen.window.blit(text,(1450,25))
+            textScore=myfont.render("Score : "+str(score),True, (0, 0, 0), (32, 48))
+            self.vueScreen.window.blit(textScore,(1450,80))
             pygame.display.update()
             self.vueScreen.clock.tick(60)
 
+
     def update_flight(self,prince):
         if prince.isFlying:
-            prince.princeAngle=Vector2(0,0).angle_to(prince.speedVector)
+            prince.princeAngle=Vector2(0,1).angle_to(prince.speedVector)
             prince.imgPrince=pygame.transform.rotozoom(prince.imgPrinceCopie,prince.princeAngle,1)
             self.PrinceFlight(self.prince)
 
