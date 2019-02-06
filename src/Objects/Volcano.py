@@ -8,6 +8,7 @@ class Volcano(PhysicObject):
 
     def __init__(self, imgPath, position, size, parent):
         super().__init__(position, parent, imgPath, size)
+        self.parent=parent
         self.eruptionCycle = 0
 
     def clean(self):
@@ -24,10 +25,16 @@ class Volcano(PhysicObject):
         elif self.eruptionCycle < 650:
             self.loadImage("../images/volcan1.png")
             i=f/4
-        else:
+        elif self.eruptionCycle < 1000:
             self.loadImage("../images/volcan2.png")
             i=f/8
+        else:
+            self.eruption()
         if self.eruptionCycle%(2*i)<i:
             self.img = pygame.transform.scale(self.img, (int(self.size[0]+self.eruptionCycle%i*f/i), int(self.size[1]+self.eruptionCycle%i*f/i)))
         else:
             self.img= pygame.transform.scale(self.img, (int(self.size[0]+f-self.eruptionCycle%i*f/i), int(self.size[1]+f-self.eruptionCycle%i*f/i)))
+        self.clean()
+
+    def eruption(self):
+        self.parent.removeFlower()
