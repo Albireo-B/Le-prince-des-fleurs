@@ -73,9 +73,11 @@ class GameController:
         self.vueScreen.window.fill((255,255,255))
         for planet in self.planetes:
             self.vueScreen.window.blit(planet.volcano.imgVolcano,planet.volcano.volcanoCenter)
+
             self.vueScreen.window.blit(planet.imgPlanet,planet.planetCenter)
         for etoile in self.etoiles:
             self.vueScreen.window.blit(etoile.imgEtoile,etoile.etoileCenter)
+
         self.vueScreen.window.blit(self.prince.imgPrince,self.prince.princeCenter)
 
     def play(self):
@@ -110,6 +112,8 @@ class GameController:
             self.update_etoiles()
 
             self.PhysicEngine.updatePhysics()
+
+            score+=self.nbFlowers
 
             self.update_flight(self.prince)
             self.update_planet()
