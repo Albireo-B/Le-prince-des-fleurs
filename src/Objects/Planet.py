@@ -21,6 +21,7 @@ class Planet(PhysicObject):
         self.prince = prince
         self.prince.setParent(self)
         self.prince.isFlying = False
+        self.addFlower()
 
     def removePrince(self, initialSpeed):
         if self.prince != None:

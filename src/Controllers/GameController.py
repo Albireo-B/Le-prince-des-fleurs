@@ -24,15 +24,18 @@ class GameController:
         self.nbFlowers=0
         self.prince=Prince("../images/animIntro/1.png",Vector2(50,250))
         self.PhysicEngine.addPhysicObject(self.prince)
-        self.createPlanet("../images/Planet0.png",50,50,375,100,-0.2)
-        self.createPlanet("../images/Planet0.png",500,500,750,300,0.4)
-        self.createPlanet("../images/Planet1.png",300,300,1200,600,-0.1)
-        self.createPlanet("../images/Planet2.png",200,200,375,600,1, 160)
-        self.createPlanet("../images/Planet2.png",100,100,1350,150,-0.7, 160)
+        self.createPlanet("../images/Planet0.png",50,50,500,350,-2)
+        self.createPlanet("../images/Planet0.png",500,500,1100,350,0.4)
+        self.createPlanet("../images/Planet1.png",300,300,375,750,-0.1)
+        self.createPlanet("../images/Planet2.png",200,200,200,150,1, 160)
+        self.createPlanet("../images/Planet2.png",100,100,1150,800,-0.7, 160)
         self.createEtoile("../images/Etoile.png",600,600,-1)
-        self.createEtoile("../images/Etoile.png",1200,350,1)
-        self.createEtoile("../images/Etoile.png",200,250,-0.5)
+        self.createEtoile("../images/Etoile.png",750,50,1)
+        self.createEtoile("../images/Etoile.png",200,325,-0.5)
         self.createEtoile("../images/Etoile.png",1400,750,0.5)
+        self.createEtoile("../images/Etoile.png",1650,300,3)
+        self.createEtoile("../images/Etoile.png",750,920,-2)
+        self.createEtoile("../images/Etoile.png",100,900,0.2)
         self.addPrinceOnPlanet(self.planetes[1])
         self.play()
 
@@ -62,7 +65,6 @@ class GameController:
 
     def addPrinceOnPlanet(self,planet):
         planet.addPrince(self.prince)
-        planet.addFlower()
 
     def removePrinceFromPlanet(self,planet,initialSpeed):
         planet.removePrince(initialSpeed)
