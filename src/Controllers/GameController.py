@@ -14,7 +14,13 @@ from Objects.PhysicObject import *
 class GameController:
 
     def __init__(self):
+        pygame.mixer.music.load('../Sounds/jeu.wav')
         self.vueScreen=VueScreen((1680,980))
+<<<<<<< HEAD
+=======
+        self.PhysicEngine = PhysicEngine()
+        pygame.mixer.music.play()
+>>>>>>> a56b50a03b93d81d5be1c1d05aebc24cf197abe5
         self.planetes=[]
         self.prince=Prince("../images/animIntro/1.png")
         #self.prince=Prince()
