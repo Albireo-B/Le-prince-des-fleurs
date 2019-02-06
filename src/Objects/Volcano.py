@@ -31,10 +31,8 @@ class Volcano(PhysicObject):
             i=f/8
         if self.eruptionCycle%(2*i)<i:
             self.imgVolcano = pygame.transform.scale(image, (int(self.size[0]+self.eruptionCycle%i*f/i), int(self.size[1]+self.eruptionCycle%i*f/i)))
-            print(self.imgVolcano)
             self.imgVolcano=pygame.transform.rotate(image,-85)
         else:
             self.imgVolcano = pygame.transform.scale(image, (int(self.size[0]+f-self.eruptionCycle%i*f/i), int(self.size[1]+f-self.eruptionCycle%i*f/i)))
-            print(self.imgVolcano)
             self.imgVolcano=pygame.transform.rotate(image,-85)
         self.imgVolcanCopie=self.imgVolcano.copy()

@@ -91,31 +91,27 @@ class GameController:
                     if event.type==pygame.MOUSEBUTTONDOWN:
                         down = True
                         posMouse = pygame.mouse.get_pos()
+                    elif down == True:
+                        if event.type==pygame.MOUSEBUTTONUP:
+                                down = False
+                                pos2 = pygame.mouse.get_pos()
+                                distance = posMouse.distance_to(pos2)
+                                vitesse = distance*2
+                                self.removePrinceFromPlanet(self.prince.volcano, vitesse)
 
-                elif down == True:
-                    if event.type==pygame.MOUSEBUTTONUP:
-                        down = False
-                        pos2 = pygame.mouse.get_pos()
-                        distance = posMouse.distance_to(pos2)
-                        vitesse = distance*2
-                        self.removePrinceFromPlanet(self.prince.volcano, vitesse)
+            if event.type == pygame.quit:
+                done=True
 
-                if event.type == pygame.quit:
-                    done=True
-
-                if event.type == pygame.KEYDOWN:
-                    if event.key == pygame.K_LEFT:
-                        self.prince.princeAnglePlanet += 6
-                        print("left pressed")
-                    elif event.key == pygame.K_RIGHT:
-                        print("right pressed")
-                        self.prince.princeAnglePlanet -= 6
-                    elif event.key == pygame.K_SPACE:
-                        if not self.prince.isFlying:
-                            self.removePrinceFromPlanet()
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_LEFT:
+                    self.prince.princeAnglePlanet += 6
+                elif event.key == pygame.K_RIGHT:
+                    self.prince.princeAnglePlanet -= 6
+                elif event.key == pygame.K_SPACE:
+                    if not self.prince.isFlying:
+                        self.removePrinceFromPlanet()
 
             if time.time()-start>=180:
-                print("Time's up:")
                 done=True
             else:
                 text=myfont.render(str(int(180 -(time.time() -start)))+" seconds left !",True, (0, 0, 0), (32, 48))
@@ -150,10 +146,6 @@ class GameController:
     def update_planet(self):
         for planet in self.planetes:
             planet.volcano.chauffe()
-            #planet.volcano.img = pygame.transform.rotozoom(planet.volcano.imgCopie, planet.rotationAngle, 1)
-
-            #planet.volcano.rectVolcano = planet.volcano.img.get_rect(center=(planet.position.x+math.cos(math.radians(-planet.rotationAngle))*planet.size[0]/1.8,planet.position.y+math.sin(math.radians(-planet.rotationAngle))*planet.size[0]/1.8))
-            #planet.volcano.volcanoCenter = planet.volcano.img.get_rect(center=planet.volcano.rectVolcano.center)
             if planet.prince!=None:
                 planet.prince.princeAngle = planet.rotationAngle -90 +self.prince.princeAnglePlanet
                 self.prince.imgPrince=pygame.transform.rotozoom(self.prince.imgPrinceCopie,self.prince.princeAngle,1)
