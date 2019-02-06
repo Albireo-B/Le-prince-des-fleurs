@@ -49,7 +49,6 @@ class MenuController:
                         print('Button pressed.')
                         sys.exit()
 
-            print(i)
             # position of buttons can be changed
             screen.blit(start,(50,200))
 
