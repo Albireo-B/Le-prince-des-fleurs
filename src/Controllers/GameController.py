@@ -22,8 +22,8 @@ class GameController:
         self.planetes=[]
         self.etoiles=[]
         self.nbFlowers=0
-        self.prince=Prince("../images/animIntro/1.png")
-        #self.prince=Prince()
+        self.prince=Prince("../images/animIntro/1.png",Vector2(50,250))
+        self.PhysicEngine.addPhysicObject(self.prince)
         self.createPlanet("../images/Planet0.png",50,50,375,100,-0.2)
         self.createPlanet("../images/Planet0.png",500,500,750,300,0.4)
         self.createPlanet("../images/Planet1.png",300,300,1200,600,-0.1)
@@ -33,7 +33,7 @@ class GameController:
         self.createEtoile("../images/Etoile.png",1200,350,1)
         self.createEtoile("../images/Etoile.png",200,250,-0.5)
         self.createEtoile("../images/Etoile.png",1400,750,0.5)
-        self.addPrinceOnPlanet(self.planetes[1])
+        #self.addPrinceOnPlanet(self.planetes[1])
         self.play()
 
     def PrinceFlight(self, prince):
@@ -44,8 +44,9 @@ class GameController:
             temps = 1
             prince.speedVector += normaVect * acceleration * temps
         prince.position += prince.speedVector
-        self.prince.rectPrinc = self.prince.imgPrince.get_rect(center=self.prince.position)
-        self.prince.princeCenter = self.prince.imgPrince.get_rect(center=self.prince.rectPrinc.center)
+        prince.position.x = prince.position.x % 1680
+        self.prince.rect = self.prince.img.get_rect(center=self.prince.position)
+        self.prince.imgCenter = self.prince.img.get_rect(center=self.prince.rect.center)
 
 
     def createPlanet(self,imgPath,width,height,centerPositionx,centerPositiony,rotationAngle, radius = -1):
@@ -64,14 +65,13 @@ class GameController:
     def removePrinceFromPlanet(self,planet,initialSpeed):
         planet.removePrince(initialSpeed)
 
-
     def display(self):
         #couleur blanche a virer
         self.vueScreen.window.fill((255,255,255))
         for planet in self.planetes:
             self.vueScreen.window.blit(planet.volcano.img, planet.volcano.imgCenter)
             self.vueScreen.window.blit(planet.img, planet.imgCenter)
-        self.vueScreen.window.blit(self.prince.imgPrince, self.prince.princeCenter)
+        self.vueScreen.window.blit(self.prince.img, self.prince.imgCenter)
         for etoile in self.etoiles:
             self.vueScreen.window.blit(etoile.imgEtoile,etoile.etoileCenter)
 
@@ -87,29 +87,26 @@ class GameController:
         posMouse = Vector2(0,0)
         while not done:
             for event in pygame.event.get():
+                if self.prince.parent != None:
                     if event.type==pygame.MOUSEBUTTONDOWN:
                         down = True
                         posMouse = Vector2(pygame.mouse.get_pos())
-                    elif down == True:
-                        if event.type==pygame.MOUSEBUTTONUP:
-                            down = False
-                            pos2 =  Vector2(pygame.mouse.get_pos())
-                            distance = posMouse.distance_to(pos2)
-                            vitesse = distance*0.08
-                            print(vitesse)
-                            self.removePrinceFromPlanet(self.prince.volcano, vitesse)
-
-            if event.type == pygame.quit:
-                done=True
-
-            if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_LEFT:
-                    self.prince.princeAnglePlanet += 6
-                elif event.key == pygame.K_RIGHT:
-                    self.prince.princeAnglePlanet -= 6
-                elif event.key == pygame.K_SPACE:
-                    if not self.prince.isFlying:
-                        self.removePrinceFromPlanet()
+                    elif event.type==pygame.MOUSEBUTTONUP:
+                        down = False
+                        pos2 = Vector2(pygame.mouse.get_pos())
+                        distance = posMouse.distance_to(pos2)
+                        vitesse = distance*0.08
+                        print(vitesse)
+                        self.removePrinceFromPlanet(self.prince.parent, vitesse)
+                if event.type == QUIT:
+                    done=True
+                elif event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_LEFT:
+                        self.prince.angleToParent += 6
+                        print("left pressed")
+                    elif event.key == pygame.K_RIGHT:
+                        print("right pressed")
+                        self.prince.angleToParent -= 6
 
             if time.time()-start>=180:
                 done=True
@@ -119,8 +116,8 @@ class GameController:
             self.update_etoiles()
             self.PhysicEngine.updatePhysics()
             score+=self.nbFlowers
-            self.update_flight(self.prince)
-            self.update_planet()
+
+            self.update_prince(self.prince)
             self.display()
             self.vueScreen.window.blit(text,(1450,25))
             textScore=myfont.render("Score :"+str(score),True,(0,0,0),(32,48))
@@ -130,24 +127,19 @@ class GameController:
 
     def update_etoiles(self):
         for etoile in self.etoiles:
-                etoile.rotationAngle += etoile.rotationSpeed
-                etoile.imgEtoile=pygame.transform.rotozoom(etoile.imgEtoileCopie,etoile.rotationAngle,1)
-                etoile.etoileCenter = etoile.imgEtoile.get_rect(center=etoile.rectEtoile.center)
+            etoile.rotationAngle += etoile.rotationSpeed
+            etoile.imgEtoile=pygame.transform.rotozoom(etoile.imgEtoileCopie,etoile.rotationAngle,1)
+            etoile.etoileCenter = etoile.imgEtoile.get_rect(center=etoile.rectEtoile.center)
 
 
-    def update_flight(self,prince):
+    def update_prince(self,prince):
         if prince.isFlying:
+            #for planet in self.planetes:
+            #    if prince.isColliding(planet):
+            #        print("touché")
             self.PrinceFlight(self.prince)
             if prince.speedVector.length()!= 0:
-                prince.princeAngle=Vector2(0,1).angle_to(Vector2(prince.speedVector.x,-prince.speedVector.y))
-            prince.imgPrince=pygame.transform.rotozoom(prince.imgPrinceCopie,prince.princeAngle,1)
-
-
-    def update_planet(self):
-        for planet in self.planetes:
-            planet.volcano.chauffe()
-            if planet.prince!=None:
-                planet.prince.princeAngle = planet.rotationAngle -90 +self.prince.princeAnglePlanet
-                self.prince.imgPrince=pygame.transform.rotozoom(self.prince.imgPrinceCopie,self.prince.princeAngle,1)
-                self.prince.rectPrince = self.prince.imgPrince.get_rect(center=(planet.position.x+math.cos(math.radians(-planet.rotationAngle-self.prince.princeAnglePlanet))*planet.size[0]/1.8,planet.position.y+math.sin(math.radians(-planet.rotationAngle-self.prince.princeAnglePlanet))*planet.size[0]/1.8))
-                self.prince.princeCenter = self.prince.imgPrince.get_rect(center=self.prince.rectPrince.center)
+                prince.rotationAngle=Vector2(0,1).angle_to(Vector2(prince.speedVector.x,-prince.speedVector.y))
+            prince.imgPrince=pygame.transform.rotozoom(prince.imgCopie,prince.rotationAngle,1)
+        else:
+            self.prince.rotationAngle = self.prince.parent.rotationAngle -90 +self.prince.angleToParent

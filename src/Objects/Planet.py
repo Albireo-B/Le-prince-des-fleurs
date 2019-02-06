@@ -16,8 +16,8 @@ class Planet(PhysicObject):
         self.volcano=Volcano("../images/volcan0.png", position, size, self)
 
     def addPrince(self,prince):
-        self.prince=prince
-        self.prince.volcano = self
+        self.prince = prince
+        self.prince.parent = self
         self.prince.isFlying = False
 
     def removePrince(self, initialSpeed):

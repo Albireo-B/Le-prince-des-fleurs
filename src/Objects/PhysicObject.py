@@ -12,5 +12,8 @@ class PhysicObject(Object):
 
     def isColliding(self, obj):
         offset = obj.position - self.position
+        offset.x = int(offset.x)
+        offset.y = int(offset.y)
+        print(offset)
         colliding = self.mask.overlap(obj.mask, (offset.x, offset.y))
         return colliding
