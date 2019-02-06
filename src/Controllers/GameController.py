@@ -9,6 +9,7 @@ from Objects.Volcano import *
 from Objects.VueScreen import *
 from Objects.Prince import *
 from Objects.PhysicObject import *
+from Objects.Etoile import *
 
 
 
@@ -17,14 +18,19 @@ class GameController:
     def __init__(self):
         self.vueScreen=VueScreen((1680,980))
         self.planetes=[]
+        self.etoiles=[]
         self.nbFlowers=0
         self.prince=Prince("../images/animIntro/1.png")
         #self.prince=Prince()
         self.createPlanet("../images/Planet0.png",50,50,375,100,-0.2)
         self.createPlanet("../images/Planet0.png",500,500,750,300,0.4)
         self.createPlanet("../images/Planet1.png",300,300,1200,600,-0.1)
-        self.createPlanet("../images/Planet2.png",200,200,375,600,0.10)
-        self.createPlanet("../images/Planet1.png",100,100,1350,150,-0.7)
+        self.createPlanet("../images/Planet2.png",200,200,375,600,1)
+        self.createPlanet("../images/Planet2.png",100,100,1350,150,-0.7)
+        self.createEtoile("../images/Etoile.png",600,600,-1)
+        self.createEtoile("../images/Etoile.png",1200,350,1)
+        self.createEtoile("../images/Etoile.png",200,250,-0.5)
+        self.createEtoile("../images/Etoile.png",1400,750,0.5)
         #self.addPrinceOnPlanet(self.planetes[1])
         self.play()
 
@@ -45,6 +51,10 @@ class GameController:
         planet = Planet(imgPath,width,height,centerPositionx,centerPositiony,rotationAngle)
         self.planetes.append(planet)
 
+    def createEtoile(self,imgPath,centerPositionx,centerPositiony,rotationAngle):
+        etoile = Etoile(imgPath,centerPositionx,centerPositiony,rotationAngle)
+        self.etoiles.append(etoile)
+
     def addPrinceOnPlanet(self,planet):
         planet.addPrince(self.prince)
 
@@ -59,6 +69,8 @@ class GameController:
         for planet in self.planetes:
             self.vueScreen.window.blit(planet.volcano.imgVolcano,planet.volcano.volcanoCenter)
             self.vueScreen.window.blit(planet.imgPlanet,planet.planetCenter)
+        for etoile in self.etoiles:
+            self.vueScreen.window.blit(etoile.imgEtoile,etoile.etoileCenter)
         self.vueScreen.window.blit(self.prince.imgPrince,self.prince.princeCenter)
 
     def play(self):
@@ -88,8 +100,8 @@ class GameController:
                 text=myfont.render(str(int(180 -(time.time() -start)))+" seconds left !",True, (0, 0, 0), (32, 48))
 
             score+=self.nbFlowers
-            
 
+            self.update_etoiles()
             self.update_flight(self.prince)
             self.update_planet()
             self.display()
@@ -98,6 +110,12 @@ class GameController:
             self.vueScreen.window.blit(textScore,(1450,80))
             pygame.display.update()
             self.vueScreen.clock.tick(60)
+
+    def update_etoiles(self):
+        for etoile in self.etoiles:
+                etoile.rotationAngle += etoile.rotationSpeed
+                etoile.imgEtoile=pygame.transform.rotozoom(etoile.imgEtoileCopie,etoile.rotationAngle,1)
+                etoile.etoileCenter = etoile.imgEtoile.get_rect(center=etoile.rectEtoile.center)
 
 
     def update_flight(self,prince):
