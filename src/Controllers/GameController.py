@@ -62,11 +62,13 @@ class GameController:
             for event in pygame.event.get():
                 if event.type == pygame.quit:
                     done=True
-                if event.type == pygame.KEYDOWN:
-                    if event.key == pygame.K_LEFT:
-                        self.prince.princeAnglePlanet += 6
-                    elif event.key == pygame.K_RIGHT:
-                        self.prince.princeAnglePlanet -= 6
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_LEFT:
+                    self.prince.princeAnglePlanet += 6
+                    print("left pressed")
+                elif event.key == pygame.K_RIGHT:
+                    print("right pressed")
+                    self.prince.princeAnglePlanet -= 6
             self.update_flight(self.prince)
             self.update_planet()
             self.display()
