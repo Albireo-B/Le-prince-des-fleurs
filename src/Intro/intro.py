@@ -55,10 +55,10 @@ def launchIntro(fenetre):
     logoCopie=logo.copy()
     rectLogo = logo.get_rect(center=(width/2 - lwidth/2, heigh/2 - lheight/2))
     angle=0
-    for i in range(0,int(heigh/(2*5))):
+    for i in range(0,int(heigh/(2*15))):
         angle -= 0.5
         logo=pygame.transform.rotozoom(logoCopie,angle,1)
-        fenetre.blit(logo, (width/2 - lwidth/2, heigh/2-i*20 - lheight/2))
+        fenetre.blit(logo, (width/2 - lwidth/2, heigh/2-i*30 - lheight/2))
         pygame.display.flip()
         time.sleep(1/24)
         fenetre.fill(Color("black"))
