@@ -65,7 +65,6 @@ class GameController:
     def removePrinceFromPlanet(self,planet,initialSpeed):
         planet.removePrince(initialSpeed)
 
-
     def display(self):
         #couleur blanche a virer
         self.vueScreen.window.fill((255,255,255))
@@ -88,18 +87,26 @@ class GameController:
         posMouse = Vector2(0,0)
         while not done:
             for event in pygame.event.get():
+                if self.prince.parent != None:
+                    if event.type==pygame.MOUSEBUTTONDOWN:
+                        down = True
+                        posMouse = Vector2(pygame.mouse.get_pos())
+                    elif event.type==pygame.MOUSEBUTTONUP:
+                        down = False
+                        pos2 = Vector2(pygame.mouse.get_pos())
+                        distance = posMouse.distance_to(pos2)
+                        vitesse = distance*0.08
+                        print(vitesse)
+                        self.removePrinceFromPlanet(self.prince.parent, vitesse)
                 if event.type == QUIT:
                     done=True
-            if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_LEFT:
-                    self.prince.angleToParent += 6
-                    print("left pressed")
-                elif event.key == pygame.K_RIGHT:
-                    print("right pressed")
-                    self.prince.angleToParent -= 6
-                elif event.key == pygame.K_SPACE:
-                    if not self.prince.isFlying:
-                        self.removePrinceFromPlanet()
+                elif event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_LEFT:
+                        self.prince.angleToParent += 6
+                        print("left pressed")
+                    elif event.key == pygame.K_RIGHT:
+                        print("right pressed")
+                        self.prince.angleToParent -= 6
 
             if time.time()-start>=180:
                 done=True
@@ -115,7 +122,7 @@ class GameController:
             textScore=myfont.render("Score :"+str(score),True,(0,0,0),(32,48))
             self.vueScreen.window.blit(textScore,(1450,80))
             pygame.display.update()
-            self.vueScreen.clock.tick(100)
+            self.vueScreen.clock.tick(50)
 
     def update_etoiles(self):
         for etoile in self.etoiles:

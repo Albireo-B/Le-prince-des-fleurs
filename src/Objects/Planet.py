@@ -25,7 +25,7 @@ class Planet(PhysicObject):
             self.prince.volcano = None
             self.prince.isFlying = True
             self.prince.position = Vector2(self.prince.princeCenter.center)
-            prince.speedVector = (prince.position - self.position).normalize()*initialSpeed
+            self.prince.speedVector = (self.prince.position - self.position).normalize()*initialSpeed
             # self.prince.initialSpeed=Vector2(distance)
             self.prince.setParent(None)
             self.prince=None
