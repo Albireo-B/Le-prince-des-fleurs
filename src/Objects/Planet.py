@@ -16,11 +16,13 @@ class Planet(PhysicObject):
         self.volcano=Volcano("../images/volcanTest.jpg", position, size, self)
 
     def addPrince(self,prince):
-        self.prince=prince
+        self.prince = prince
+        self.prince.parent = self
         self.prince.isFlying = False
 
     def removePrince(self):
         if self.prince != None:
+            self.prince.parent = None
             self.prince.isFlying = True
-            self.prince.position = Vector2(self.prince.princeCenter.center)
+            self.prince.position = Vector2(self.prince.imgCenter.center)
             self.prince=None

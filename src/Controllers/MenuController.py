@@ -26,6 +26,7 @@ class MenuController:
         pygame.mixer.music.load ('../Sounds/menu.wav')
         pygame.mixer.music.play(-1)
         while True:
+            screen.fill((255,255,255))
             for event in pygame.event.get():
                 if event.type==QUIT:
                     pygame.quit()
