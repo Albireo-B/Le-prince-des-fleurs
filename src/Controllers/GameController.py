@@ -26,7 +26,7 @@ class GameController:
         self.createPlanet("../images/Planet0.png",50,50,375,100,-0.2)
         self.createPlanet("../images/Planet0.png",500,500,750,300,0.4)
         self.createPlanet("../images/Planet1.png",300,300,1200,600,-0.1)
-        self.createPlanet("../images/Planet2.png",200,200,375,600,0.10)
+        self.createPlanet("../images/Planet2.png",200,200,375,600,0.10, 165)
         self.createPlanet("../images/Planet1.png",100,100,1350,150,-0.7)
         #self.addPrinceOnPlanet(self.planetes[1])
         self.play()
@@ -44,10 +44,11 @@ class GameController:
         self.prince.princeCenter = self.prince.imgPrince.get_rect(center=self.prince.rectPrinc.center)
 
 
-    def createPlanet(self,imgPath,width,height,centerPositionx,centerPositiony,rotationAngle):
-        planet = Planet(imgPath,width,height,centerPositionx,centerPositiony,rotationAngle)
+    def createPlanet(self,imgPath,width,height,centerPositionx,centerPositiony,rotationAngle, radius = -1):
+        planet = Planet(imgPath,(width,height),Vector2(centerPositionx,centerPositiony),rotationAngle, radius)
         self.planetes.append(planet)
         self.PhysicEngine.addPhysicObject(planet)
+        self.PhysicEngine.addPhysicObject(planet.volcano)
 
     def addPrinceOnPlanet(self,planet):
         planet.addPrince(self.prince)
@@ -61,9 +62,9 @@ class GameController:
         #couleur blanche à virer
         self.vueScreen.window.fill((255,255,255))
         for planet in self.planetes:
-            self.vueScreen.window.blit(planet.volcano.imgVolcano,planet.volcano.volcanoCenter)
-            self.vueScreen.window.blit(planet.img,planet.imgCenter)
-        self.vueScreen.window.blit(self.prince.imgPrince,self.prince.princeCenter)
+            self.vueScreen.window.blit(planet.volcano.img, planet.volcano.imgCenter)
+            self.vueScreen.window.blit(planet.img, planet.imgCenter)
+        self.vueScreen.window.blit(self.prince.imgPrince, self.prince.princeCenter)
 
     def play(self):
         myfont = pygame.font.SysFont("Consolas",35)
@@ -112,11 +113,11 @@ class GameController:
 
     def update_planet(self):
         for planet in self.planetes:
-            planet.volcano.chauffe()
-            planet.volcano.imgVolcano=pygame.transform.rotozoom(planet.volcano.imgVolcanCopie,planet.rotationAngle,1)
+            #planet.volcano.chauffe()
+            #planet.volcano.img = pygame.transform.rotozoom(planet.volcano.imgCopie, planet.rotationAngle, 1)
 
-            planet.volcano.rectVolcano = planet.volcano.imgVolcano.get_rect(center=(planet.position.x+math.cos(math.radians(-planet.rotationAngle))*planet.size[0]/1.8,planet.position.y+math.sin(math.radians(-planet.rotationAngle))*planet.size[0]/1.8))
-            planet.volcano.volcanoCenter = planet.volcano.imgVolcano.get_rect(center=planet.volcano.rectVolcano.center)
+            #planet.volcano.rectVolcano = planet.volcano.img.get_rect(center=(planet.position.x+math.cos(math.radians(-planet.rotationAngle))*planet.size[0]/1.8,planet.position.y+math.sin(math.radians(-planet.rotationAngle))*planet.size[0]/1.8))
+            #planet.volcano.volcanoCenter = planet.volcano.img.get_rect(center=planet.volcano.rectVolcano.center)
             if planet.prince!=None:
                 planet.prince.princeAngle = planet.rotationAngle -90 +self.prince.princeAnglePlanet
                 self.prince.imgPrince=pygame.transform.rotozoom(self.prince.imgPrinceCopie,self.prince.princeAngle,1)

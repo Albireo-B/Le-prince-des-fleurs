@@ -1,5 +1,6 @@
 import pygame
 from pygame.locals import *
+import math
 
 class PhysicEngine:
 
@@ -14,6 +15,11 @@ class PhysicEngine:
                 obj.rotationAngle += obj.rotationSpeed
                 obj.img=pygame.transform.rotozoom(obj.imgCopie,obj.rotationAngle,1)
                 obj.imgCenter = obj.img.get_rect(center=obj.rect.center)
+            if obj.parent != None:
+                obj.imgCenter = obj.img.get_rect(
+                    center=(obj.parent.position.x+math.cos(math.radians(-obj.rotationAngle))*obj.distanceToParent*1.1,
+                    obj.parent.position.y+math.sin(math.radians(-obj.rotationAngle))*obj.distanceToParent*1.1)
+                )
 
     def areColliding(self, obj1, obj2):
         pass

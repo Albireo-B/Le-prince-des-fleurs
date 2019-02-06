@@ -2,16 +2,18 @@ import pygame
 from pygame.math import Vector2
 from Objects.Volcano import *
 from Objects.PhysicObject import *
-from Physics.PhysicEngine import *
 
 class Planet(PhysicObject):
-    def __init__(self,imgPath,width,height,centerPositionx,centerPositiony,rotationSpeed):
-        super().__init__(Vector2(centerPositionx, centerPositiony), None, imgPath, (width, height))
+    def __init__(self, imgPath, size, position, rotationSpeed, radius=-1):
+        super().__init__(position, None, imgPath, size)
+        if radius > -1:
+            self.size = (radius, self.size[1])
+
         self.rotationSpeed=rotationSpeed
         self.rotationAngle=0
         self.prince=None
         self.gravityForce = 50 * self.size[0]
-        self.volcano=Volcano("../images/volcan.png",centerPositionx,centerPositiony,width,height)
+        self.volcano=Volcano("../images/volcanTest.jpg", position, size, self)
 
     def addPrince(self,prince):
         self.prince=prince
