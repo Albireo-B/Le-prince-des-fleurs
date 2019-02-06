@@ -24,9 +24,7 @@ class GameController:
         self.createPlanet("../images/Planet2.png",200,200,375,600,0.10)
         self.createPlanet("../images/Planet1.png",100,100,1350,150,-0.7)
         #self.addPrinceOnPlanet(self.planetes[1])
-        self.play()elif event.key == pygame.K_SPACE:
-                    if not self.prince.isFlying:
-                        self.removePrinceFromPlanet()
+        self.play()
 
     def PrinceFlight(self, prince):
         for planet in self.planetes:
@@ -85,7 +83,6 @@ class GameController:
                         self.removePrinceFromPlanet()
             self.update_flight(self.prince)
             self.update_planet()
-            self.updateTimer()
             self.display()
             self.vueScreen.window.blit(font.render(text,True,(0,0,0)),(32,48))
             pygame.display.update()
