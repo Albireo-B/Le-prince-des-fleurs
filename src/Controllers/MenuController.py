@@ -23,21 +23,12 @@ class MenuController:
         button_rect_credits=credits.get_rect(topleft=(50,400))
         quit   = myFont.render("quit",True,[135,206,235])
         button_rect_quit=quit.get_rect(topleft=(50,500))
-        repeteur = list()
-        repeteur.append ('../Sounds/menu.wav')
-        repeteur.append ('../Sounds/menu.wav')
-
-        pygame.mixer.music.load ( repeteur.pop() )
-        pygame.mixer.music.queue ( repeteur.pop() )
-        pygame.mixer.music.set_endevent ( pygame.USEREVENT )
-        pygame.mixer.music.play()
+        pygame.mixer.music.load ('../Sounds/menu.wav')
+        pygame.mixer.music.play(-1)
         while True:
             for event in pygame.event.get():
                 if event.type==QUIT:
                     pygame.quit()
-                if event.type == pygame.USEREVENT:
-                   if len ( playlist ) >1:
-                      pygame.mixer.music.queue ( playlist.pop() )
                 if event.type== pygame.MOUSEBUTTONDOWN:
                     pygame.mouse.get_pos()
                     if button_rect_start.collidepoint(event.pos):#event to be changed
