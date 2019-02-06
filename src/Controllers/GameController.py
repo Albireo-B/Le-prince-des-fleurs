@@ -1,7 +1,7 @@
 import pygame
 import time
 from pygame.math import Vector2
-
+from pygame.locals import *
 
 from Objects.Planet import *
 from Objects.Object import *
@@ -11,12 +11,16 @@ from Objects.Prince import *
 from Objects.PhysicObject import *
 from Objects.Etoile import *
 
+from Physics.PhysicEngine import *
 
 
 class GameController:
 
     def __init__(self):
+        pygame.mixer.music.load('../Sounds/jeu.wav')
         self.vueScreen=VueScreen((1680,980))
+        self.PhysicEngine = PhysicEngine()
+        pygame.mixer.music.play()
         self.planetes=[]
         self.etoiles=[]
         self.nbFlowers=0
@@ -36,9 +40,9 @@ class GameController:
 
     def PrinceFlight(self, prince):
         for planet in self.planetes:
-            distance = prince.position.distance_to(Vector2(planet.positionx,planet.positiony))
+            distance = prince.position.distance_to(planet.position)
             acceleration = planet.gravityForce/(distance*distance)
-            normaVect = ((planet.positionx,planet.positiony) - prince.position).normalize()
+            normaVect = (planet.position - prince.position).normalize()
             temps = 1
             prince.speedVector += normaVect * acceleration * temps
         prince.position += prince.speedVector
@@ -50,6 +54,7 @@ class GameController:
     def createPlanet(self,imgPath,width,height,centerPositionx,centerPositiony,rotationAngle):
         planet = Planet(imgPath,width,height,centerPositionx,centerPositiony,rotationAngle)
         self.planetes.append(planet)
+        self.PhysicEngine.addPhysicObject(planet)
 
     def createEtoile(self,imgPath,centerPositionx,centerPositiony,rotationAngle):
         etoile = Etoile(imgPath,centerPositionx,centerPositiony,rotationAngle)
@@ -64,7 +69,7 @@ class GameController:
 
 
     def display(self):
-        #couleur blanche a virer
+        #couleur blanche à virer
         self.vueScreen.window.fill((255,255,255))
         for planet in self.planetes:
             self.vueScreen.window.blit(planet.volcano.imgVolcano,planet.volcano.volcanoCenter)
@@ -99,9 +104,13 @@ class GameController:
             else:
                 text=myfont.render(str(int(180 -(time.time() -start)))+" seconds left !",True, (0, 0, 0), (32, 48))
 
+
             score+=self.nbFlowers
 
             self.update_etoiles()
+
+            self.PhysicEngine.updatePhysics()
+
             self.update_flight(self.prince)
             self.update_planet()
             self.display()
@@ -127,14 +136,12 @@ class GameController:
     def update_planet(self):
         for planet in self.planetes:
             planet.volcano.chauffe()
-            planet.rotationAngle += planet.rotationSpeed
-            planet.imgPlanet=pygame.transform.rotozoom(planet.imgPlaneteCopie,planet.rotationAngle,1)
             planet.volcano.imgVolcano=pygame.transform.rotozoom(planet.volcano.imgVolcanCopie,planet.rotationAngle,1)
-            planet.planetCenter = planet.imgPlanet.get_rect(center=planet.rectplanet.center)
-            planet.volcano.rectVolcano = planet.volcano.imgVolcano.get_rect(center=(planet.positionx+math.cos(math.radians(-planet.rotationAngle))*planet.width/1.8,planet.positiony+math.sin(math.radians(-planet.rotationAngle))*planet.width/1.8))
+
+            planet.volcano.rectVolcano = planet.volcano.imgVolcano.get_rect(center=(planet.position.x+math.cos(math.radians(-planet.rotationAngle))*planet.size[0]/1.8,planet.position.y+math.sin(math.radians(-planet.rotationAngle))*planet.size[0]/1.8))
             planet.volcano.volcanoCenter = planet.volcano.imgVolcano.get_rect(center=planet.volcano.rectVolcano.center)
             if planet.prince!=None:
                 planet.prince.princeAngle = planet.rotationAngle -90 +self.prince.princeAnglePlanet
                 self.prince.imgPrince=pygame.transform.rotozoom(self.prince.imgPrinceCopie,self.prince.princeAngle,1)
-                self.prince.rectPrince = self.prince.imgPrince.get_rect(center=(planet.positionx+math.cos(math.radians(-planet.rotationAngle-self.prince.princeAnglePlanet))*planet.width/1.8,planet.positiony+math.sin(math.radians(-planet.rotationAngle-self.prince.princeAnglePlanet))*planet.width/1.8))
+                self.prince.rectPrince = self.prince.imgPrince.get_rect(center=(planet.position.x+math.cos(math.radians(-planet.rotationAngle-self.prince.princeAnglePlanet))*planet.size[0]/1.8,planet.position.y+math.sin(math.radians(-planet.rotationAngle-self.prince.princeAnglePlanet))*planet.size[0]/1.8))
                 self.prince.princeCenter = self.prince.imgPrince.get_rect(center=self.prince.rectPrince.center)
