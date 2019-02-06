@@ -14,13 +14,7 @@ from Objects.PhysicObject import *
 class GameController:
 
     def __init__(self):
-        pygame.mixer.music.load('../Sounds/jeu.wav')
         self.vueScreen=VueScreen((1680,980))
-<<<<<<< HEAD
-=======
-        self.PhysicEngine = PhysicEngine()
-        pygame.mixer.music.play()
->>>>>>> a56b50a03b93d81d5be1c1d05aebc24cf197abe5
         self.planetes=[]
         self.prince=Prince("../images/animIntro/1.png")
         #self.prince=Prince()
@@ -51,8 +45,9 @@ class GameController:
     def addPrinceOnPlanet(self,planet):
         planet.addPrince(prince)
 
-    def removePrinceFromPlanet(self,planet):
-        planet.removePrince(prince)
+    def removePrinceFromPlanet(self,planet,initialSpeed):
+        planet.removePrince(initialSpeed)
+
 
     def display(self):
         #couleur blanche a virer
@@ -69,11 +64,24 @@ class GameController:
         font=pygame.font.SysFont("Consolas",30)
         #stockage de 2 position   MOUSEBUTTONDOWN et MOUSEBUTTONUP
         down = False
+        posMouse = Vector2(0,0)
         while not done:
-            if down == False:
-                for event in pygame.event.get():
-                    if event.type == pygame.quit:
-                        done=True
+            for event in pygame.event.get():
+                if down == False:
+                    if event.type==pygame.MOUSEBUTTONDOWN:
+                        down = True
+                        posMouse = pygame.mouse.get_pos()
+
+                elif down == True:
+                    if event.type==pygame.MOUSEBUTTONUP:
+                        down = False
+                        pos2 = pygame.mouse.get_pos()
+                        distance = posMouse.distance_to(pos2)
+                        vitesse = distance*2
+                        self.removePrinceFromPlanet(self.prince.volcano, vitesse)
+
+                if event.type == pygame.quit:
+                    done=True
                 if event.type == pygame.USEREVENT:
                     counter-=1
                     text=str(counter).rjust(3) if counter > 0 else 'boom!'
@@ -84,11 +92,8 @@ class GameController:
                     elif event.key == pygame.K_RIGHT:
                         print("right pressed")
                         self.prince.princeAnglePlanet -= 6
-            elif down == True:
-                pointClick== pygame.MOUSEBUTTONDOWN.get_pos
-                if down == False:
-                    pointFree==pygame.MOUSEBUTTONUP.get_pos
-                    distance=pygame.Vector2(pointClick,pointFree)
+
+                    #distance= pygame.Vector2 (pointClick, pointFree)
 
 
             self.update_flight(self.prince)

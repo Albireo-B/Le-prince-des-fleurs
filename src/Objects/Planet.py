@@ -15,10 +15,14 @@ class Planet(PhysicObject):
 
     def addPrince(self,prince):
         self.prince=prince
+        self.prince.volcano = self
         self.prince.isFlying = False
 
-    def removePrince(self):
+    def removePrince(self, initialSpeed):
         if self.prince != None:
+            self.prince.volcano = None
             self.prince.isFlying = True
             self.prince.position = Vector2(self.prince.princeCenter.center)
+            prince.speedVector = (prince.position - self.position).normalize()*initialSpeed
+            # self.prince.initialSpeed=Vector2(distance)
             self.prince=None
