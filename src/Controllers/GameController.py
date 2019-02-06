@@ -21,6 +21,7 @@ class GameController:
         self.PhysicEngine = PhysicEngine()
         self.planetes=[]
         self.etoiles=[]
+        self.score=0
         self.nbFlowers=0
         self.prince=Prince("../images/animIntro/1.png",Vector2(50,250))
         self.PhysicEngine.addPhysicObject(self.prince)
@@ -65,6 +66,7 @@ class GameController:
 
     def addPrinceOnPlanet(self,planet):
         planet.addPrince(self.prince)
+        self.nbFlowers+=1
 
     def removePrinceFromPlanet(self,planet,initialSpeed):
         planet.removePrince(initialSpeed)
@@ -78,7 +80,8 @@ class GameController:
             self.vueScreen.window.blit(planet.img, planet.imgCenter)
         self.vueScreen.window.blit(self.prince.img, self.prince.imgCenter)
         for etoile in self.etoiles:
-            self.vueScreen.window.blit(etoile.imgEtoile,etoile.etoileCenter)
+            if etoile.isHere :
+                self.vueScreen.window.blit(etoile.imgEtoile,etoile.etoileCenter)
 
     def play(self):
         done=False
@@ -88,9 +91,9 @@ class GameController:
         start = time.time()
         while time.time() - start < .5:
             a = pygame.event.get()
-        score=0
         down = False
         posMouse = Vector2(0,0)
+        pygame.key.set_repeat(True)
         while not done:
             for event in pygame.event.get():
                 if self.prince.parent != None:
@@ -102,32 +105,31 @@ class GameController:
                         pos2 = Vector2(pygame.mouse.get_pos())
                         distance = posMouse.distance_to(pos2)
                         vitesse = distance*0.08
-                        print(vitesse)
                         self.removePrinceFromPlanet(self.prince.parent, vitesse)
-                if event.type == QUIT:
-                    done=True
-                elif event.type == pygame.KEYDOWN:
-                    if event.key == pygame.K_LEFT:
-                        self.prince.angleToParent += 6
-                        print("left pressed")
-                    elif event.key == pygame.K_RIGHT:
-                        print("right pressed")
-                        self.prince.angleToParent -= 6
+                    if event.type == QUIT:
+                        done=True
+                    elif event.type == pygame.KEYDOWN:
+                        if event.key == pygame.K_LEFT:
+                            self.prince.angleToParent += 6
+                        elif event.key == pygame.K_RIGHT:
+                            self.prince.angleToParent -= 6
+                    #bloc a rajouter dans le cas de la collision avec une étoile:
+                    #    etoile.removeEtoile
 
             if time.time()-start>=180:
                 done=True
             else:
                 text=myfont.render(str(int(180 -(time.time() -start)))+" seconds left !",True, (0, 0, 0), (32, 48))
-            score+=self.nbFlowers
             self.update_etoiles()
             self.update_prince(self.prince)
             for planet in self.planetes:
                 planet.volcano.chauffe()
+                #self.update_flowers()
             self.PhysicEngine.updatePhysics()
-            score+=self.nbFlowers
+            self.score+=self.nbFlowers
             self.display()
             self.vueScreen.window.blit(text,(1450,25))
-            textScore=myfont.render("Score :"+str(score),True,(0,0,0),(32,48))
+            textScore=myfont.render("Score : "+str(self.score),True,(0,0,0),(32,48))
             self.vueScreen.window.blit(textScore,(1450,80))
             pygame.display.update()
             self.vueScreen.clock.tick(50)
@@ -141,7 +143,6 @@ class GameController:
 
     def update_prince(self,prince):
         if prince.isFlying:
-            print("-----------------------")
             for planet in self.planetes:
                 prince.isColliding(planet)
             self.PrinceFlight(self.prince)
