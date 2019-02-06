@@ -130,7 +130,7 @@ class GameController:
             textScore=myfont.render("Score :"+str(score),True,(0,0,0),(32,48))
             self.vueScreen.window.blit(textScore,(1450,80))
             pygame.display.update()
-            self.vueScreen.clock.tick(60)
+            self.vueScreen.clock.tick(100)
 
     def update_etoiles(self):
         for etoile in self.etoiles:
@@ -149,7 +149,7 @@ class GameController:
 
     def update_planet(self):
         for planet in self.planetes:
-            #planet.volcano.chauffe()
+            planet.volcano.chauffe()
             #planet.volcano.img = pygame.transform.rotozoom(planet.volcano.imgCopie, planet.rotationAngle, 1)
 
             #planet.volcano.rectVolcano = planet.volcano.img.get_rect(center=(planet.position.x+math.cos(math.radians(-planet.rotationAngle))*planet.size[0]/1.8,planet.position.y+math.sin(math.radians(-planet.rotationAngle))*planet.size[0]/1.8))
