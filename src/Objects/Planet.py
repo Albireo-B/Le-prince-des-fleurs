@@ -1,35 +1,17 @@
-
 import pygame
 from pygame.math import Vector2
 from Objects.Volcano import *
+from Objects.PhysicObject import *
+from Physics.PhysicEngine import *
 
-class Planet:
-
-    def __init__(self,imgPath,width,height,centerPositionx,centerPositiony,rotationAngle):
-        self.imgPath=imgPath
-        self.positionx=centerPositionx
-        self.positiony=centerPositiony
-        self.width=width
-        self.height=height
-        self.size=(width,height)
-        self.imgPlanet=pygame.image.load(self.imgPath)
-        self.rotationSpeed=rotationAngle
+class Planet(PhysicObject):
+    def __init__(self,imgPath,width,height,centerPositionx,centerPositiony,rotationSpeed):
+        super().__init__(Vector2(centerPositionx, centerPositiony), None, imgPath, (width, height))
+        self.rotationSpeed=rotationSpeed
         self.rotationAngle=0
         self.prince=None
+        self.gravityForce = 50 * self.size[0]
         self.volcano=Volcano("../images/volcan.png",centerPositionx,centerPositiony,width,height)
-        self.gravityForce = 50*self.width
-
-        #change la taille de l'image
-        self.imgPlanet=pygame.transform.scale(self.imgPlanet,self.size)
-
-        self.rectplanet = self.imgPlanet.get_rect(center=(centerPositionx,centerPositiony))
-        self.planetCenter=self.imgPlanet.get_rect(center=self.rectplanet.center)
-
-        self.volcano=Volcano("../images/volcan.png",centerPositionx,centerPositiony,width,height)
-        self.imgPlaneteCopie=self.imgPlanet.copy()
-
-
-
 
     def addPrince(self,prince):
         self.prince=prince
