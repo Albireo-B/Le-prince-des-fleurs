@@ -133,9 +133,12 @@ class GameController:
 
     def update_flight(self,prince):
         if prince.isFlying:
-            prince.princeAngle=Vector2(0,1).angle_to(prince.speedVector)
-            prince.imgPrince=pygame.transform.rotozoom(prince.imgPrinceCopie,prince.princeAngle,1)
             self.PrinceFlight(self.prince)
+            if prince.speedVector.length()!= 0:
+                print(prince.speedVector.normalize())
+                prince.princeAngle=Vector2(0,1).angle_to(Vector2(prince.speedVector.x,-prince.speedVector.y))
+            prince.imgPrince=pygame.transform.rotozoom(prince.imgPrinceCopie,prince.princeAngle,1)
+
 
     def update_planet(self):
         for planet in self.planetes:

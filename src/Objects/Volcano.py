@@ -25,12 +25,25 @@ class Volcano:
 
     def chauffe(self):
         self.eruptionCycle+=1
+        #print(self.compteur)
+        #lwidth = self.width+inflate[0]
+        #lheight = self.height+inflate[1]
+        f=128
         if self.eruptionCycle < 360:
             image = self.p1
-        elif self.eruptionCycle < 490:
+            i=f/2
+        elif self.eruptionCycle < 650:
             image = self.p2
+            i=f/4
         else:
             image=self.p3
-        self.imgVolcano = pygame.transform.scale(self.base.subsurface(image), (self.width+self.eruptionCycle%10, self.height+self.eruptionCycle%10))
-        self.imgVolcano=pygame.transform.rotate(self.imgVolcano,-85)
+            i=f/8
+        print(self.eruptionCycle%(2*i))
+        if self.eruptionCycle%(2*i)<i:
+            self.imgVolcano = pygame.transform.scale(self.base.subsurface(image), (int(self.width+f/i), int(self.height+f/i)))
+            self.imgVolcano=pygame.transform.rotate(self.imgVolcano,-85)
+        else:
+            self.imgVolcano = pygame.transform.scale(self.base.subsurface(image), (int(self.width-f/i), int(self.height-f/i)))
+            self.imgVolcano=pygame.transform.rotate(self.imgVolcano,-85)
+
         self.imgVolcanCopie=self.imgVolcano.copy()
