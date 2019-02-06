@@ -9,6 +9,7 @@ from Objects.Volcano import *
 from Objects.VueScreen import *
 from Objects.Prince import *
 from Objects.PhysicObject import *
+from Objects.Etoile import *
 
 from Physics.PhysicEngine import *
 
@@ -16,19 +17,25 @@ from Physics.PhysicEngine import *
 class GameController:
 
     def __init__(self):
+        pygame.mixer.music.load('../Sounds/jeu.wav')
         self.vueScreen=VueScreen((1680,980))
         self.PhysicEngine = PhysicEngine()
-
+        pygame.mixer.music.play()
         self.planetes=[]
+        self.etoiles=[]
         self.nbFlowers=0
         self.prince=Prince("../images/animIntro/1.png")
         #self.prince=Prince()
         self.createPlanet("../images/Planet0.png",50,50,375,100,-0.2)
         self.createPlanet("../images/Planet0.png",500,500,750,300,0.4)
         self.createPlanet("../images/Planet1.png",300,300,1200,600,-0.1)
-        self.createPlanet("../images/Planet2.png",200,200,375,600,0.10, 165)
-        self.createPlanet("../images/Planet1.png",100,100,1350,150,-0.7)
-        #self.addPrinceOnPlanet(self.planetes[1])
+        self.createPlanet("../images/Planet2.png",200,200,375,600,1, 160)
+        self.createPlanet("../images/Planet2.png",100,100,1350,150,-0.7, 160)
+        self.createEtoile("../images/Etoile.png",600,600,-1)
+        self.createEtoile("../images/Etoile.png",1200,350,1)
+        self.createEtoile("../images/Etoile.png",200,250,-0.5)
+        self.createEtoile("../images/Etoile.png",1400,750,0.5)
+        self.addPrinceOnPlanet(self.planetes[1])
         self.play()
 
     def PrinceFlight(self, prince):
@@ -50,6 +57,10 @@ class GameController:
         self.PhysicEngine.addPhysicObject(planet)
         self.PhysicEngine.addPhysicObject(planet.volcano)
 
+    def createEtoile(self,imgPath,centerPositionx,centerPositiony,rotationAngle):
+        etoile = Etoile(imgPath,centerPositionx,centerPositiony,rotationAngle)
+        self.etoiles.append(etoile)
+
     def addPrinceOnPlanet(self,planet):
         planet.addPrince(self.prince)
 
@@ -65,6 +76,8 @@ class GameController:
             self.vueScreen.window.blit(planet.volcano.img, planet.volcano.imgCenter)
             self.vueScreen.window.blit(planet.img, planet.imgCenter)
         self.vueScreen.window.blit(self.prince.imgPrince, self.prince.princeCenter)
+        for etoile in self.etoiles:
+            self.vueScreen.window.blit(etoile.imgEtoile,etoile.etoileCenter)
 
     def play(self):
         myfont = pygame.font.SysFont("Consolas",35)
@@ -92,9 +105,15 @@ class GameController:
             else:
                 text=myfont.render(str(int(180 -(time.time() -start)))+" seconds left !",True, (0, 0, 0), (32, 48))
 
+
+            score+=self.nbFlowers
+
+            self.update_etoiles()
+
             self.PhysicEngine.updatePhysics()
 
             score+=self.nbFlowers
+
             self.update_flight(self.prince)
             self.update_planet()
             self.display()
@@ -104,12 +123,20 @@ class GameController:
             pygame.display.update()
             self.vueScreen.clock.tick(60)
 
+    def update_etoiles(self):
+        for etoile in self.etoiles:
+                etoile.rotationAngle += etoile.rotationSpeed
+                etoile.imgEtoile=pygame.transform.rotozoom(etoile.imgEtoileCopie,etoile.rotationAngle,1)
+                etoile.etoileCenter = etoile.imgEtoile.get_rect(center=etoile.rectEtoile.center)
+
 
     def update_flight(self,prince):
         if prince.isFlying:
-            prince.princeAngle=Vector2(0,1).angle_to(prince.speedVector)
-            prince.imgPrince=pygame.transform.rotozoom(prince.imgPrinceCopie,prince.princeAngle,1)
             self.PrinceFlight(self.prince)
+            if prince.speedVector.length()!= 0:
+                prince.princeAngle=Vector2(0,1).angle_to(Vector2(prince.speedVector.x,-prince.speedVector.y))
+            prince.imgPrince=pygame.transform.rotozoom(prince.imgPrinceCopie,prince.princeAngle,1)
+
 
     def update_planet(self):
         for planet in self.planetes:
