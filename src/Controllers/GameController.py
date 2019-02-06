@@ -135,9 +135,9 @@ class GameController:
 
     def update_prince(self,prince):
         if prince.isFlying:
-            #for planet in self.planetes:
-            #    if prince.isColliding(planet):
-            #        print("touché")
+            print("-----------------------")
+            for planet in self.planetes:
+                prince.isColliding(planet)
             self.PrinceFlight(self.prince)
             if prince.speedVector.length()!= 0:
                 prince.rotationAngle=Vector2(1,0).angle_to(Vector2(prince.speedVector.x,-prince.speedVector.y))
