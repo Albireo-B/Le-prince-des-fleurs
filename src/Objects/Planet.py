@@ -15,7 +15,8 @@ class Planet(PhysicObject):
         self.prince=None
         self.gravityForce = 50 * self.size[0]
         self.volcano=Volcano("../images/volcan0.png", position, size, self)
-        self.flower=Flower("../images/rose.png",position,size,self)
+        self.volcano.rotateAroundParent(30)
+        self.flower=Flower("../images/rose.png",position, size, self)
 
     def addPrince(self,prince):
         self.prince = prince
