@@ -12,13 +12,12 @@ class Volcano(PhysicObject):
         self.eruptionCycle = 0
 
     def clean(self):
-        self.eruptionCycle=0
+        self.eruptionCycle=1
 
     def chauffe(self):
         self.eruptionCycle+=1
         f=128
-
-        i=0
+        i=1
         if self.eruptionCycle < 360:
             self.loadImage("../images/volcan0.png")
             i=f/2
@@ -30,11 +29,12 @@ class Volcano(PhysicObject):
             i=f/8
         else:
             self.eruption()
+            self.clean()
         if self.eruptionCycle%(2*i)<i:
             self.img = pygame.transform.scale(self.img, (int(self.size[0]+self.eruptionCycle%i*f/i), int(self.size[1]+self.eruptionCycle%i*f/i)))
         else:
             self.img= pygame.transform.scale(self.img, (int(self.size[0]+f-self.eruptionCycle%i*f/i), int(self.size[1]+f-self.eruptionCycle%i*f/i)))
-        self.clean()
+
 
     def eruption(self):
         self.parent.removeFlower()

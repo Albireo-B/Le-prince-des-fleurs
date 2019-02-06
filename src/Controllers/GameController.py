@@ -124,6 +124,7 @@ class GameController:
             self.update_prince(self.prince)
             for planet in self.planetes:
                 planet.volcano.chauffe()
+                #self.update_flowers()
             self.PhysicEngine.updatePhysics()
             self.score+=self.nbFlowers
             self.display()

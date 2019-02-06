@@ -38,3 +38,4 @@ class Planet(PhysicObject):
 
     def removeFlower(self):
         self.isFlower=False
+        
