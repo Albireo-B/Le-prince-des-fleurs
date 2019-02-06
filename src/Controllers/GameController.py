@@ -82,6 +82,8 @@ class GameController:
         myfont=pygame.font.SysFont("Consolas",30)
         #stockage de 2 position   MOUSEBUTTONDOWN et MOUSEBUTTONUP
         start = time.time()
+        while time.time() - start < .5:
+            a = pygame.event.get()
         score=0
         down = False
         posMouse = Vector2(0,0)
@@ -138,7 +140,7 @@ class GameController:
             #        print("touché")
             self.PrinceFlight(self.prince)
             if prince.speedVector.length()!= 0:
-                prince.rotationAngle=Vector2(0,1).angle_to(Vector2(prince.speedVector.x,-prince.speedVector.y))
+                prince.rotationAngle=Vector2(1,0).angle_to(Vector2(prince.speedVector.x,-prince.speedVector.y))
             prince.imgPrince=pygame.transform.rotozoom(prince.imgCopie,prince.rotationAngle,1)
         else:
             self.prince.rotationAngle = self.prince.parent.rotationAngle -90 +self.prince.angleToParent
