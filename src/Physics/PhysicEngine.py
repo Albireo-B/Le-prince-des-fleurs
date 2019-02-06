@@ -1,7 +1,7 @@
 import pygame
 from pygame.locals import *
 import math
-
+from Objects.Prince import *
 class PhysicEngine:
 
     def __init__(self):
@@ -20,6 +20,10 @@ class PhysicEngine:
                     center=(obj.parent.position.x+math.cos(math.radians(-obj.rotationAngle))*obj.distanceToParent*1.1,
                     obj.parent.position.y+math.sin(math.radians(-obj.rotationAngle))*obj.distanceToParent*1.1)
                 )
+            if isinstance(obj,Prince):
+                if obj.isFlying:
+                    obj.img=pygame.transform.rotozoom(obj.imgCopie,obj.rotationAngle,1)
+                    obj.imgCenter = obj.img.get_rect(center=obj.rect.center)
 
     def areColliding(self, obj1, obj2):
         pass
