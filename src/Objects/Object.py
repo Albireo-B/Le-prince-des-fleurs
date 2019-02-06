@@ -6,30 +6,29 @@ class Object:
     def __init__(self, position, parent, imgPath, size):
         self.position = position
 
-
-
+        self.rotationAngle = 0
         self.angleToParent = 0
 
         self.size=size
 
-        self.img = pygame.image.load(imgPath)
-        self.img = pygame.transform.scale(self.img,self.size)
-        self.imgCopie=self.img.copy()
-
         self.setParent(parent)
+        self.loadImage(imgPath)
 
-        self.rect = self.img.get_rect(center=(position.x,position.y))
+    def loadImage(self, imgPath):
+        self.imgCopie = pygame.image.load(imgPath)
+        self.imgCopie = pygame.transform.scale(self.imgCopie,self.size)
+        if self.parent != None:
+            self.imgCopie = pygame.transform.rotate(self.imgCopie,-85)
+        self.img = self.imgCopie.copy()
+
+        self.rect = self.img.get_rect(center=(self.position.x,self.position.y))
         self.imgCenter=self.img.get_rect(center=self.rect.center)
-
-        self.rotationAngle = 0
-
 
     def setParent(self, parent):
         self.parent = parent
         if self.parent != None:
             self.distanceToParent = parent.size[0]*.5
             self.rotationSpeed = parent.rotationSpeed
-            self.imgCopie = pygame.transform.rotate(self.imgCopie,-85)
         else:
             self.distanceToParent = 0
             self.rotationSpeed = 0
