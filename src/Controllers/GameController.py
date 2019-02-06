@@ -107,10 +107,9 @@ class GameController:
                 text=myfont.render(str(int(180 -(time.time() -start)))+" seconds left !",True, (0, 0, 0), (32, 48))
             score+=self.nbFlowers
             self.update_etoiles()
+            self.update_prince(self.prince)
             self.PhysicEngine.updatePhysics()
             score+=self.nbFlowers
-
-            self.update_prince(self.prince)
             self.display()
             self.vueScreen.window.blit(text,(1450,25))
             textScore=myfont.render("Score :"+str(score),True,(0,0,0),(32,48))
