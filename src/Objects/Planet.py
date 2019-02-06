@@ -9,7 +9,8 @@ class Planet(PhysicObject):
         super().__init__(position, None, imgPath, size)
         if radius > -1:
             self.size = (radius, self.size[1])
-        self.isFlower=False
+            
+        self.withFlower=False
         self.rotationSpeed=rotationSpeed
         self.rotationAngle=0
         self.prince=None
@@ -34,8 +35,8 @@ class Planet(PhysicObject):
             self.prince=None
 
     def addFlower(self):
-        self.isFlower=True
+        self.withFlower=True
 
     def removeFlower(self):
-        self.isFlower=False
+        self.withFlower=False
         

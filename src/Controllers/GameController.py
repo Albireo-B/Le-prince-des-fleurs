@@ -22,7 +22,6 @@ class GameController:
         self.planetes=[]
         self.etoiles=[]
         self.score=0
-        self.nbFlowers=0
         self.prince=Prince("../images/animIntro/1.png",Vector2(50,250))
         self.PhysicEngine.addPhysicObject(self.prince)
         self.createPlanet("../images/Planet0.png",50,50,500,350,-2)
@@ -66,7 +65,6 @@ class GameController:
 
     def addPrinceOnPlanet(self,planet):
         planet.addPrince(self.prince)
-        self.nbFlowers+=1
 
     def removePrinceFromPlanet(self,planet,initialSpeed):
         planet.removePrince(initialSpeed)
@@ -75,7 +73,7 @@ class GameController:
         self.vueScreen.window.fill((255,255,255))
         for planet in self.planetes:
             self.vueScreen.window.blit(planet.volcano.img, planet.volcano.imgCenter)
-            if planet.isFlower :
+            if planet.withFlower :
                 self.vueScreen.window.blit(planet.flower.img, planet.flower.imgCenter)
             self.vueScreen.window.blit(planet.img, planet.imgCenter)
         self.vueScreen.window.blit(self.prince.img, self.prince.imgCenter)
@@ -84,6 +82,7 @@ class GameController:
                 self.vueScreen.window.blit(etoile.imgEtoile,etoile.etoileCenter)
 
     def play(self):
+        
         done=False
         counter,text=10,"10".rjust(3)
         pygame.time.set_timer(pygame.USEREVENT,1000)
@@ -95,6 +94,7 @@ class GameController:
         posMouse = Vector2(0,0)
         pygame.key.set_repeat(True)
         while not done:
+            self.nbFlowers=0
             for event in pygame.event.get():
                 if self.prince.parent != None:
                     if event.type==pygame.MOUSEBUTTONDOWN:
@@ -124,7 +124,7 @@ class GameController:
             self.update_prince(self.prince)
             for planet in self.planetes:
                 planet.volcano.chauffe()
-                #self.update_flowers()
+                self.update_flowers(planet)
             self.PhysicEngine.updatePhysics()
             self.score+=self.nbFlowers
             self.display()
@@ -132,8 +132,15 @@ class GameController:
             textScore=myfont.render("Score : "+str(self.score),True,(0,0,0),(32,48))
             self.vueScreen.window.blit(textScore,(1450,80))
             pygame.display.update()
-            self.vueScreen.clock.tick(50)
+            self.vueScreen.clock.tick(60)
+            
 
+    def update_flowers(self,planet):
+        
+        
+        if planet.withFlower :
+            self.nbFlowers+=1
+        
     def update_etoiles(self):
         for etoile in self.etoiles:
             etoile.rotationAngle += etoile.rotationSpeed
