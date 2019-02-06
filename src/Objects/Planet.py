@@ -10,6 +10,7 @@ class Planet(PhysicObject):
         self.rotationSpeed=rotationSpeed
         self.rotationAngle=0
         self.prince=None
+        self.gravityForce = 50 * self.size[0]
         self.volcano=Volcano("../images/volcan.png",centerPositionx,centerPositiony,width,height)
 
     def addPrince(self,prince):
