@@ -17,7 +17,7 @@ class Planet(PhysicObject):
 
     def addPrince(self,prince):
         self.prince = prince
-        self.prince.parent = self
+        self.prince.setParent(self)
         self.prince.isFlying = False
 
     def removePrince(self, initialSpeed):
@@ -27,4 +27,5 @@ class Planet(PhysicObject):
             self.prince.position = Vector2(self.prince.princeCenter.center)
             prince.speedVector = (prince.position - self.position).normalize()*initialSpeed
             # self.prince.initialSpeed=Vector2(distance)
+            self.prince.setParent(None)
             self.prince=None

@@ -33,7 +33,7 @@ class GameController:
         self.createEtoile("../images/Etoile.png",1200,350,1)
         self.createEtoile("../images/Etoile.png",200,250,-0.5)
         self.createEtoile("../images/Etoile.png",1400,750,0.5)
-        #self.addPrinceOnPlanet(self.planetes[1])
+        self.addPrinceOnPlanet(self.planetes[1])
         self.play()
 
     def PrinceFlight(self, prince):
