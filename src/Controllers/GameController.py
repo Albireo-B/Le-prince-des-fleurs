@@ -1,4 +1,5 @@
 import pygame
+import time
 from pygame.math import Vector2
 
 
@@ -16,6 +17,7 @@ class GameController:
     def __init__(self):
         self.vueScreen=VueScreen((1680,980))
         self.planetes=[]
+        self.nbFlowers=0
         self.prince=Prince("../images/animIntro/1.png")
         #self.prince=Prince()
         self.createPlanet("../images/Planet0.png",50,50,375,100,-0.2)
@@ -60,17 +62,14 @@ class GameController:
         self.vueScreen.window.blit(self.prince.imgPrince,self.prince.princeCenter)
 
     def play(self):
+        myfont = pygame.font.SysFont("Consolas",35)
+        start=time.time()
         done=False
-        counter,text=10,"10".rjust(3)
-        pygame.time.set_timer(pygame.USEREVENT,1000)
-        font=pygame.font.SysFont("Consolas",30)
+        score=0
         while not done:
             for event in pygame.event.get():
                 if event.type == pygame.quit:
                     done=True
-            if event.type == pygame.USEREVENT:
-                counter-=1
-                text=str(counter).rjust(3) if counter > 0 else 'boom!'
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_LEFT:
                     self.prince.princeAnglePlanet += 6
@@ -81,12 +80,25 @@ class GameController:
                 elif event.key == pygame.K_SPACE:
                     if not self.prince.isFlying:
                         self.removePrinceFromPlanet()
+
+            if time.time()-start>=180:
+                print("Time's up:")
+                done=True
+            else:
+                text=myfont.render(str(int(180 -(time.time() -start)))+" seconds left !",True, (0, 0, 0), (32, 48))
+
+            score+=self.nbFlowers
+            
+
             self.update_flight(self.prince)
             self.update_planet()
             self.display()
-            self.vueScreen.window.blit(font.render(text,True,(0,0,0)),(32,48))
+            self.vueScreen.window.blit(text,(1450,25))
+            textScore=myfont.render("Score : "+str(score),True, (0, 0, 0), (32, 48))
+            self.vueScreen.window.blit(textScore,(1450,80))
             pygame.display.update()
             self.vueScreen.clock.tick(60)
+
 
     def update_flight(self,prince):
         if prince.isFlying:
