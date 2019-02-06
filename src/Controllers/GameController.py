@@ -53,6 +53,7 @@ class GameController:
         self.planetes.append(planet)
         self.PhysicEngine.addPhysicObject(planet)
         self.PhysicEngine.addPhysicObject(planet.volcano)
+        self.PhysicEngine.addPhysicObject(planet.flower)
 
     def createEtoile(self,imgPath,centerPositionx,centerPositiony,rotationAngle):
         etoile = Etoile(imgPath,centerPositionx,centerPositiony,rotationAngle)
@@ -60,16 +61,19 @@ class GameController:
 
     def addPrinceOnPlanet(self,planet):
         planet.addPrince(self.prince)
+        planet.addFlower()
 
     def removePrinceFromPlanet(self,planet,initialSpeed):
         planet.removePrince(initialSpeed)
 
 
     def display(self):
-        #couleur blanche a virer
         self.vueScreen.window.fill((255,255,255))
         for planet in self.planetes:
+            #self.vueScreen.window.blit(planet.volcano.imgVolcanCopie, planet.volcano.imgCenter)
             self.vueScreen.window.blit(planet.volcano.img, planet.volcano.imgCenter)
+            if planet.isFlower :
+                self.vueScreen.window.blit(planet.flower.img, planet.flower.imgCenter)
             self.vueScreen.window.blit(planet.img, planet.imgCenter)
         self.vueScreen.window.blit(self.prince.imgPrince, self.prince.princeCenter)
         for etoile in self.etoiles:
@@ -80,7 +84,6 @@ class GameController:
         counter,text=10,"10".rjust(3)
         pygame.time.set_timer(pygame.USEREVENT,1000)
         myfont=pygame.font.SysFont("Consolas",30)
-        #stockage de 2 position   MOUSEBUTTONDOWN et MOUSEBUTTONUP
         start = time.time()
         score=0
         down = False
