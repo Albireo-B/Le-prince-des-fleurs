@@ -92,11 +92,9 @@ class MenuController:
     def run(self):
         self.gameController = GameController(self.screen)
 
-<<<<<<< HEAD
     def run2(self):
         gameDisplay = pygame.display.set_mode((1680,980))
         controleur = CreditsController(gameDisplay)
-=======
+
     def rules(self,screen):
         launchRules(screen)
->>>>>>> 3ddfcb5f96e6de3e70eb35f3fe129c9b068f6b99
