@@ -183,7 +183,7 @@ class GameController:
                     self.trajectory = self.computeObjectTrajectory(Vector2(self.prince.imgCenter.center[0], self.prince.imgCenter.center[1]), speed, 60)
                 else:
                     self.trajectory = []
-                
+
             for event in pygame.event.get():
                 if self.prince.parent != None:
                     if event.type==pygame.MOUSEBUTTONDOWN:
@@ -281,6 +281,7 @@ class GameController:
             if self.prince.isColliding(etoile) and etoile.isHere:
                 self.nbEtoile+=1
                 etoile.removeEtoile()
+            etoile.updateRespawnCptr()
 
     def update_flowers(self,planet):
         if planet.withFlower:
