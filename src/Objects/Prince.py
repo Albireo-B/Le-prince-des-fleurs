@@ -17,7 +17,7 @@ class Prince(PhysicObject):
 
     def nextWalkFrame(self,gauche):
         self.loadImage(self.imgsMarche[int(self.i/2)])
-        self.i= (self.i + 1)%8
+        self.i = (self.i + 1)%8
         if not gauche:
             self.flip()
 
