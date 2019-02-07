@@ -27,6 +27,8 @@ class GameController:
         self.etoiles=[]
         self.score=0
         self.nbFlowers=0
+        pygame.mixer.music.load ('../Sounds/jeu.wav')
+        pygame.mixer.music.play()
         self.prince=Prince("../images/animIntro/1.png",(100,100))
         self.PhysicEngine.addPhysicObject(self.prince)
 

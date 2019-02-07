@@ -1,6 +1,10 @@
 import pygame
 from pygame.locals import *
 from Controllers.GameController import GameController
+
+from Controllers.ScoreController import ScoreController
+
+from Controllers.CreditsController import CreditsController
 import sys
 
 white = (255,255,255)
@@ -13,7 +17,6 @@ class MenuController:
         i=0
         j=0
         white= (255,255,255)
-
         fortgroud = pygame.image.load('../images/menu.png').convert()
         background = pygame.image.load('../images/menu.png').convert_alpha()
         myFont = pygame.font.SysFont('arial',38)
@@ -28,6 +31,7 @@ class MenuController:
         button_rect_quit=quit.get_rect(topleft=(50,500))
         pygame.mixer.music.load ('../Sounds/menu.wav')
         pygame.mixer.music.play(-1)
+
         while True:
             screen.fill(white)
             for event in pygame.event.get():
@@ -38,13 +42,14 @@ class MenuController:
                     if button_rect_start.collidepoint(event.pos):#event to be changed
                         pygame.mixer.music.stop()
                         self.run()
-                        print("fini! highscores a partager!")
+                        score = ScoreController(self.controleur.score)
+                        pygame.mixer.music.play(-1)
                     if button_rect_scores.collidepoint(event.pos):#event to be changed
+                        score = ScoreController(None)
                         print('Button pressed.')
-                        sys.exit()
                     if button_rect_credits.collidepoint(event.pos):#event to be changed
                         print('Button pressed.')
-                        sys.exit()
+                        self.run2()
                     if button_rect_quit.collidepoint(event.pos):#event to be changed
                         print('Button pressed.')
                         sys.exit()
@@ -78,3 +83,6 @@ class MenuController:
 
     def run(self):
         controleur = GameController()
+
+    def run2(self):
+        controleur = CreditsController()
