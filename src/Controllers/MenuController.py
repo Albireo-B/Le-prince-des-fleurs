@@ -91,7 +91,7 @@ class MenuController:
         return textSurface, textSurface.get_rect()
 
     def run(self):
-        self.controleur = GameController(self.screen)
+        self.gameController = GameController(self.screen)
 
     def rules(self,screen):
         launchRules(screen)
