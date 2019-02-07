@@ -43,7 +43,6 @@ class GameController:
         self.createPlanet("../images/Planet1.png",300,300,375,750,-0.1, maskPath)
         self.createPlanet("../images/Planet3.png",200,200,200,150,1, maskPath)
         self.createPlanet("../images/Planet2.png",100,100,1150,800,-0.7, maskPath)
-
         self.createEtoile("../images/Etoile.png",600,600,-1)
         self.createEtoile("../images/Etoile.png",750,50,1)
         self.createEtoile("../images/Etoile.png",200,325,-0.5)
@@ -52,8 +51,15 @@ class GameController:
         self.createEtoile("../images/Etoile.png",750,920,-2)
         self.createEtoile("../images/Etoile.png",100,900,0.2)
 
+        self.etoileExt1=pygame.image.load("../images/planetMask.png")
+        self.etoileExt2=pygame.image.load("../images/planetMask.png")
+        self.etoileExt1=pygame.transform.scale(self.etoileExt1,(40,40))
+        self.etoileExt2=pygame.transform.scale(self.etoileExt2,(40,40))
+        self.roseExterieure=pygame.image.load("../images/rose.png")
+        self.roseExterieure=pygame.transform.scale(self.roseExterieure,(75,75))
         self.addPrinceOnPlanet(self.planetes[1])
         self.play()
+
 
     def PrinceFlight(self, prince):
         prince.position = self.computeObjectTrajectory(prince.position, prince.speedVector)
@@ -93,9 +99,12 @@ class GameController:
         for etoile in self.etoiles:
             if etoile.isHere :
                 self.DrawEngine.draw(etoile)
-
         for pos in self.trajectory:
             pygame.draw.circle(self.window, (0,0,255), (int(pos.x), int(pos.y)), HINT_SIZE)
+
+        self.window.blit(self.etoileExt1,(1580,880))
+        self.window.blit(self.etoileExt2,(1630,880))
+        self.window.blit(self.roseExterieure,(1580,800))
 
 
     def scaling_volcano(self,planet):
@@ -204,9 +213,31 @@ class GameController:
                     self.score+=200
 
 
-            #boucle if a faire pour laffichage du texte bonus etoiles + si on peut poser lfuers
 
-
+            if self.nbEtoile==1:
+                print("le deuxieme grisé normalement")
+                self.etoileExt1=pygame.image.load("../images/Etoile.png")
+                self.etoileExt1=pygame.transform.scale(self.etoileExt1,(40,40))
+                self.etoileExt2=pygame.image.load("../images/planetMask.png")
+                self.etoileExt2=pygame.transform.scale(self.etoileExt2,(40,40))
+                self.roseExterieure=pygame.image.load("../images/planetMask.png")
+                self.roseExterieure=pygame.transform.scale(self.roseExterieure,(75,75))
+            elif self.nbEtoile==2:
+                print("les deux brillants normalement")
+                self.etoileExt1=pygame.image.load("../images/Etoile.png")
+                self.etoileExt1=pygame.transform.scale(self.etoileExt1,(40,40))
+                self.etoileExt2=pygame.image.load("../images/Etoile.png")
+                self.etoileExt2=pygame.transform.scale(self.etoileExt2,(40,40))
+                self.roseExterieure=pygame.image.load("../images/rose.png")
+                self.roseExterieure=pygame.transform.scale(self.roseExterieure,(75,75))
+            else:
+                print("les deux grisées normalement")
+                self.etoileExt1=pygame.image.load("../images/planetMask.png")
+                self.etoileExt1=pygame.transform.scale(self.etoileExt1,(40,40))
+                self.etoileExt2=pygame.image.load("../images/planetMask.png")
+                self.etoileExt2=pygame.transform.scale(self.etoileExt2,(40,40))
+                self.roseExterieure=pygame.image.load("../images/planetMask.png")
+                self.roseExterieure=pygame.transform.scale(self.roseExterieure,(75,75))
             self.update_prince(self.prince)
             self.update_etoiles()
             for planet in self.planetes:
