@@ -94,8 +94,16 @@ class GameController:
                 self.DrawEngine.draw(etoile)
 
         for pos in self.trajectory:
-            pygame.draw.circle(self.window, (0,0,255), (int(pos.x), int(pos.y)), HINT_SIZE)
-
+            fade = (1 - pos[1]/MAX_SPEED)*255
+            fade1 = 0
+            if (fade < 0):
+                fade1 = - fade
+                fade = 0
+            else:
+                fade1 = fade
+            if fade1 > 255:
+                fade1 = 255
+            pygame.draw.circle(self.window, (fade, fade1, 255), (int(pos[0].x), int(pos[0].y)), HINT_SIZE)
 
     def scaling_volcano(self,planet):
         if planet.volcano.eruptionCycle%(2*planet.volcano.i)<planet.volcano.i:
@@ -116,15 +124,15 @@ class GameController:
 
             objPosition += initialSpeed
             if len(positionHistory) > 1:
-                if (objPosition - positionHistory[-1]).length() > 100:
+                if (objPosition - positionHistory[-1][0]).length() > 100:
                     break
-                elif (objPosition - positionHistory[-1]).length() > 50:
-                    positionHistory.append(Vector2(objPosition))
+                elif (objPosition - positionHistory[-1][0]).length() > 50:
+                    positionHistory.append([Vector2(objPosition), initialSpeed.length()])
             else:
-                positionHistory.append(Vector2(objPosition))
+                positionHistory.append([Vector2(objPosition), initialSpeed.length()])
 
         if steps == 1:
-            return positionHistory[0]
+            return positionHistory[0][0]
         else:
             return positionHistory
 
