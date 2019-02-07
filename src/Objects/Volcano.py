@@ -7,7 +7,7 @@ import math
 class Volcano(PhysicObject):
 
     def __init__(self, imgPath, position, size, parent, eruptionCycle):
-        super().__init__(position, parent, imgPath, (size[0], int(size[1]*.5)))
+        super().__init__(position, parent, imgPath, (int(size[0]*.7), int(size[1]*.7)))
         self.parent=parent
         self.i=1
         self.f=128
