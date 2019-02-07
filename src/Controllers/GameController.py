@@ -29,6 +29,8 @@ class GameController:
         self.trajectory = []
         self.score=0
         self.nbFlowers=0
+        pygame.mixer.music.load ('../Sounds/jeu.wav')
+        pygame.mixer.music.play()
         self.prince=Prince("../images/animIntro/1.png",(100,100))
         self.PhysicEngine.addPhysicObject(self.prince)
 
@@ -90,6 +92,13 @@ class GameController:
             pygame.draw.circle(self.window, (0,0,255), (int(pos.x), int(pos.y)), HINT_SIZE)
 
 
+    def scaling_volcano(self,planet):
+        if planet.volcano.eruptionCycle%(2*planet.volcano.i)<planet.volcano.i:
+            planet.volcano.img = pygame.transform.scale(planet.volcano.img, (int(planet.volcano.size[0]+planet.volcano.eruptionCycle%planet.volcano.i*planet.volcano.f/planet.volcano.i), int(planet.volcano.size[1]+planet.volcano.eruptionCycle%planet.volcano.i*planet.volcano.f/planet.volcano.i)))
+        else:
+            planet.volcano.img = pygame.transform.scale(planet.volcano.img, (int(planet.volcano.size[0]+planet.volcano.f-planet.volcano.eruptionCycle%planet.volcano.i*planet.volcano.f/planet.volcano.i), int(planet.volcano.size[1]+planet.volcano.f-planet.volcano.eruptionCycle%planet.volcano.i*planet.volcano.f/planet.volcano.i)))
+
+
     def computeObjectTrajectory(self, objPosition, initialSpeed, steps=1):
         positionHistory = []
         for i in range(steps):
@@ -142,7 +151,6 @@ class GameController:
                 if self.prince.parent != None:
                     if event.type==pygame.MOUSEBUTTONDOWN:
                         down = True
-                        print("sss")
                         posMouse = Vector2(pygame.mouse.get_pos())
                     elif event.type==pygame.MOUSEBUTTONUP:
                         down = False
@@ -158,7 +166,9 @@ class GameController:
                     if event.type == QUIT:
                         done=True
                     elif event.type == pygame.KEYDOWN:
-                        if event.key == pygame.K_LEFT:
+                        if event.key==pygame.K_DOWN:
+                            self.update_sweeping()
+                        elif event.key == pygame.K_LEFT:
                             self.prince.rotateAroundParent(6)
                         elif event.key == pygame.K_RIGHT:
                             self.prince.rotateAroundParent(-6)
@@ -178,11 +188,17 @@ class GameController:
             else:
                 text=myfont.render(str(int(180 -(time.time() -start)))+" seconds left !",True, (0, 0, 0), (32, 48))
 
+
+
+
             self.update_prince(self.prince)
+            self.update_etoiles()
             for planet in self.planetes:
                 planet.volcano.chauffe()
                 self.update_flowers(planet)
+
             self.PhysicEngine.updatePhysics()
+
             self.score+=self.nbFlowers
             self.display()
             self.window.blit(text,(1450,25))
@@ -191,9 +207,21 @@ class GameController:
             pygame.display.update()
             self.clock.tick(60)
 
+    def update_sweeping(self):
+        for planet in self.planetes:
+            if self.prince.isColliding(planet.volcano):
+                planet.volcano.clean()
+
+
+
+    def update_etoiles(self):
+        for etoile in self.etoiles:
+            if self.prince.isColliding(etoile):
+                etoile.removeEtoile()
+                self.score+=25 #200 points bonus
 
     def update_flowers(self,planet):
-        if planet.withFlower :
+        if planet.withFlower:
             self.nbFlowers+=1
 
     def update_prince(self,prince):

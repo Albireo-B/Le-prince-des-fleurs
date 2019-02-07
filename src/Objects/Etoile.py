@@ -10,6 +10,6 @@ class Etoile(PhysicObject):
         self.rotationSpeed = rotationAngle
         self.isHere=True
 
-        def removeEtoile():
-            self.isHere=False
-            #Recréer l'étoile mais a une position différente
+    def removeEtoile(self):
+        self.isHere=False
+        #Recréer l'étoile mais a une position différente
