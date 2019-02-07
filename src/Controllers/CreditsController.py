@@ -29,11 +29,11 @@ class CreditsController:
         role52   = myFont.render("Développeur",True,white)
         nom5   = myFont2.render("Lois DENIAU",True,white)
         remer   = myFont2.render("Remerciements",True,white)
-        perso1   = myFont.render("Personnes à remercier ou sources 1",True,white)
-        perso2   = myFont.render("Personnes à remercier ou sources 2",True,white)
-        perso3   = myFont.render("Personnes à remercier ou sources 3",True,white)
+        perso1   = myFont.render("remerciement dessins : NOM ",True,white)
+        perso2   = myFont.render("Musique1 : Equation - film Petit Prince - instrumental",True,white)
+        perso3   = myFont.render("Musique2 : ",True,white)
         date   = myFont2.render("02/2019",True,[135,206,235])
-        lieu   = myFont.render("IUT2 Grenble",True,[135,206,235])
+        lieu   = myFont.render("IUT2 Grenoble",True,[135,206,235])
         #button_rect_test=test.get_rect(topleft=(200,700))
 
         while True:
