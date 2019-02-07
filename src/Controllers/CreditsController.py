@@ -1,11 +1,10 @@
 import pygame
 from pygame.locals import *
-from Controllers.MenuController import MenuController
 import sys
 
-class Credits:
+class CreditsController:
 
-    def __initcredit__(self, screen):
+    def __init__(self, screen):
         i=0
         j=0
         white= (255,255,255)
@@ -27,8 +26,9 @@ class Credits:
                         sys.exit()
 
 
-
             screen.blit(quit,(50,900))
+
+            screen.blit(background, (400,0))
             pygame.display.update()
 
     def text_objects(self, text, font):

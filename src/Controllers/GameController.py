@@ -146,12 +146,12 @@ class GameController:
                     if event.type == QUIT:
                         done=True
                     elif event.type == pygame.KEYDOWN:
-                        if event.key == pygame.K_LEFT:
+                        if event.key==pygame.K_DOWN:
+                            self.update_sweeping()
+                        elif event.key == pygame.K_LEFT:
                             self.prince.rotateAroundParent(6)
                         elif event.key == pygame.K_RIGHT:
                             self.prince.rotateAroundParent(-6)
-                    #bloc a rajouter dans le cas de la collision avec une étoile:
-                    #    etoile.removeEtoile
             self.immunity += 1
             self.update_etoiles()
             if time.time()-start>=180:
@@ -171,6 +171,13 @@ class GameController:
             self.vueScreen.window.blit(textScore,(1450,80))
             pygame.display.update()
             self.vueScreen.clock.tick(60)
+
+    def update_sweeping(self):
+        for planet in self.planetes:
+            if self.prince.isColliding(planet.volcano):
+                planet.volcano.clean()
+
+
 
     def update_etoiles(self):
         for etoile in self.etoiles:
