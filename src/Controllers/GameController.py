@@ -24,6 +24,8 @@ class GameController:
     def __init__(self, window):
         self.window = window
         self.clock = pygame.time.Clock()
+        self.background=pygame.image.load("../images/background.jpg").convert()
+        self.background=pygame.transform.scale(self.background,(1024,768))
         self.PhysicEngine = PhysicEngine()
         self.DrawEngine = DrawEngine(window)
         self.planetes=[]
@@ -89,7 +91,7 @@ class GameController:
         planet.removePrince()
 
     def display(self):
-        self.window.fill((255,255,255))
+        self.window.blit(self.background,(0,0))
         for planet in self.planetes:
             self.DrawEngine.draw(planet.volcano)
             if planet.withFlower :
@@ -183,6 +185,7 @@ class GameController:
                             self.removePrinceFromPlanet(self.prince.parent)
                             self.prince.speedVector = speed
                             self.immunity = 0
+                            self.prince.loadImage(self.prince.imgVol)
 
                     pygame.draw.circle(self.window, (0,0,255), (200, 200), 100)
 
