@@ -7,7 +7,7 @@ def launchRules(screen):
     i=0
     j=0
     white= (255,255,255)
-    gameDisplay = pygame.display.set_mode((1680,980))
+    gameDisplay = pygame.display.set_mode((1024,768))
     fortgroud = pygame.image.load('../images/menu.png').convert()
     background = pygame.image.load('../images/menu.png').convert_alpha()
     myFont = pygame.font.SysFont('arial',38)
@@ -18,7 +18,7 @@ def launchRules(screen):
     textofRuls = mytext.render("here we put all the rules of the game",True,[135,206,235])
     #here we put all the rules of the game
 
-    button_rect_backtoMenu=backtoMenu.get_rect(topleft=(1400,600))
+    button_rect_backtoMenu=backtoMenu.get_rect(topleft=(50,700))
 
     pygame.mixer.music.load ('../Sounds/menu.wav')
     pygame.mixer.music.play(-1)
@@ -35,7 +35,7 @@ def launchRules(screen):
 
         # position of buttons can be changed
         screen.blit(textofRuls,(20,20))
-        screen.blit(backtoMenu,(1400,600))
+        screen.blit(backtoMenu,(50,700))
         if i<=30:
             screen.blit(background, (400,30-i))
         else:
