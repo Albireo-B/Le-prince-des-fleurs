@@ -184,12 +184,21 @@ class GameController:
 
             self.immunity += 1
 
+
+
             if time.time()-start>=180:
                 done=True
             else:
                 text=myfont.render(str(int(180 -(time.time() -start)))+" seconds left !",True, (0, 0, 0), (32, 48))
-            textEtoiles=myfont.render("Etoiles : " + str(self.nbEtoile),True,(0,0,0),(32,48))
+            textEtoiles=myfont.render("Stars : " + str(self.nbEtoile),True,(0,0,0),(32,48))
+            if self.nbEtoile>=2:
+                self.peutPoserFleur=True
+                while (self.nbEtoile>2):
+                    self.nbEtoile-=1
+                    self.score+=200
 
+
+            #boucle if a faire pour laffichage du texte bonus etoiles + si on peut poser lfuers
 
 
             self.update_prince(self.prince)
@@ -236,6 +245,10 @@ class GameController:
                 for planet in self.planetes:
                     if self.prince.isColliding(planet):
                         planet.addPrince(self.prince)
+                        if self.peutPoserFleur and not planet.withFlower:
+                            planet.addFlower()
+                            self.nbEtoile=0
+                            self.peutPoserFleur=False
                         prince.rotateAroundParent(-Vector2(1,0).angle_to(prince.position - planet.position))
                         break
             self.PrinceFlight(self.prince)

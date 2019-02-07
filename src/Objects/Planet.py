@@ -23,7 +23,7 @@ class Planet(PhysicObject):
     def addPrince(self,prince):
         self.prince = prince
         self.prince.setParent(self)
-        self.addFlower()
+        
 
     def removePrince(self):
         if self.prince != None:
