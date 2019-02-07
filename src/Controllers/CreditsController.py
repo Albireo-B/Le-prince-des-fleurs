@@ -9,7 +9,6 @@ class CreditsController:
         j=0
         white= (255,255,255)
 
-        #fortgroud = pygame.image.load('../images/Planet0.png').convert()
         background = pygame.image.load('../images/Planet0.png').convert_alpha()
         background3=pygame.image.load("../images/background.jpg").convert()
         background3=pygame.transform.scale(background3,(1024,768))
