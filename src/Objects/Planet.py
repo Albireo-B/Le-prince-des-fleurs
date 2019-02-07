@@ -5,10 +5,15 @@ from Objects.PhysicObject import *
 from Objects.Flower import *
 
 class Planet(PhysicObject):
-    def __init__(self, imgPath, size, position, rotationSpeed, radius=-1):
+    def __init__(self, imgPath, size, position, rotationSpeed, imgMaskPath, maskSize = (100,100)):
         super().__init__(position, None, imgPath, size)
-        if radius > -1:
-            self.size = (radius, self.size[1])
+
+        self.size = (self.size[0], self.size[1])
+
+        self.imgMask = pygame.image.load(imgMaskPath).convert_alpha()
+        maskSize = size
+        self.imgMask = pygame.transform.scale(self.imgCopie, maskSize)
+        self.updateMask(self.imgMask)
 
         self.withFlower=False
         self.rotationSpeed=rotationSpeed

@@ -8,11 +8,8 @@ class DrawEngine:
     def __init__(self, window):
         self.window = window
 
-    def addImage(self, path):
-        self.images[path] = loadImage(path)
-
-    def drawObject(self, object):
-        window.blit(aaa, (object.position.x, object.position.y))
+    def draw(self, object):
+        self.window.blit(object.img, (object.imgCenter[0], object.imgCenter[1]))
 
     def applyDraws(self):
         pygame.display.flip()
