@@ -48,13 +48,7 @@ class GameController:
         self.play()
 
     def PrinceFlight(self, prince):
-        for planet in self.planetes:
-            distance = prince.position.distance_to(Vector2(planet.position.x,planet.position.y))
-            acceleration = planet.gravityForce/(distance*distance)
-            normaVect = ((planet.position.x,planet.position.y) - prince.position).normalize()
-            temps = 1
-            prince.speedVector += normaVect * acceleration * temps
-        prince.position += prince.speedVector
+        prince.position = self.computeObjectTrajectory(prince.position, prince.speedVector)
         prince.position.x = prince.position.x % 1680
         self.prince.rect = self.prince.img.get_rect(center=self.prince.position)
         self.prince.imgCenter = self.prince.img.get_rect(center=self.prince.rect.center)
@@ -90,8 +84,26 @@ class GameController:
             if etoile.isHere :
                 self.vueScreen.window.blit(etoile.img,etoile.imgCenter)
 
-    def play(self):
+    def computeObjectTrajectory(self, objPosition, initialSpeed, steps=1):
+        positionHistory = []
 
+        for i in range(steps):
+            for planet in self.planetes:
+                distance = objPosition.distance_to(planet.position)
+                acceleration = planet.gravityForce/(distance*distance)
+                normaVect = (planet.position - objPosition).normalize()
+                temps = 1
+                initialSpeed += normaVect * acceleration * temps
+
+            objPosition += initialSpeed
+            positionHistory.append(objPosition)
+
+        if steps == 1:
+            return positionHistory[0]
+        else:
+            return positionHistory
+
+    def play(self):
         done=False
         counter,text=10,"10".rjust(3)
         pygame.time.set_timer(pygame.USEREVENT,1000)
@@ -110,17 +122,24 @@ class GameController:
                 if self.prince.parent != None:
                     if event.type==pygame.MOUSEBUTTONDOWN:
                         down = True
+                        print("sss")
+                        #
                         posMouse = Vector2(pygame.mouse.get_pos())
                     elif event.type==pygame.MOUSEBUTTONUP:
                         down = False
                         pos2 = Vector2(pygame.mouse.get_pos())
                         distance = posMouse.distance_to(pos2)
                         vitesse = distance*0.08
+                        #vitesse = computeInitialSpeed(posMouse, pos2)
                         if vitesse > MAX_SPEED:
                             vitesse = MAX_SPEED
                         if vitesse > MIN_SPEED_TO_LEAVE_PLANET:
                             self.removePrinceFromPlanet(self.prince.parent, vitesse)
                             self.immunity = 0
+
+                    #if down == True:
+                    #    pygame.draw.circle(self.vueScreen, BLUE, pos, 20)
+
                     if event.type == QUIT:
                         done=True
                     elif event.type == pygame.KEYDOWN:
@@ -164,5 +183,6 @@ class GameController:
                 for planet in self.planetes:
                     if self.prince.isColliding(planet):
                         planet.addPrince(self.prince)
+                        prince.rotateAroundParent(-Vector2(1,0).angle_to(prince.position - planet.position))
                         break
             self.PrinceFlight(self.prince)
