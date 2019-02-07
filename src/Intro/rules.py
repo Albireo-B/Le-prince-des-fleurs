@@ -27,13 +27,13 @@ def launchRules(screen):
     textofRuls8 = mytext.render("faire naitre la vie pour le Petit Prince.",True,blue)
     textofRuls9 = mytext.render("Embarquer dans une aventure spaciale votre",True,blue)
     textofRuls10 = mytext.render("mission ? ramasser des étoiles et planter des",True,blue)
-    textofRuls11 = mytext.render("fleurs MAIS attention les volcans peuvent",True,blue)
-    textofRuls12 = mytext.render("entrer en éruption, a vous des les ramonner",True,blue)
-    textofRuls13 = mytext.render("à temps en allant dessus et en appuyant sur",True,blue)
-    textofRuls14 = mytext.render("la flèche du bas. Déplacer vous avec les autres",True,blue)
-    textofRuls15 = mytext.render("flèches directionnelles et utiliser le pouvoir",True,blue)
-    textofRuls16 = mytext.render("du ressort avec votre souris pour sauter de",True,blue)
-    textofRuls17 = mytext.render("planète en planète.",True,blue)
+    textofRuls11 = mytext.render("fleurs avec la flèche du haut MAIS attention les ",True,blue)
+    textofRuls12 = mytext.render("volcans peuvent entrer en éruption, a vous des ",True,blue)
+    textofRuls13 = mytext.render("les ramonner à temps en allant dessus et en ",True,blue)
+    textofRuls14 = mytext.render("appuyant sur la flèche du bas. Déplacer vous ",True,blue)
+    textofRuls15 = mytext.render("avec les autres flèches directionnelles et ",True,blue)
+    textofRuls16 = mytext.render("utiliser le pouvoir du ressort avec votre ",True,blue)
+    textofRuls17 = mytext.render("votre souris pour aller vers une planète.",True,blue)
 
     #here we put all the rules of the game
 
