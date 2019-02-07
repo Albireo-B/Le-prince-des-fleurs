@@ -24,12 +24,16 @@ PRINCE_SPEED = 1.5
 WIDTH = 1024
 HEIGHT = 768
 
-OUT_OF_BOUND_MARGIN = 200
+OUT_OF_BOUND_MARGIN = 300
+
+HINT_ARROW_SIZE = 60
 
 class GameController:
 
     def __init__(self, window):
         self.window = window
+        self.princeHideHint = Object(Vector2(0,0), None, "../images/arrow.png", (HINT_ARROW_SIZE, HINT_ARROW_SIZE))
+        self.arrowVisible = False
         self.clock = pygame.time.Clock()
         self.background=pygame.image.load("../images/background.jpg").convert()
         self.background=pygame.transform.scale(self.background,(1024,768))
@@ -74,12 +78,44 @@ class GameController:
     def PrinceFlight(self, prince):
         prince.position = self.computeObjectTrajectory(prince.position, prince.speedVector)
 
-        prince.position.x = (prince.position.x + OUT_OF_BOUND_MARGIN) % (WIDTH + 2*OUT_OF_BOUND_MARGIN) - OUT_OF_BOUND_MARGIN
-        prince.position.y = (prince.position.y + OUT_OF_BOUND_MARGIN) % (HEIGHT + 2*OUT_OF_BOUND_MARGIN) - OUT_OF_BOUND_MARGIN
+        if prince.position.y < -OUT_OF_BOUND_MARGIN or prince.position.y > HEIGHT + OUT_OF_BOUND_MARGIN:
+            prince.speedVector.y = -prince.speedVector.y
 
-        self.prince.rect = self.prince.img.get_rect(center=self.prince.position)
-        self.prince.imgCenter = self.prince.img.get_rect(center=self.prince.rect.center)
-        self.prince.maskCenter = Vector2(self.prince.imgCenter[0],self.prince.imgCenter[1])
+        posPrince = Vector2((prince.position.x + OUT_OF_BOUND_MARGIN) % (WIDTH + 2*OUT_OF_BOUND_MARGIN) - OUT_OF_BOUND_MARGIN,
+                        prince.position.y
+                        )
+        prince.setPosition(posPrince)
+
+        self.arrowVisible = True
+        if prince.position.x < 0:
+            if prince.position.y < 0:
+                self.princeHideHint.setPosition(Vector2(HINT_ARROW_SIZE/2, HINT_ARROW_SIZE/2))
+                self.princeHideHint.setRotation(135)
+            elif prince.position.y > HEIGHT:
+                self.princeHideHint.setPosition(Vector2(HINT_ARROW_SIZE/2, HEIGHT - HINT_ARROW_SIZE/2))
+                self.princeHideHint.setRotation(-135)
+            else:
+                self.princeHideHint.setPosition(Vector2(HINT_ARROW_SIZE/2, prince.position.y + HINT_ARROW_SIZE/2))
+                self.princeHideHint.setRotation(180)
+        elif prince.position.x > WIDTH:
+            if prince.position.y < 0:
+                self.princeHideHint.setPosition(Vector2(WIDTH - HINT_ARROW_SIZE/2, HINT_ARROW_SIZE/2))
+                self.princeHideHint.setRotation(45)
+            elif prince.position.y > HEIGHT:
+                self.princeHideHint.setPosition(Vector2(WIDTH - HINT_ARROW_SIZE/2, HEIGHT - HINT_ARROW_SIZE/2))
+                self.princeHideHint.setRotation(-45)
+            else:
+                self.princeHideHint.setPosition(Vector2(WIDTH - HINT_ARROW_SIZE/2, prince.position.y + HINT_ARROW_SIZE/2))
+                self.princeHideHint.setRotation(0)
+        else:
+            if prince.position.y < 0:
+                self.princeHideHint.setPosition(Vector2(prince.position.x + HINT_ARROW_SIZE/2, HINT_ARROW_SIZE/2))
+                self.princeHideHint.setRotation(90)
+            elif prince.position.y > HEIGHT:
+                self.princeHideHint.setPosition(Vector2(prince.position.x + HINT_ARROW_SIZE/2, HEIGHT - HINT_ARROW_SIZE/2))
+                self.princeHideHint.setRotation(-90)
+            else:
+                self.arrowVisible = False
 
 
     def createPlanet(self, imgPath,width,height,centerPositionx,centerPositiony,rotationSpeed, imgMaskPath, gf = -1):
@@ -103,7 +139,7 @@ class GameController:
     def display(self):
         self.window.blit(self.background,(0,0))
         for planet in self.planetes:
-            if planet.withFlower :
+            if planet.withFlower:
                 self.DrawEngine.draw(planet.flower)
             self.DrawEngine.draw(planet)
             if planet.prince != None:
@@ -128,6 +164,8 @@ class GameController:
             if fade1 > 255:
                 fade1 = 255
             pygame.draw.circle(self.window, (fade, fade1, 255), (int(pos[0].x), int(pos[0].y)), HINT_SIZE)
+        if self.arrowVisible:
+            self.DrawEngine.draw(self.princeHideHint)
 
 
     def computeObjectTrajectory(self, objPosition, initialSpeed, steps=1):
@@ -174,7 +212,7 @@ class GameController:
         while time.time() - start < .5:
             a = pygame.event.get()
         down = False
-        posMouse = Vector2(0,0)
+        posMouse = Vector2(0, 0)
         pygame.key.set_repeat(True)
         self.immunity = 100 # immunity to planet collisions
         hasKeyEvent = False
@@ -197,7 +235,7 @@ class GameController:
                     if event.type == QUIT:
                         done=True
                         pygame.mixer.music.stop()
-                        pygame.mixer.music.load ('../Sounds/menu.wav')
+                        pygame.mixer.music.load('../Sounds/menu.wav')
                         pygame.mixer.music.play(-1)
                     elif event.type == pygame.KEYDOWN:
                         hasKeyEvent = True
@@ -316,6 +354,7 @@ class GameController:
             if self.immunity > IMMUNITY_THRESHOLD:
                 for planet in self.planetes:
                     if self.prince.isColliding(planet):
+                        self.arrowVisible = False
                         planet.addPrince(self.prince)
                         prince.rotateAroundParent(-Vector2(1,0).angle_to(prince.position - planet.position))
                         break

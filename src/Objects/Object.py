@@ -10,7 +10,6 @@ class Object:
         self.setParent(parent)
         self.loadImage(imgPath)
 
-
     def loadImage(self, imgPath):
         self.imgCopie = pygame.image.load(imgPath).convert_alpha()
         self.imgCopie = pygame.transform.scale(self.imgCopie,self.size)
@@ -20,10 +19,20 @@ class Object:
         self.rect = self.img.get_rect(center=(self.position.x,self.position.y))
         self.imgCenter=self.img.get_rect(center=self.rect.center)
 
+    def setPosition(self, position):
+        self.position = Vector2(position.x, position.y)
+        self.rect = self.img.get_rect(center=self.position)
+        self.imgCenter = self.img.get_rect(center=self.rect.center)
+        self.maskCenter = Vector2(self.imgCenter[0],self.imgCenter[1])
+
+    def setRotation(self, rotation):
+        self.rotationAngle = rotation
+        self.img = pygame.transform.rotozoom(self.imgCopie, self.rotationAngle, 1)
+        self.imgCenter = self.img.get_rect(center=self.rect.center)
+
     def rotateAroundParent(self, amount):
         self.rotationAngle += amount
         self.angleToParent += amount
-
 
     def setParent(self, parent):
         self.rotationAngle = 0
