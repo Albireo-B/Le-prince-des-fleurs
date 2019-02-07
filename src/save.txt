@@ -5,7 +5,7 @@ La rose
 patate
 7292
 patate
-4306
+6250
 Prince
 3780
 patate
@@ -18,3 +18,5 @@ patate
 2611
 patate
 2587
+le mouton
+2500
