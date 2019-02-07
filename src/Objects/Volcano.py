@@ -21,6 +21,7 @@ class Volcano(PhysicObject):
         self.f=128
         self.i=1
         if self.eruptionCycle == 1:
+            self.parent.flower.loadImage("../images/rose.png")
             self.loadImage("../images/volcan0.png")
             self.i=self.f/2
         elif self.eruptionCycle == 360:
@@ -29,9 +30,14 @@ class Volcano(PhysicObject):
         elif self.eruptionCycle == 650:
             self.loadImage("../images/volcan2.png")
             self.i=self.f/8
+        elif self.eruptionCycle == 900:
+            self.loadImage("../images/volcan2Eruption.png")
+            self.parent.flower.loadImage("../images/roseBrulee.png")
+            self.i=self.f/8
         elif self.eruptionCycle == 1000:
             self.eruption()
-            self.clean()
+
 
     def eruption(self):
         self.parent.removeFlower()
+        self.clean()

@@ -30,6 +30,8 @@ class GameController:
         self.etoiles=[]
         self.trajectory = []
         self.score=0
+        self.nbEtoile=0
+        self.peutPoserFleur=False
         self.nbFlowers=0
         pygame.mixer.music.load ('../Sounds/jeu.wav')
         pygame.mixer.music.play()
@@ -148,7 +150,6 @@ class GameController:
         down = False
         posMouse = Vector2(0,0)
         pygame.key.set_repeat(True)
-
         self.immunity = 100 # immunity to planet collisions
         while not done:
             self.nbFlowers=0
@@ -192,7 +193,7 @@ class GameController:
                 done=True
             else:
                 text=myfont.render(str(int(180 -(time.time() -start)))+" seconds left !",True, (0, 0, 0), (32, 48))
-
+            textEtoiles=myfont.render("Etoiles : " + str(self.nbEtoile),True,(0,0,0),(32,48))
 
 
 
@@ -203,9 +204,9 @@ class GameController:
                 self.update_flowers(planet)
 
             self.PhysicEngine.updatePhysics()
-
             self.score+=self.nbFlowers
             self.display()
+            self.window.blit(textEtoiles,(1450,135))
             self.window.blit(text,(1450,25))
             textScore=myfont.render("Score : "+str(self.score),True,(0,0,0),(32,48))
             self.window.blit(textScore,(1450,80))
@@ -214,16 +215,18 @@ class GameController:
 
     def update_sweeping(self):
         for planet in self.planetes:
-            if self.prince.isColliding(planet.volcano):
+            if self.prince.isColliding(planet.volcano) and planet.volcano.eruptionCycle<900:
                 planet.volcano.clean()
 
 
 
     def update_etoiles(self):
         for etoile in self.etoiles:
-            if self.prince.isColliding(etoile):
+            if self.prince.isColliding(etoile) and etoile.isHere:
+                self.nbEtoile+=1
                 etoile.removeEtoile()
-                self.score+=25 #200 points bonus
+
+
 
     def update_flowers(self,planet):
         if planet.withFlower:

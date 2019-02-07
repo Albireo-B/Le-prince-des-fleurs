@@ -15,6 +15,8 @@ class Planet(PhysicObject):
         self.imgMask = pygame.transform.scale(self.imgCopie, maskSize)
         self.updateMask(self.imgMask)
 
+        self.position=position
+
         self.withFlower=False
         self.rotationSpeed=rotationSpeed
         self.prince=None
