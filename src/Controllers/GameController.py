@@ -38,11 +38,11 @@ class GameController:
         self.prince=Prince("../images/animIntro/1.png",(100,100))
         self.PhysicEngine.addPhysicObject(self.prince)
         maskPath = "../images/planetMask.png"
-        self.createPlanet("../images/Planet0.png",50,50,500,350,-2, maskPath)
+        self.createPlanet("../images/Planet4.png",50,50,500,350,-2, maskPath)
         self.createPlanet("../images/Planet0.png",500,500,1100,350,0.4, maskPath)
         self.createPlanet("../images/Planet1.png",300,300,375,750,-0.1, maskPath)
-        self.createPlanet("../images/Planet0.png",200,200,200,150,1, maskPath)
-        self.createPlanet("../images/Planet1.png",100,100,1150,800,-0.7, maskPath)
+        self.createPlanet("../images/Planet3.png",200,200,200,150,1, maskPath)
+        self.createPlanet("../images/Planet2.png",100,100,1150,800,-0.7, maskPath)
 
         self.createEtoile("../images/Etoile.png",600,600,-1)
         self.createEtoile("../images/Etoile.png",750,50,1)
@@ -58,6 +58,7 @@ class GameController:
     def PrinceFlight(self, prince):
         prince.position = self.computeObjectTrajectory(prince.position, prince.speedVector)
         prince.position.x = prince.position.x % 1680
+        prince.position.y = prince.position.y % 980
         self.prince.rect = self.prince.img.get_rect(center=self.prince.position)
         self.prince.imgCenter = self.prince.img.get_rect(center=self.prince.rect.center)
         self.prince.maskCenter = Vector2(self.prince.imgCenter[0],self.prince.imgCenter[1])
