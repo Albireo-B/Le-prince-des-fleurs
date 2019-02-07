@@ -38,17 +38,19 @@ class GameController:
         self.prince=Prince("../images/walk1.png",(int(74/1.5),int(120/1.5)))
         self.PhysicEngine.addPhysicObject(self.prince)
         maskPath = "../images/planetMask.png"
-        self.createPlanet("../images/Planet0.png",250,250,900/1.93,350/1.28,0.4, maskPath)
-        self.createPlanet("../images/Planet1.png",150,150,375/1.93,750/1.28,-0.1, maskPath)
-        self.createPlanet("../images/Planet3.png",100,100,350/1.93,350/1.28,1, maskPath)
-        self.createPlanet("../images/Planet4.png",50,50,400/1.93,300/1.28,-2, maskPath, -2000)
-        self.createEtoile("../images/Etoile.png",600/1.93,600/1.28,-1)
-        self.createEtoile("../images/Etoile.png",750/1.93,50/1.28,1)
-        self.createEtoile("../images/Etoile.png",200/1.93,325/1.28,-0.5)
-        self.createEtoile("../images/Etoile.png",1000/1.93,600/1.28,0.5)
-        self.createEtoile("../images/Etoile.png",900/1.93,300/1.28,3)
-        self.createEtoile("../images/Etoile.png",750/1.93,300/1.28,-2)
-        self.createEtoile("../images/Etoile.png",100/1.93,300/1.28,0.2)
+        self.createPlanet("../images/Planet0.png",250,250,800,250,0.4, maskPath)
+        self.createPlanet("../images/Planet1.png",200,200,150,200,-0.1, maskPath)
+        self.createPlanet("../images/Planet3.png",175,175,175,600,-0.7, maskPath)
+        self.createPlanet("../images/Planet4.png",100,100,450,400,1, maskPath, -2000)
+        self.createPlanet("../images/Planet2.png",150,150,750,600,-0.7, maskPath)
+        self.createPlanet("../images/Planet1.png",120,120,500,80,-0.7, maskPath)
+        self.createEtoile("../images/Etoile.png",300,500,-0.7)
+        self.createEtoile("../images/Etoile.png",375,40,0.7)
+        self.createEtoile("../images/Etoile.png",100,350,-0.5)
+        self.createEtoile("../images/Etoile.png",500,550,0.5)
+        self.createEtoile("../images/Etoile.png",450,275,1.5)
+        self.createEtoile("../images/Etoile.png",375,260,-1.2)
+        self.createEtoile("../images/Etoile.png",50,220,0.2)
 
 
         self.etoileExt1=pygame.image.load("../images/planetMask.png")
@@ -99,9 +101,9 @@ class GameController:
         for etoile in self.etoiles:
             if etoile.isHere :
                 self.DrawEngine.draw(etoile)
-        self.window.blit(self.etoileExt1,(1580/1.93,880/1.28))
-        self.window.blit(self.etoileExt2,(1630/1.93,880/1.28))
-        self.window.blit(self.roseExterieure,(1580/1.93,800/1.28))
+        self.window.blit(self.etoileExt1,(940,700))
+        self.window.blit(self.etoileExt2,(970,700))
+        self.window.blit(self.roseExterieure,(945,650))
         for pos in self.trajectory:
             fade = (1 - pos[1]/MAX_SPEED)*255
             fade1 = 0
@@ -214,7 +216,6 @@ class GameController:
                 done=True
             else:
                 text=myfont.render(str(int(180 -(time.time() -start)))+" seconds left !",True, (0, 0, 0), (32, 48))
-            textEtoiles=myfont.render("Stars : " + str(self.nbEtoile),True,(0,0,0),(32,48))
             if self.nbEtoile>=2:
                 self.peutPoserFleur=True
                 while (self.nbEtoile>2):
@@ -256,10 +257,10 @@ class GameController:
             self.PhysicEngine.updatePhysics()
             self.score+=self.nbFlowers
             self.display()
-            self.window.blit(textEtoiles,(1450/1.93,135/1.28))
-            self.window.blit(text,(1450/1.93,25/1.28))
+
+            self.window.blit(text,(850,10))
             textScore=myfont.render("Score : "+str(self.score),True,(0,0,0),(32,48))
-            self.window.blit(textScore,(1450/1.93,80/1.28))
+            self.window.blit(textScore,(850,35))
             pygame.display.update()
             self.clock.tick(60)
 
