@@ -30,11 +30,11 @@ class Volcano(PhysicObject):
         elif self.eruptionCycle == 1200:
             self.loadImage("../images/volcan2.png")
             self.i=self.f/8
-        elif self.eruptionCycle == 1800:
+        elif self.eruptionCycle == 1500:
             self.loadImage("../images/volcan2Eruption.png")
             self.parent.flower.loadImage("../images/roseBrulee.png")
             self.i=self.f/8
-        elif self.eruptionCycle == 2000:
+        elif self.eruptionCycle == 1700:
             self.eruption()
 
 

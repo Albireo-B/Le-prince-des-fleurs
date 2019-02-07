@@ -280,7 +280,7 @@ class GameController:
 
     def update_sweeping(self):
         for planet in self.planetes:
-            if self.prince.isColliding(planet.volcano) and planet.volcano.eruptionCycle<1800:
+            if self.prince.isColliding(planet.volcano) and planet.volcano.eruptionCycle<1500:
                 planet.volcano.clean()
 
     def update_etoiles(self):
