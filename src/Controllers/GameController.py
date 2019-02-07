@@ -49,13 +49,14 @@ class GameController:
         self.createPlanet("../images/Planet4.png",100,100,450,400,1, maskPath, -2000)
         self.createPlanet("../images/Planet2.png",150,150,750,600,-0.7, maskPath)
         self.createPlanet("../images/Planet1.png",120,120,500,80,-0.7, maskPath)
-        self.createEtoile("../images/Etoile.png",300,500,-0.7)
+        self.createEtoile("../images/Etoile.png",330,570,-0.7)
         self.createEtoile("../images/Etoile.png",375,40,0.7)
         self.createEtoile("../images/Etoile.png",100,350,-0.5)
-        self.createEtoile("../images/Etoile.png",500,550,0.5)
-        self.createEtoile("../images/Etoile.png",450,275,1.5)
+        self.createEtoile("../images/Etoile.png",550,650,0.5)
+        self.createEtoile("../images/Etoile.png",800,100,1.5)
         self.createEtoile("../images/Etoile.png",375,260,-1.2)
-        self.createEtoile("../images/Etoile.png",50,220,0.2)
+        self.createEtoile("../images/Etoile.png",580,375,0.2)
+        self.createEtoile("../images/Etoile.png",900,550,0.3)
 
 
         self.etoileExt1=pygame.image.load("../images/planetMask.png")
@@ -183,7 +184,7 @@ class GameController:
                     self.trajectory = self.computeObjectTrajectory(Vector2(self.prince.imgCenter.center[0], self.prince.imgCenter.center[1]), speed, 60)
                 else:
                     self.trajectory = []
-                
+
             for event in pygame.event.get():
                 if self.prince.parent != None:
                     if event.type==pygame.MOUSEBUTTONDOWN:
@@ -225,7 +226,7 @@ class GameController:
             if time.time()-start>=180:
                 done=True
             else:
-                text=myfont.render(str(int(180 -(time.time() -start)))+" seconds left !",True, (0, 0, 0), (32, 48))
+                text=myfont.render(str(int(180 -(time.time() -start)))+" seconds left !",True, (255, 255, 255), (32, 48))
             if self.nbEtoile>=2:
                 self.peutPoserFleur=True
                 while (self.nbEtoile>2):
@@ -266,7 +267,7 @@ class GameController:
             self.display()
 
             self.window.blit(text,(850,10))
-            textScore=myfont.render("Score : "+str(self.score),True,(0,0,0),(32,48))
+            textScore=myfont.render("Score : "+str(self.score),True,(255,255,255),(32,48))
             self.window.blit(textScore,(850,35))
             pygame.display.update()
             self.clock.tick(60)
