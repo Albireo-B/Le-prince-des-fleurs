@@ -45,3 +45,8 @@ class ScoreController:
             for item in self.save:
                 f.write("%s\n" % item)
         self.showScore()
+
+        while i in range(0,20,2):
+                screen.blit(myscores.render(str(self.score[i]+self.score[i+1]), True, [135,206,235]), [20, 20*i])
+
+        pygame.display.update()

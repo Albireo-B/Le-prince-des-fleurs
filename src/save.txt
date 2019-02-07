@@ -1,5 +1,7 @@
 La rose
 10000
+patate
+7292
 Prince
 3780
 patate

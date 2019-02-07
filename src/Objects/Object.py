@@ -24,6 +24,7 @@ class Object:
         self.rotationAngle += amount
         self.angleToParent += amount
 
+
     def setParent(self, parent):
         self.rotationAngle = 0
         self.angleToParent = 0
