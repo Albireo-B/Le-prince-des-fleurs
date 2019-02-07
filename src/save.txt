@@ -7,6 +7,8 @@ patate
 patate
 36600
 patate
+13688
+patate
 10543
 La rose
 10000
@@ -18,5 +20,3 @@ patate
 5400
 patate
 4838
-Prince
-3780
