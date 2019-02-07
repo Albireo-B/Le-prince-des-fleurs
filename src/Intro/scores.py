@@ -5,6 +5,8 @@ import math
 from Controllers.ScoreController import *
 
 def launchScores(screen,save):
+
+
     i=0
     j=0
     white= (255,255,255)
@@ -21,6 +23,8 @@ def launchScores(screen,save):
     pygame.mixer.music.play(-1)
 
     while True:
+
+
         screen.fill((255,255,255))
         for event in pygame.event.get():
             if event.type==QUIT:
@@ -33,7 +37,9 @@ def launchScores(screen,save):
 
         # position of buttons can be changed
 
-        screen.blit(myscores.render(str(save), True, [135,206,235]), [20, 20])
+        while i in range(10):
+            screen.blit(myscores.render(str(self.score[i]+self.score[i+1]), True, [135,206,235]), [20, 20*i])
+        i+=2
 
 
 
