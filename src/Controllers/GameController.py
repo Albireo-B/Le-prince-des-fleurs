@@ -24,6 +24,8 @@ PRINCE_SPEED = 1.5
 WIDTH = 1024
 HEIGHT = 768
 
+OUT_OF_BOUND_MARGIN = 200
+
 class GameController:
 
     def __init__(self, window):
@@ -71,8 +73,10 @@ class GameController:
 
     def PrinceFlight(self, prince):
         prince.position = self.computeObjectTrajectory(prince.position, prince.speedVector)
-        prince.position.x = prince.position.x % 1024
-        prince.position.y = prince.position.y % 768
+
+        prince.position.x = (prince.position.x + OUT_OF_BOUND_MARGIN) % (WIDTH + 2*OUT_OF_BOUND_MARGIN) - OUT_OF_BOUND_MARGIN
+        prince.position.y = (prince.position.y + OUT_OF_BOUND_MARGIN) % (HEIGHT + 2*OUT_OF_BOUND_MARGIN) - OUT_OF_BOUND_MARGIN
+
         self.prince.rect = self.prince.img.get_rect(center=self.prince.position)
         self.prince.imgCenter = self.prince.img.get_rect(center=self.prince.rect.center)
         self.prince.maskCenter = Vector2(self.prince.imgCenter[0],self.prince.imgCenter[1])

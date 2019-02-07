@@ -16,6 +16,8 @@ patate
 5400
 patate
 4838
+patate
+4600
 Prince
 3780
 patate
@@ -28,5 +30,3 @@ patate
 2615
 patate
 2611
-patate
-2587
