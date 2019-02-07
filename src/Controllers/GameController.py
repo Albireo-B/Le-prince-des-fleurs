@@ -38,18 +38,20 @@ class GameController:
         self.prince=Prince("../images/animIntro/1.png",(100,100))
         self.PhysicEngine.addPhysicObject(self.prince)
         maskPath = "../images/planetMask.png"
-        self.createPlanet("../images/Planet4.png",50,50,500,350,-2, maskPath)
-        self.createPlanet("../images/Planet0.png",500,500,1100,350,0.4, maskPath)
+        self.createPlanet("../images/Planet0.png",500,500,900,350,0.4, maskPath)
         self.createPlanet("../images/Planet1.png",300,300,375,750,-0.1, maskPath)
         self.createPlanet("../images/Planet3.png",200,200,200,150,1, maskPath)
         self.createPlanet("../images/Planet2.png",100,100,1150,800,-0.7, maskPath)
+        self.createPlanet("../images/Planet3.png",200,200,350,350,1, maskPath)
+        self.createPlanet("../images/Planet4.png",100,100,400,300,-2, maskPath, -2000)
         self.createEtoile("../images/Etoile.png",600,600,-1)
         self.createEtoile("../images/Etoile.png",750,50,1)
         self.createEtoile("../images/Etoile.png",200,325,-0.5)
-        self.createEtoile("../images/Etoile.png",1400,750,0.5)
-        self.createEtoile("../images/Etoile.png",1650,300,3)
-        self.createEtoile("../images/Etoile.png",750,920,-2)
-        self.createEtoile("../images/Etoile.png",100,900,0.2)
+        self.createEtoile("../images/Etoile.png",1000,600,0.5)
+        self.createEtoile("../images/Etoile.png",900,300,3)
+        self.createEtoile("../images/Etoile.png",750,300,-2)
+        self.createEtoile("../images/Etoile.png",100,300,0.2)
+
 
         self.etoileExt1=pygame.image.load("../images/planetMask.png")
         self.etoileExt2=pygame.image.load("../images/planetMask.png")
@@ -57,7 +59,7 @@ class GameController:
         self.etoileExt2=pygame.transform.scale(self.etoileExt2,(40,40))
         self.roseExterieure=pygame.image.load("../images/rose.png")
         self.roseExterieure=pygame.transform.scale(self.roseExterieure,(75,75))
-        self.addPrinceOnPlanet(self.planetes[1])
+        self.addPrinceOnPlanet(self.planetes[0])
         self.play()
 
 
@@ -70,8 +72,8 @@ class GameController:
         self.prince.maskCenter = Vector2(self.prince.imgCenter[0],self.prince.imgCenter[1])
 
 
-    def createPlanet(self,imgPath,width,height,centerPositionx,centerPositiony,rotationSpeed, imgMaskPath):
-        planet = Planet(imgPath,(width,height),Vector2(centerPositionx,centerPositiony),rotationSpeed, imgMaskPath)
+    def createPlanet(self, imgPath,width,height,centerPositionx,centerPositiony,rotationSpeed, imgMaskPath, gf = -1):
+        planet = Planet(imgPath,(width,height),Vector2(centerPositionx,centerPositiony),rotationSpeed, imgMaskPath, gravityForce=gf)
         self.planetes.append(planet)
         self.PhysicEngine.addPhysicObject(planet)
         self.PhysicEngine.addPhysicObject(planet.volcano)
@@ -99,12 +101,19 @@ class GameController:
         for etoile in self.etoiles:
             if etoile.isHere :
                 self.DrawEngine.draw(etoile)
-        for pos in self.trajectory:
-            pygame.draw.circle(self.window, (0,0,255), (int(pos.x), int(pos.y)), HINT_SIZE)
-
         self.window.blit(self.etoileExt1,(1580,880))
         self.window.blit(self.etoileExt2,(1630,880))
         self.window.blit(self.roseExterieure,(1580,800))
+        for pos in self.trajectory:
+            fade = (1 - pos[1]/MAX_SPEED)*255
+            fade1 = 0
+            if (fade < 0):
+                fade1 = - fade
+                fade = 0
+            else:
+                fade1 = fade
+            if fade1 > 255:
+                fade1 = 255
 
 
     def scaling_volcano(self,planet):
@@ -126,15 +135,15 @@ class GameController:
 
             objPosition += initialSpeed
             if len(positionHistory) > 1:
-                if (objPosition - positionHistory[-1]).length() > 100:
+                if (objPosition - positionHistory[-1][0]).length() > 100:
                     break
-                elif (objPosition - positionHistory[-1]).length() > 50:
-                    positionHistory.append(Vector2(objPosition))
+                elif (objPosition - positionHistory[-1][0]).length() > 50:
+                    positionHistory.append([Vector2(objPosition), initialSpeed.length()])
             else:
-                positionHistory.append(Vector2(objPosition))
+                positionHistory.append([Vector2(objPosition), initialSpeed.length()])
 
         if steps == 1:
-            return positionHistory[0]
+            return positionHistory[0][0]
         else:
             return positionHistory
 
