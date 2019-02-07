@@ -19,19 +19,24 @@ MAX_SPEED = 15
 IMMUNITY_THRESHOLD = 10
 HINT_SIZE = 5
 
+WIDTH = 1024
+HEIGHT = 768
+
 class GameController:
 
     def __init__(self, window):
         self.window = window
         self.clock = pygame.time.Clock()
+        self.background=pygame.image.load("../images/background.jpg").convert()
+        self.background=pygame.transform.scale(self.background,(1024,768))
         self.PhysicEngine = PhysicEngine()
         self.DrawEngine = DrawEngine(window)
-        self.planetes=[]
-        self.etoiles=[]
+        self.planetes = []
+        self.etoiles = []
         self.trajectory = []
         self.score=0
         self.nbEtoile=0
-        self.peutPoserFleur=False
+        self.peutPoserFleur=True
         self.nbFlowers=0
         pygame.mixer.music.load ('../Sounds/jeu.wav')
         pygame.mixer.music.play()
@@ -91,7 +96,7 @@ class GameController:
         planet.removePrince()
 
     def display(self):
-        self.window.fill((255,255,255))
+        self.window.blit(self.background,(0,0))
         for planet in self.planetes:
             self.DrawEngine.draw(planet.volcano)
             if planet.withFlower :
@@ -172,6 +177,13 @@ class GameController:
         self.immunity = 100 # immunity to planet collisions
         while not done:
             self.nbFlowers=0
+            if down:
+                speed = self.computeInitialSpeed(posMouse, self.prince.imgCenter.center, self.prince.parent)
+                if speed.length() > MIN_SPEED_TO_LEAVE_PLANET:
+                    self.trajectory = self.computeObjectTrajectory(Vector2(self.prince.imgCenter.center[0], self.prince.imgCenter.center[1]), speed, 60)
+                else:
+                    self.trajectory = []
+                
             for event in pygame.event.get():
                 if self.prince.parent != None:
                     if event.type==pygame.MOUSEBUTTONDOWN:
@@ -185,6 +197,7 @@ class GameController:
                             self.removePrinceFromPlanet(self.prince.parent)
                             self.prince.speedVector = speed
                             self.immunity = 0
+                            self.prince.loadImage(self.prince.imgVol)
 
                     pygame.draw.circle(self.window, (0,0,255), (200, 200), 100)
 
@@ -199,17 +212,14 @@ class GameController:
                         elif event.key == pygame.K_RIGHT:
                             self.prince.rotateAroundParent(-3)
                             self.prince.nextWalkFrame(False)
+                        elif event.key == pygame.K_SPACE:
+                            if self.peutPoserFleur and self.prince.parent != None:
+                                self.prince.putFlower()
                     #bloc a rajouter dans le cas de la collision avec une étoile:
                     #    etoile.removeEtoile
-            if down:
-                speed = self.computeInitialSpeed(posMouse, self.prince.imgCenter.center, self.prince.parent)
-                if speed.length() > MIN_SPEED_TO_LEAVE_PLANET:
-                    self.trajectory = self.computeObjectTrajectory(Vector2(self.prince.imgCenter.center[0], self.prince.imgCenter.center[1]), speed, 60)
-                else:
-                    self.trajectory = []
+
 
             self.immunity += 1
-
 
 
             if time.time()-start>=180:
@@ -222,10 +232,7 @@ class GameController:
                     self.nbEtoile-=1
                     self.score+=200
 
-
-
             if self.nbEtoile==1:
-                print("le deuxieme grisé normalement")
                 self.etoileExt1=pygame.image.load("../images/Etoile.png")
                 self.etoileExt1=pygame.transform.scale(self.etoileExt1,(20,20))
                 self.etoileExt2=pygame.image.load("../images/planetMask.png")
@@ -233,7 +240,6 @@ class GameController:
                 self.roseExterieure=pygame.image.load("../images/planetMask.png")
                 self.roseExterieure=pygame.transform.scale(self.roseExterieure,(37,37))
             elif self.nbEtoile==2:
-                print("les deux brillants normalement")
                 self.etoileExt1=pygame.image.load("../images/Etoile.png")
                 self.etoileExt1=pygame.transform.scale(self.etoileExt1,(20,20))
                 self.etoileExt2=pygame.image.load("../images/Etoile.png")
@@ -241,20 +247,21 @@ class GameController:
                 self.roseExterieure=pygame.image.load("../images/rose.png")
                 self.roseExterieure=pygame.transform.scale(self.roseExterieure,(37,37))
             else:
-                print("les deux grisées normalement")
                 self.etoileExt1=pygame.image.load("../images/planetMask.png")
                 self.etoileExt1=pygame.transform.scale(self.etoileExt1,(20,20))
                 self.etoileExt2=pygame.image.load("../images/planetMask.png")
                 self.etoileExt2=pygame.transform.scale(self.etoileExt2,(20,20))
                 self.roseExterieure=pygame.image.load("../images/planetMask.png")
                 self.roseExterieure=pygame.transform.scale(self.roseExterieure,(37,37))
+
+            self.PhysicEngine.updatePhysics()
             self.update_prince(self.prince)
             self.update_etoiles()
             for planet in self.planetes:
                 planet.volcano.chauffe()
                 self.update_flowers(planet)
 
-            self.PhysicEngine.updatePhysics()
+
             self.score+=self.nbFlowers
             self.display()
 
@@ -269,15 +276,11 @@ class GameController:
             if self.prince.isColliding(planet.volcano) and planet.volcano.eruptionCycle<900:
                 planet.volcano.clean()
 
-
-
     def update_etoiles(self):
         for etoile in self.etoiles:
             if self.prince.isColliding(etoile) and etoile.isHere:
                 self.nbEtoile+=1
                 etoile.removeEtoile()
-
-
 
     def update_flowers(self,planet):
         if planet.withFlower:
@@ -292,10 +295,6 @@ class GameController:
                 for planet in self.planetes:
                     if self.prince.isColliding(planet):
                         planet.addPrince(self.prince)
-                        if self.peutPoserFleur and not planet.withFlower:
-                            planet.addFlower()
-                            self.nbEtoile=0
-                            self.peutPoserFleur=False
                         prince.rotateAroundParent(-Vector2(1,0).angle_to(prince.position - planet.position))
                         break
             self.PrinceFlight(self.prince)
