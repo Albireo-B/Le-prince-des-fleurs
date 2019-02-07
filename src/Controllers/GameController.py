@@ -173,36 +173,27 @@ class GameController:
         posMouse = Vector2(0,0)
         pygame.key.set_repeat(True)
         self.immunity = 100 # immunity to planet collisions
+        hasKeyEvent = False
+        jump = False
         while not done:
             self.nbFlowers=0
+            hasEvents = False
+
             if down:
                 speed = self.computeInitialSpeed(posMouse, self.prince.imgCenter.center, self.prince.parent)
-                if speed.length() > MIN_SPEED_TO_LEAVE_PLANET:
+                if speed.length() > MIN_SPEED_TO_LEAVE_PLANET and not hasKeyEvent:
                     self.trajectory = self.computeObjectTrajectory(Vector2(self.prince.imgCenter.center[0], self.prince.imgCenter.center[1]), speed, 60)
                 else:
                     self.trajectory = []
+            hasKeyEvent = False
 
             for event in pygame.event.get():
+                hasEvents = True
                 if self.prince.parent != None:
-                    if event.type==pygame.MOUSEBUTTONDOWN:
-                        down = True
-                        posMouse = Vector2(pygame.mouse.get_pos())
-                        self.prince.loadImage(self.prince.imgJump)
-                    elif event.type==pygame.MOUSEBUTTONUP:
-                        down = False
-                        self.trajectory = []
-                        speed = self.computeInitialSpeed(posMouse, self.prince.imgCenter.center, self.prince.parent)
-                        if speed.length() > MIN_SPEED_TO_LEAVE_PLANET:
-                            self.removePrinceFromPlanet(self.prince.parent)
-                            self.prince.speedVector = speed
-                            self.immunity = 0
-                            self.prince.loadImage(self.prince.imgVol)
-
-                    pygame.draw.circle(self.window, (0,0,255), (200, 200), 100)
-
                     if event.type == QUIT:
                         done=True
                     elif event.type == pygame.KEYDOWN:
+                        hasKeyEvent = True
                         if event.key==pygame.K_DOWN:
                             self.update_sweeping()
                         elif event.key == pygame.K_LEFT:
@@ -219,11 +210,30 @@ class GameController:
                                         self.peutPoserFleur=False
                                         planet.withFlower=True
                                         self.nbEtoile=0
+                    elif event.type==pygame.MOUSEBUTTONDOWN:
+                        down = True
+                        posMouse = Vector2(pygame.mouse.get_pos())
+                        self.prince.loadImage(self.prince.imgJump)
+                    elif event.type==pygame.MOUSEBUTTONUP:
+                        down = False
+                        jump = True
+                    pygame.draw.circle(self.window, (0,0,255), (200, 200), 100)
+
                     print(self.peutPoserFleur)
                     print(self.nbFlowers)
 
-
-
+            if jump:
+                if not hasKeyEvent:
+                    self.trajectory = []
+                    speed = self.computeInitialSpeed(posMouse, self.prince.imgCenter.center, self.prince.parent)
+                    if speed.length() > MIN_SPEED_TO_LEAVE_PLANET:
+                        self.removePrinceFromPlanet(self.prince.parent)
+                        self.prince.speedVector = speed
+                        self.immunity = 0
+                        self.prince.loadImage(self.prince.imgVol)
+                jump = False
+            if not hasEvents and down:
+                self.prince.loadImage(self.prince.imgJump)
 
             self.immunity += 1
 
