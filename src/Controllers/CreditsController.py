@@ -69,8 +69,8 @@ class CreditsController:
             screen.blit(perso1,(160,500))
             screen.blit(perso2,(160,550))
             screen.blit(perso3,(160,600))
-            screen.blit(lieu,(900,700))
-            screen.blit(date,(900,720))
+            screen.blit(lieu,(880,700))
+            screen.blit(date,(880,720))
 
             pygame.display.update()
 
