@@ -31,7 +31,7 @@ class Object:
 
         self.parent = parent
         if self.parent != None:
-            self.distanceToParent = parent.size[0]*0.5
+            self.distanceToParent = parent.size[0]*0.57
             self.rotationSpeed = parent.rotationSpeed
         else:
             self.distanceToParent = 0
