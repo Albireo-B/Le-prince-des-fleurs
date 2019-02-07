@@ -1,6 +1,18 @@
 Guillaume
 10000
 Prince
+3780
+le destructeur
 2500
 le destructeur
-3780
+2500
+le destructeur
+2500
+le destructeur
+2500
+le destructeur
+2500
+le destructeur
+50
+le destructeur
+5

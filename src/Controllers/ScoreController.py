@@ -6,6 +6,7 @@ class ScoreController:
         self.score = score
         fichier = open("save.txt", "r")
         self.save=fichier.read().split("\n")
+        self.save.pop()
         fichier.close()
         self.showScore()
         if self.score!=None:

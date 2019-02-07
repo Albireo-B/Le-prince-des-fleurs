@@ -9,7 +9,9 @@ class Planet(PhysicObject):
         super().__init__(position, None, imgPath, size)
         if radius > -1:
             self.size = (radius, self.size[1])
+
         self.position=position
+
         self.withFlower=False
         self.rotationSpeed=rotationSpeed
         self.prince=None
@@ -23,12 +25,10 @@ class Planet(PhysicObject):
         self.prince.setParent(self)
         self.addFlower()
 
-    def removePrince(self, initialSpeed):
+    def removePrince(self):
         if self.prince != None:
             self.prince.volcano = None
             self.prince.position = Vector2(self.prince.imgCenter.center)
-            self.prince.speedVector = (self.prince.position - self.position).normalize()*initialSpeed
-            # self.prince.initialSpeed=Vector2(distance)
             self.prince.setParent(None)
             self.prince=None
 
