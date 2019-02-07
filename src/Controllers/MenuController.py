@@ -1,14 +1,12 @@
 import pygame
 from pygame.locals import *
-from Controllers.GameController import GameController
-
-
 from Intro.intro import*
 from Intro.rules import*
 from Intro.scores import *
-
+from Controllers.GameController import GameController
 from Controllers.ScoreController import ScoreController
 from Controllers.CreditsController import CreditsController
+from Controllers.ChoixController import ChoixController
 import sys
 
 white = (255,255,255)
@@ -48,8 +46,7 @@ class MenuController:
                     pygame.mouse.get_pos()
                     if button_rect_start.collidepoint(event.pos):#event to be changed
                         pygame.mixer.music.stop()
-                        self.run()
-                        self.score = ScoreController(self.gameController.score)
+                        choixController=ChoixController(screen)
                     if button_rect_scores.collidepoint(event.pos):#event to be changed
                         self.score = ScoreController(None)
                         self.scores(screen)
@@ -76,7 +73,6 @@ class MenuController:
                 screen.blit(self.fortgroud, (400,100+j))
                 i=0
                 j=0
-    #screen.blit(background,(400,0))
             i+=0.05
 
             pygame.display.update()
@@ -84,9 +80,6 @@ class MenuController:
     def text_objects(self, text, font):
         textSurface = font.render(text, True, black)
         return textSurface, textSurface.get_rect()
-
-    def run(self):
-        self.gameController = GameController(self.screen)
 
     def run2(self):
         controleur = CreditsController(self.screen)

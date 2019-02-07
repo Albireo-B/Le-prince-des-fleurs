@@ -26,8 +26,10 @@ HEIGHT = 768
 
 class GameController:
 
-    def __init__(self, window):
+    def __init__(self, window, withVolcanos,niv):
+        self.niveau=niv
         self.window = window
+        self.withVolcanos=withVolcanos
         self.clock = pygame.time.Clock()
         self.background=pygame.image.load("../images/background.jpg").convert()
         self.background=pygame.transform.scale(self.background,(1024,768))
@@ -45,27 +47,70 @@ class GameController:
         self.prince=Prince("../images/walk1.png",(int(74/1.5),int(120/1.5)))
         self.PhysicEngine.addPhysicObject(self.prince)
         maskPath = "../images/planetMask.png"
-        self.createPlanet("../images/Planet0.png",250,250,800,250,0.4, maskPath)
-        self.createPlanet("../images/Planet1.png",200,200,150,200,-0.1, maskPath)
-        self.createPlanet("../images/Planet3.png",175,175,175,600,-0.7, maskPath)
-        self.createPlanet("../images/Planet4.png",100,100,450,400,1, maskPath, -2000)
-        self.createPlanet("../images/Planet2.png",150,150,750,600,-0.7, maskPath)
-        self.createPlanet("../images/Planet1.png",120,120,500,80,-0.7, maskPath)
-        self.createEtoile("../images/Etoile.png",330,570,-0.7)
-        self.createEtoile("../images/Etoile.png",375,40,0.7)
-        self.createEtoile("../images/Etoile.png",100,350,-0.5)
-        self.createEtoile("../images/Etoile.png",550,650,0.5)
-        self.createEtoile("../images/Etoile.png",800,100,1.5)
-        self.createEtoile("../images/Etoile.png",375,260,-1.2)
-        self.createEtoile("../images/Etoile.png",580,375,0.2)
-        self.createEtoile("../images/Etoile.png",900,550,0.3)
 
-        self.etoileExt1=pygame.image.load("../images/planetMask.png")
-        self.etoileExt2=pygame.image.load("../images/planetMask.png")
-        self.etoileExt1=pygame.transform.scale(self.etoileExt1,(20,20))
-        self.etoileExt2=pygame.transform.scale(self.etoileExt2,(20,20))
-        self.roseExterieure=pygame.image.load("../images/rose.png")
-        self.roseExterieure=pygame.transform.scale(self.roseExterieure,(37,37))
+        if self.niveau==3:
+            self.createPlanet("../images/Planet0.png",250,250,800,250,0.4, maskPath)
+            self.createPlanet("../images/Planet1.png",200,200,150,200,-0.1, maskPath)
+            self.createPlanet("../images/Planet3.png",175,175,175,600,-0.7, maskPath)
+            self.createPlanet("../images/Planet4.png",100,100,450,400,1, maskPath, -2000)
+            self.createPlanet("../images/Planet2.png",150,150,750,600,-0.7, maskPath)
+            self.createPlanet("../images/Planet1.png",120,120,500,80,-0.7, maskPath)
+            self.createEtoile("../images/Etoile.png",330,570,-0.7)
+            self.createEtoile("../images/Etoile.png",375,40,0.7)
+            self.createEtoile("../images/Etoile.png",100,350,-0.5)
+            self.createEtoile("../images/Etoile.png",550,650,0.5)
+            self.createEtoile("../images/Etoile.png",800,100,1.5)
+            self.createEtoile("../images/Etoile.png",375,260,-1.2)
+            self.createEtoile("../images/Etoile.png",580,375,0.2)
+            self.createEtoile("../images/Etoile.png",900,550,0.3)
+            self.etoileExt1=pygame.image.load("../images/planetMask.png")
+            self.etoileExt2=pygame.image.load("../images/planetMask.png")
+            self.etoileExt1=pygame.transform.scale(self.etoileExt1,(20,20))
+            self.etoileExt2=pygame.transform.scale(self.etoileExt2,(20,20))
+            self.roseExterieure=pygame.image.load("../images/rose.png")
+            self.roseExterieure=pygame.transform.scale(self.roseExterieure,(37,37))
+        elif self.niveau==1:
+            self.withVolcanos=False
+            self.createPlanet("../images/Planet0.png",250,250,800,250,0.4, maskPath)
+            self.createPlanet("../images/Planet1.png",200,200,150,200,-0.1, maskPath)
+            self.createPlanet("../images/Planet3.png",175,175,450,600,-0.7, maskPath)
+            self.createEtoile("../images/Etoile.png",330,570,-0.7)
+            self.createEtoile("../images/Etoile.png",375,40,0.7)
+            self.createEtoile("../images/Etoile.png",100,350,-0.5)
+            self.createEtoile("../images/Etoile.png",550,650,0.5)
+            self.createEtoile("../images/Etoile.png",800,100,1.5)
+            self.createEtoile("../images/Etoile.png",375,260,-1.2)
+            self.createEtoile("../images/Etoile.png",580,375,0.2)
+            self.createEtoile("../images/Etoile.png",900,550,0.3)
+            self.etoileExt1=pygame.image.load("../images/planetMask.png")
+            self.etoileExt2=pygame.image.load("../images/planetMask.png")
+            self.etoileExt1=pygame.transform.scale(self.etoileExt1,(20,20))
+            self.etoileExt2=pygame.transform.scale(self.etoileExt2,(20,20))
+            self.roseExterieure=pygame.image.load("../images/rose.png")
+            self.roseExterieure=pygame.transform.scale(self.roseExterieure,(37,37))
+        else:
+            self.withVolcanos=False
+            self.createPlanet("../images/Planet0.png",250,250,800,250,0.4, maskPath)
+            self.createPlanet("../images/Planet1.png",200,200,150,200,-0.1, maskPath)
+            self.createPlanet("../images/Planet3.png",175,175,175,600,-0.7, maskPath)
+            self.createPlanet("../images/Planet4.png",100,100,450,400,1, maskPath, -2000)
+            self.createPlanet("../images/Planet2.png",150,150,750,600,-0.7, maskPath)
+            self.createPlanet("../images/Planet1.png",120,120,500,80,-0.7, maskPath)
+            self.createEtoile("../images/Etoile.png",330,570,-0.7)
+            self.createEtoile("../images/Etoile.png",375,40,0.7)
+            self.createEtoile("../images/Etoile.png",100,350,-0.5)
+            self.createEtoile("../images/Etoile.png",550,650,0.5)
+            self.createEtoile("../images/Etoile.png",800,100,1.5)
+            self.createEtoile("../images/Etoile.png",375,260,-1.2)
+            self.createEtoile("../images/Etoile.png",580,375,0.2)
+            self.createEtoile("../images/Etoile.png",900,550,0.3)
+            self.etoileExt1=pygame.image.load("../images/planetMask.png")
+            self.etoileExt2=pygame.image.load("../images/planetMask.png")
+            self.etoileExt1=pygame.transform.scale(self.etoileExt1,(20,20))
+            self.etoileExt2=pygame.transform.scale(self.etoileExt2,(20,20))
+            self.roseExterieure=pygame.image.load("../images/rose.png")
+            self.roseExterieure=pygame.transform.scale(self.roseExterieure,(37,37))
+
         self.addPrinceOnPlanet(self.planetes[0])
         self.play()
 
@@ -104,7 +149,8 @@ class GameController:
             self.DrawEngine.draw(planet)
             if planet.prince != None:
                 self.DrawEngine.draw(self.prince)
-            self.DrawEngine.draw(planet.volcano)
+            if self.withVolcanos:
+                self.DrawEngine.draw(planet.volcano)
         if self.prince.parent == None:
             self.DrawEngine.draw(self.prince)
         for etoile in self.etoiles:
@@ -165,7 +211,7 @@ class GameController:
         done=False
         counter,text=10,"10".rjust(3)
         pygame.time.set_timer(pygame.USEREVENT,1000)
-        myfont=pygame.font.SysFont("Consolas",30)
+        myfont=pygame.font.SysFont("Consolas",18)
         start = time.time()
         while time.time() - start < .5:
             a = pygame.event.get()
@@ -242,7 +288,7 @@ class GameController:
             if time.time()-start>=180:
                 done=True
             else:
-                text=myfont.render(str(int(180 -(time.time() -start)))+" seconds left !",True, (255, 255, 255), (32, 48))
+                text=myfont.render(str(int(180 -(time.time() -start)))+" seconds left",True, (255, 255, 255), (32, 48))
             if self.nbEtoile>=2:
                 self.peutPoserFleur=True
                 while (self.nbEtoile>2):
@@ -274,7 +320,8 @@ class GameController:
             self.update_prince(self.prince)
             self.update_etoiles()
             for planet in self.planetes:
-                planet.volcano.chauffe()
+                if self.withVolcanos:
+                    planet.volcano.chauffe()
                 self.update_flowers(planet)
 
             self.PhysicEngine.updatePhysics()

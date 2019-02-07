@@ -31,7 +31,7 @@ class CreditsController:
         remer   = myFont2.render("Remerciements",True,white)
         perso1   = myFont.render("remerciement dessins : Quentin Poujois ",True,white)
         perso2   = myFont.render("Musique1 : Equation - film Petit Prince - instrumental",True,white)
-        perso3   = myFont.render("Musique2 : ",True,white)
+        perso3   = myFont.render("Musique2 : Nostalgia - Avetis Berberyan and Yervand Margaryan",True,white)
         date   = myFont2.render("02/2019",True,[135,206,235])
         lieu   = myFont.render("IUT2 Grenoble",True,[135,206,235])
         #button_rect_test=test.get_rect(topleft=(200,700))
