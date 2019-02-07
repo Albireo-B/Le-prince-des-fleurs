@@ -73,9 +73,10 @@ class GameController:
         planet.removePrince(initialSpeed)
 
     def display(self):
-        self.vueScreen.window.fill((255,255,255))
+        self.vueScreen.window.fill((255,255,255))#background a mettre ici
         for planet in self.planetes:
-            self.vueScreen.window.blit(planet.volcano.img, planet.volcano.imgCenter)
+            #self.scaling_volcano(planet)
+            self.vueScreen.window.blit(planet.volcano.img,planet.volcano.imgCenter)
             if planet.withFlower :
                 self.vueScreen.window.blit(planet.flower.img, planet.flower.imgCenter)
             self.vueScreen.window.blit(planet.img, planet.imgCenter)
@@ -83,6 +84,13 @@ class GameController:
         for etoile in self.etoiles:
             if etoile.isHere :
                 self.vueScreen.window.blit(etoile.img,etoile.imgCenter)
+
+    def scaling_volcano(self,planet):
+        if planet.volcano.eruptionCycle%(2*planet.volcano.i)<planet.volcano.i:
+            planet.volcano.img = pygame.transform.scale(planet.volcano.img, (int(planet.volcano.size[0]+planet.volcano.eruptionCycle%planet.volcano.i*planet.volcano.f/planet.volcano.i), int(planet.volcano.size[1]+planet.volcano.eruptionCycle%planet.volcano.i*planet.volcano.f/planet.volcano.i)))
+        else:
+            planet.volcano.img = pygame.transform.scale(planet.volcano.img, (int(planet.volcano.size[0]+planet.volcano.f-planet.volcano.eruptionCycle%planet.volcano.i*planet.volcano.f/planet.volcano.i), int(planet.volcano.size[1]+planet.volcano.f-planet.volcano.eruptionCycle%planet.volcano.i*planet.volcano.f/planet.volcano.i)))
+
 
     def computeObjectTrajectory(self, objPosition, initialSpeed, steps=1):
         positionHistory = []
@@ -151,23 +159,31 @@ class GameController:
                         elif event.key == pygame.K_RIGHT:
                             self.prince.rotateAroundParent(-6)
             self.immunity += 1
-            self.update_etoiles()
+
             if time.time()-start>=180:
                 done=True
             else:
                 text=myfont.render(str(int(180 -(time.time() -start)))+" seconds left !",True, (0, 0, 0), (32, 48))
 
+
+
+
             self.update_prince(self.prince)
+            self.update_etoiles()
             for planet in self.planetes:
                 planet.volcano.chauffe()
                 self.update_flowers(planet)
+
             self.PhysicEngine.updatePhysics()
+
             self.score+=self.nbFlowers
             self.display()
             self.vueScreen.window.blit(text,(1450,25))
             textScore=myfont.render("Score : "+str(self.score),True,(0,0,0),(32,48))
             self.vueScreen.window.blit(textScore,(1450,80))
+
             pygame.display.update()
+
             self.vueScreen.clock.tick(60)
 
     def update_sweeping(self):
