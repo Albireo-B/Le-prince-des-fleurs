@@ -2,26 +2,24 @@ import pygame
 import time
 from pygame.locals import *
 import math
+from Controllers.ScoreController import *
 
-def launchRules(screen):
+def launchScores(screen,save):
     i=0
     j=0
     white= (255,255,255)
     gameDisplay = pygame.display.set_mode((1680,980))
-    fortgroud = pygame.image.load('../images/menu.png').convert()
-    background = pygame.image.load('../images/menu.png').convert_alpha()
+
     myFont = pygame.font.SysFont('arial',38)
-    mytext = pygame.font.SysFont('arial',18)
+    myscores = pygame.font.SysFont('arial',28)
 
 
     backtoMenu  = myFont.render("Back to Menu",True,[135,206,235])
-    textofRuls = mytext.render("here we put all the rules of the game",True,[135,206,235])
-    #here we put all the rules of the game
-
     button_rect_backtoMenu=backtoMenu.get_rect(topleft=(1400,600))
 
     pygame.mixer.music.load ('../Sounds/menu.wav')
     pygame.mixer.music.play(-1)
+
     while True:
         screen.fill((255,255,255))
         for event in pygame.event.get():
@@ -34,17 +32,9 @@ def launchRules(screen):
                     return
 
         # position of buttons can be changed
-        screen.blit(textofRuls,(20,20))
-        screen.blit(backtoMenu,(1400,600))
-        if i<=30:
-            screen.blit(background, (400,30-i))
-        else:
-            screen.blit(background, (400,0+j))
-            j+=0.1
-        if j>30:
-            screen.blit(background, (400,0+j))
-            i=0
-            j=0
+
+        screen.blit(myscores.render(str(save), True, [135,206,235]), [20, 20])
+
 
 
 

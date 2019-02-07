@@ -5,6 +5,7 @@ from Controllers.GameController import GameController
 
 from Intro.intro import*
 from Intro.rules import*
+from Intro.scores import *
 
 from Controllers.ScoreController import ScoreController
 from Controllers.CreditsController import CreditsController
@@ -50,11 +51,11 @@ class MenuController:
                     if button_rect_start.collidepoint(event.pos):#event to be changed
                         pygame.mixer.music.stop()
                         self.run()
-                        score = ScoreController(self.gameController.score)
+                        self.score = ScoreController(self.gameController.score)
                         pygame.mixer.music.play(-1)
                     if button_rect_scores.collidepoint(event.pos):#event to be changed
-                        score = ScoreController(None)
-                        print('Button pressed.')
+                        self.score = ScoreController(None)
+                        self.scores(screen)
                     if button_rect_credits.collidepoint(event.pos):#event to be changed
                         print('Button pressed.')
                         sys.exit()
@@ -94,3 +95,6 @@ class MenuController:
 
     def rules(self,screen):
         launchRules(screen)
+
+    def scores(self,screen):
+        launchScores(screen,self.score.save)
