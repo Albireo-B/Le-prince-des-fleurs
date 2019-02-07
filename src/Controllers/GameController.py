@@ -8,7 +8,7 @@ from Objects.Volcano import *
 from Objects.Prince import *
 from Objects.PhysicObject import *
 from Objects.Etoile import *
-
+import sys
 from Physics.PhysicEngine import *
 from Draw.DrawEngine import *
 
@@ -202,6 +202,9 @@ class GameController:
 
                     if event.type == QUIT:
                         done=True
+                        pygame.mixer.music.stop()
+                        pygame.mixer.music.load ('../Sounds/menu.wav')
+                        pygame.mixer.music.play(-1)
                     elif event.type == pygame.KEYDOWN:
                         if event.key==pygame.K_DOWN:
                             self.update_sweeping()

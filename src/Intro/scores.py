@@ -19,8 +19,6 @@ def launchScores(screen,save):
     backtoMenu  = myFont.render("Back to Menu",True,[135,206,235])
     button_rect_backtoMenu=backtoMenu.get_rect(topleft=(1400,600))
 
-    pygame.mixer.music.load ('../Sounds/menu.wav')
-    pygame.mixer.music.play(-1)
 
     while True:
 

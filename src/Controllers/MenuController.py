@@ -21,9 +21,7 @@ class MenuController:
         i=0
         j=0
         white= (255,255,255)
-
         self.screen = screen
-
         self.fortgroud = pygame.image.load('../images/menu.png').convert_alpha()
         myFont = pygame.font.SysFont('arial',38)
         start  = myFont.render("Start",True,[135,206,235])
@@ -52,18 +50,14 @@ class MenuController:
                         pygame.mixer.music.stop()
                         self.run()
                         self.score = ScoreController(self.gameController.score)
-                        pygame.mixer.music.load ('../Sounds/menu.wav')
-                        pygame.mixer.music.play(-1)
                     if button_rect_scores.collidepoint(event.pos):#event to be changed
                         self.score = ScoreController(None)
                         self.scores(screen)
                     if button_rect_credits.collidepoint(event.pos):#event to be changed
-                        print('Button pressed.')
                         self.run2()
                     if button_rect_rules.collidepoint(event.pos):#event to be changed
                         self.rules(screen)
                     if button_rect_quit.collidepoint(event.pos):#event to be changed
-                        print('Button pressed.')
                         sys.exit()
 
             # position of buttons can be changed
