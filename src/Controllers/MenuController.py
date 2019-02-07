@@ -76,13 +76,13 @@ class MenuController:
                 screen.blit(background, (400,30-i))
             else:
                 screen.blit(background, (400,0+j))
-                j+=0.1
+                j+=0.05
             if j>30:
                 screen.blit(background, (400,0+j))
                 i=0
                 j=0
     #screen.blit(background,(400,0))
-            i+=0.1
+            i+=0.05
 
             pygame.display.update()
 
@@ -94,8 +94,7 @@ class MenuController:
         self.gameController = GameController(self.screen)
 
     def run2(self):
-        gameDisplay = pygame.display.set_mode((1680,980))
-        controleur = CreditsController(gameDisplay)
+        controleur = CreditsController(self.screen)
 
     def rules(self,screen):
         launchRules(screen)
