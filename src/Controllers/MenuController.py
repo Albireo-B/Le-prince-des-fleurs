@@ -32,6 +32,7 @@ class MenuController:
             screen.fill(white)
             for event in pygame.event.get():
                 if event.type==QUIT:
+                    #fichier.close()
                     pygame.quit()
                 if event.type== pygame.MOUSEBUTTONDOWN:
                     pygame.mouse.get_pos()
