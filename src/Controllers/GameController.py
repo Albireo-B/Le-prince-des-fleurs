@@ -29,8 +29,8 @@ class GameController:
         self.clock = pygame.time.Clock()
         self.PhysicEngine = PhysicEngine()
         self.DrawEngine = DrawEngine(window)
-        self.planetes=[]
-        self.etoiles=[]
+        self.planetes = []
+        self.etoiles = []
         self.trajectory = []
         self.score=0
         self.nbEtoile=0
