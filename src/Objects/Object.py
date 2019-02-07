@@ -27,7 +27,6 @@ class Object:
     def setParent(self, parent):
         self.rotationAngle = 0
         self.angleToParent = 0
-        print("parentage: "+str(self.rotationAngle))
 
         self.parent = parent
         if self.parent != None:

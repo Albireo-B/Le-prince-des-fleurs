@@ -70,6 +70,7 @@ class GameController:
     def createEtoile(self,imgPath,centerPositionx,centerPositiony,rotationSpeed):
         etoile = Etoile(imgPath,centerPositionx,centerPositiony,rotationSpeed)
         self.etoiles.append(etoile)
+        self.PhysicEngine.addPhysicObject(etoile)
 
     def addPrinceOnPlanet(self,planet):
         planet.addPrince(self.prince)
@@ -87,10 +88,10 @@ class GameController:
         self.vueScreen.window.blit(self.prince.img, self.prince.imgCenter)
         for etoile in self.etoiles:
             if etoile.isHere :
-                self.vueScreen.window.blit(etoile.imgEtoile,etoile.etoileCenter)
+                self.vueScreen.window.blit(etoile.img,etoile.imgCenter)
 
     def play(self):
-        
+
         done=False
         counter,text=10,"10".rjust(3)
         pygame.time.set_timer(pygame.USEREVENT,1000)
@@ -135,7 +136,7 @@ class GameController:
                 done=True
             else:
                 text=myfont.render(str(int(180 -(time.time() -start)))+" seconds left !",True, (0, 0, 0), (32, 48))
-            self.update_etoiles()
+
             self.update_prince(self.prince)
             for planet in self.planetes:
                 planet.volcano.chauffe()
@@ -148,19 +149,11 @@ class GameController:
             self.vueScreen.window.blit(textScore,(1450,80))
             pygame.display.update()
             self.vueScreen.clock.tick(60)
-            
+
 
     def update_flowers(self,planet):
-        
-        
         if planet.withFlower :
             self.nbFlowers+=1
-        
-    def update_etoiles(self):
-        for etoile in self.etoiles:
-            etoile.rotationAngle += etoile.rotationSpeed
-            etoile.imgEtoile = pygame.transform.rotozoom(etoile.imgEtoileCopie,etoile.rotationAngle,1)
-            etoile.etoileCenter = etoile.imgEtoile.get_rect(center=etoile.rectEtoile.center)
 
     def update_prince(self,prince):
         if prince.parent == None:
