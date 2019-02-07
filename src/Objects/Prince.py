@@ -20,3 +20,10 @@ class Prince(PhysicObject):
         self.i= (self.i + 1)%8
         if not gauche:
             self.flip()
+
+    def putFlower(self):
+        if self.parent != None and not self.parent.withFlower:
+            self.parent.addFlower()
+            self.parent.flower.angleToParent = 0
+            self.parent.flower.rotationAngle = 0
+            self.parent.flower.rotateAroundParent(-Vector2(1,0).angle_to(self.position - self.parent.position))

@@ -33,7 +33,6 @@ class Planet(PhysicObject):
         self.prince = prince
         self.prince.setParent(self)
 
-
     def removePrince(self):
         if self.prince != None:
             self.prince.volcano = None
