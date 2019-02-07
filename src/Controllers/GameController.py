@@ -127,7 +127,7 @@ class GameController:
         prince.position = self.computeObjectTrajectory(prince.position, prince.speedVector)
 
         if prince.position.y < -OUT_OF_BOUND_MARGIN or prince.position.y > HEIGHT + OUT_OF_BOUND_MARGIN:
-            prince.speedVector.y = -prince.speedVector.y
+            prince.speedVector.y = -prince.speedVector.y*.5
 
         posPrince = Vector2((prince.position.x + OUT_OF_BOUND_MARGIN) % (WIDTH + 2*OUT_OF_BOUND_MARGIN) - OUT_OF_BOUND_MARGIN,
                         prince.position.y
@@ -401,7 +401,8 @@ class GameController:
     def update_prince(self,prince):
         if prince.parent == None:
             if prince.speedVector.length() != 0:
-                prince.rotationAngle=Vector2(1,0).angle_to(Vector2(prince.speedVector.x,-prince.speedVector.y))
+                prince.setRotation(Vector2(1,0).angle_to(Vector2(prince.speedVector.x,-prince.speedVector.y)))
+                prince.updateMask(prince.img)
 
             if self.immunity > IMMUNITY_THRESHOLD:
                 for planet in self.planetes:
