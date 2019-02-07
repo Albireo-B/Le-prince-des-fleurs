@@ -125,12 +125,6 @@ class GameController:
                 fade1 = 255
             pygame.draw.circle(self.window, (fade, fade1, 255), (int(pos[0].x), int(pos[0].y)), HINT_SIZE)
 
-    def scaling_volcano(self,planet):
-        if planet.volcano.eruptionCycle%(2*planet.volcano.i)<planet.volcano.i:
-            planet.volcano.img = pygame.transform.scale(planet.volcano.img, (int(planet.volcano.size[0]+planet.volcano.eruptionCycle%planet.volcano.i*planet.volcano.f/planet.volcano.i), int(planet.volcano.size[1]+planet.volcano.eruptionCycle%planet.volcano.i*planet.volcano.f/planet.volcano.i)))
-        else:
-            planet.volcano.img = pygame.transform.scale(planet.volcano.img, (int(planet.volcano.size[0]+planet.volcano.f-planet.volcano.eruptionCycle%planet.volcano.i*planet.volcano.f/planet.volcano.i), int(planet.volcano.size[1]+planet.volcano.f-planet.volcano.eruptionCycle%planet.volcano.i*planet.volcano.f/planet.volcano.i)))
-
 
     def computeObjectTrajectory(self, objPosition, initialSpeed, steps=1):
         positionHistory = []
@@ -217,11 +211,18 @@ class GameController:
                         elif event.key == pygame.K_RIGHT:
                             self.prince.rotateAroundParent(-3)
                             self.prince.nextWalkFrame(False)
-                        elif event.key == pygame.K_SPACE:
-                            if self.peutPoserFleur and self.prince.parent != None:
-                                self.prince.putFlower()
-                    #bloc a rajouter dans le cas de la collision avec une étoile:
-                    #    etoile.removeEtoile
+                        elif event.key == pygame.K_UP:
+                            for planet in self.planetes:
+                                if self.prince.isColliding(planet):
+                                    if self.peutPoserFleur and self.prince.parent !=None and not planet.withFlower:
+                                        self.prince.putFlower()
+                                        self.peutPoserFleur=False
+                                        planet.withFlower=True
+                                        self.nbEtoile=0
+                    print(self.peutPoserFleur)
+                    print(self.nbFlowers)
+
+
 
 
             self.immunity += 1

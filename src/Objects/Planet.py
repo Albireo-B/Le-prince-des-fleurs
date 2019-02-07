@@ -3,6 +3,7 @@ from pygame.math import Vector2
 from Objects.Volcano import *
 from Objects.PhysicObject import *
 from Objects.Flower import *
+import random
 
 class Planet(PhysicObject):
     def __init__(self, imgPath, size, position, rotationSpeed, imgMaskPath, gravityForce = -1, maskSize = -1):
@@ -25,13 +26,14 @@ class Planet(PhysicObject):
             self.gravityForce = 50 * self.size[0]
         else:
             self.gravityForce = gravityForce
-        self.volcano=Volcano("../images/volcan0.png", position, size, self)
+        self.volcano=Volcano("../images/volcan0.png", position, size, self,random.randint(1,800))
         self.volcano.rotateAroundParent(30)
         self.flower=Flower("../images/rose.png",position, size, self)
 
     def addPrince(self,prince):
         self.prince = prince
         self.prince.setParent(self)
+
 
     def removePrince(self):
         if self.prince != None:
