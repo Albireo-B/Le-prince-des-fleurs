@@ -98,11 +98,14 @@ class GameController:
     def display(self):
         self.window.blit(self.background,(0,0))
         for planet in self.planetes:
-            self.DrawEngine.draw(planet.volcano)
             if planet.withFlower :
                 self.DrawEngine.draw(planet.flower)
             self.DrawEngine.draw(planet)
-        self.DrawEngine.draw(self.prince)
+            if planet.prince != None:
+                self.DrawEngine.draw(self.prince)
+            self.DrawEngine.draw(planet.volcano)
+        if self.prince.parent == None:
+            self.DrawEngine.draw(self.prince)
         for etoile in self.etoiles:
             if etoile.isHere :
                 self.DrawEngine.draw(etoile)
@@ -183,12 +186,13 @@ class GameController:
                     self.trajectory = self.computeObjectTrajectory(Vector2(self.prince.imgCenter.center[0], self.prince.imgCenter.center[1]), speed, 60)
                 else:
                     self.trajectory = []
-                
+
             for event in pygame.event.get():
                 if self.prince.parent != None:
                     if event.type==pygame.MOUSEBUTTONDOWN:
                         down = True
                         posMouse = Vector2(pygame.mouse.get_pos())
+                        self.prince.loadImage(self.prince.imgJump)
                     elif event.type==pygame.MOUSEBUTTONUP:
                         down = False
                         self.trajectory = []

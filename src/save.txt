@@ -2,6 +2,8 @@ La rose
 10000
 patate
 7292
+patate
+6250
 Prince
 3780
 patate
@@ -15,6 +17,4 @@ patate
 patate
 2587
 le mouton
-2500
-l'étoile
 2500
