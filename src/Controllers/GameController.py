@@ -211,7 +211,7 @@ class GameController:
         done=False
         counter,text=10,"10".rjust(3)
         pygame.time.set_timer(pygame.USEREVENT,1000)
-        myfont=pygame.font.SysFont("Consolas",30)
+        myfont=pygame.font.SysFont("Consolas",18)
         start = time.time()
         while time.time() - start < .5:
             a = pygame.event.get()
@@ -288,7 +288,7 @@ class GameController:
             if time.time()-start>=180:
                 done=True
             else:
-                text=myfont.render(str(int(180 -(time.time() -start)))+" seconds left !",True, (255, 255, 255), (32, 48))
+                text=myfont.render(str(int(180 -(time.time() -start)))+" seconds left",True, (255, 255, 255), (32, 48))
             if self.nbEtoile>=2:
                 self.peutPoserFleur=True
                 while (self.nbEtoile>2):
