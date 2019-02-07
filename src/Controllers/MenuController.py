@@ -24,7 +24,7 @@ class MenuController:
 
         self.screen = screen
 
-        self.fortgroud = pygame.image.load('../images/menu.png').convert()
+        self.fortgroud = pygame.image.load('../images/menu.png').convert_alpha()
         myFont = pygame.font.SysFont('arial',38)
         start  = myFont.render("Start",True,[135,206,235])
         button_rect_start=start.get_rect(topleft=(50,200))
@@ -74,12 +74,12 @@ class MenuController:
             screen.blit(quit,(50,600))
 
             if i<=30:
-                screen.blit(self.fortgroud, (200,30-i))
+                screen.blit(self.fortgroud, (400,130-i))
             else:
-                screen.blit(self.fortgroud, (200,0+j))
+                screen.blit(self.fortgroud, (400,100+j))
                 j+=0.05
             if j>30:
-                screen.blit(self.fortgroud, (200,0+j))
+                screen.blit(self.fortgroud, (400,100+j))
                 i=0
                 j=0
     #screen.blit(background,(400,0))
