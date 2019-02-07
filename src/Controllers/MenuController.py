@@ -1,16 +1,10 @@
 import pygame
 from pygame.locals import *
 from Controllers.GameController import GameController
-<<<<<<< HEAD
 from Intro.intro import*
 from Intro.rules import*
-
-=======
-
 from Controllers.ScoreController import ScoreController
-
 from Controllers.CreditsController import CreditsController
->>>>>>> 6c9c6aff9b36b46ecc3381685a401aeb47fdb465
 import sys
 
 white = (255,255,255)
@@ -57,13 +51,9 @@ class MenuController:
                         print('Button pressed.')
                     if button_rect_credits.collidepoint(event.pos):#event to be changed
                         print('Button pressed.')
-<<<<<<< HEAD
                         sys.exit()
                     if button_rect_rules.collidepoint(event.pos):#event to be changed
                         self.rules(screen)
-=======
-                        self.run2()
->>>>>>> 6c9c6aff9b36b46ecc3381685a401aeb47fdb465
                     if button_rect_quit.collidepoint(event.pos):#event to be changed
                         print('Button pressed.')
                         sys.exit()
@@ -96,10 +86,5 @@ class MenuController:
     def run(self):
         controleur = GameController()
 
-<<<<<<< HEAD
     def rules(self,screen):
         launchRules(screen)
-=======
-    def run2(self):
-        controleur = CreditsController()
->>>>>>> 6c9c6aff9b36b46ecc3381685a401aeb47fdb465
