@@ -35,9 +35,10 @@ class CreditsController:
                 if event.type== pygame.MOUSEBUTTONDOWN:
                     pygame.mouse.get_pos()
                     if button_rect_back.collidepoint(event.pos):#event to be changed
-                        gameDisplay = pygame.display.set_mode((1680,980))
-                        pygame.display.set_caption('Le Prince Des Fleurs')
-                        menuController1 = menuController.MenuController(gameDisplay)
+                        return
+                        #gameDisplay = pygame.display.set_mode((1680,980))
+                        #pygame.display.set_caption('Le Prince Des Fleurs')
+                        #menuController1 = menuController.MenuController(gameDisplay)
 
             i=1100
             background2 = pygame.transform.scale(background, (600+i,592+i))
