@@ -1,9 +1,16 @@
 import pygame
 from pygame.locals import *
 from Controllers.GameController import GameController
+<<<<<<< HEAD
 from Intro.intro import*
 from Intro.rules import*
 
+=======
+
+from Controllers.ScoreController import ScoreController
+
+from Controllers.CreditsController import CreditsController
+>>>>>>> 6c9c6aff9b36b46ecc3381685a401aeb47fdb465
 import sys
 
 white = (255,255,255)
@@ -16,7 +23,6 @@ class MenuController:
         i=0
         j=0
         white= (255,255,255)
-
         fortgroud = pygame.image.load('../images/menu.png').convert()
         background = pygame.image.load('../images/menu.png').convert_alpha()
         myFont = pygame.font.SysFont('arial',38)
@@ -33,6 +39,7 @@ class MenuController:
         button_rect_rules=quit.get_rect(topleft=(50,500))
         pygame.mixer.music.load ('../Sounds/menu.wav')
         pygame.mixer.music.play(-1)
+
         while True:
             screen.fill(white)
             for event in pygame.event.get():
@@ -43,15 +50,20 @@ class MenuController:
                     if button_rect_start.collidepoint(event.pos):#event to be changed
                         pygame.mixer.music.stop()
                         self.run()
-                        print("fini! highscores a partager!")
+                        score = ScoreController(self.controleur.score)
+                        pygame.mixer.music.play(-1)
                     if button_rect_scores.collidepoint(event.pos):#event to be changed
+                        score = ScoreController(None)
                         print('Button pressed.')
-                        sys.exit()
                     if button_rect_credits.collidepoint(event.pos):#event to be changed
                         print('Button pressed.')
+<<<<<<< HEAD
                         sys.exit()
                     if button_rect_rules.collidepoint(event.pos):#event to be changed
                         self.rules(screen)
+=======
+                        self.run2()
+>>>>>>> 6c9c6aff9b36b46ecc3381685a401aeb47fdb465
                     if button_rect_quit.collidepoint(event.pos):#event to be changed
                         print('Button pressed.')
                         sys.exit()
@@ -84,5 +96,10 @@ class MenuController:
     def run(self):
         controleur = GameController()
 
+<<<<<<< HEAD
     def rules(self,screen):
         launchRules(screen)
+=======
+    def run2(self):
+        controleur = CreditsController()
+>>>>>>> 6c9c6aff9b36b46ecc3381685a401aeb47fdb465

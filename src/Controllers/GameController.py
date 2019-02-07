@@ -27,6 +27,8 @@ class GameController:
         self.etoiles=[]
         self.score=0
         self.nbFlowers=0
+        pygame.mixer.music.load ('../Sounds/jeu.wav')
+        pygame.mixer.music.play()
         self.prince=Prince("../images/animIntro/1.png",(100,100))
         self.PhysicEngine.addPhysicObject(self.prince)
 
@@ -73,9 +75,10 @@ class GameController:
         planet.removePrince(initialSpeed)
 
     def display(self):
-        self.vueScreen.window.fill((255,255,255))
+        self.vueScreen.window.fill((255,255,255))#background a mettre ici
         for planet in self.planetes:
-            self.vueScreen.window.blit(planet.volcano.img, planet.volcano.imgCenter)
+            #self.scaling_volcano(planet)
+            self.vueScreen.window.blit(planet.volcano.img,planet.volcano.imgCenter)
             if planet.withFlower :
                 self.vueScreen.window.blit(planet.flower.img, planet.flower.imgCenter)
             self.vueScreen.window.blit(planet.img, planet.imgCenter)
@@ -83,6 +86,13 @@ class GameController:
         for etoile in self.etoiles:
             if etoile.isHere :
                 self.vueScreen.window.blit(etoile.img,etoile.imgCenter)
+
+    def scaling_volcano(self,planet):
+        if planet.volcano.eruptionCycle%(2*planet.volcano.i)<planet.volcano.i:
+            planet.volcano.img = pygame.transform.scale(planet.volcano.img, (int(planet.volcano.size[0]+planet.volcano.eruptionCycle%planet.volcano.i*planet.volcano.f/planet.volcano.i), int(planet.volcano.size[1]+planet.volcano.eruptionCycle%planet.volcano.i*planet.volcano.f/planet.volcano.i)))
+        else:
+            planet.volcano.img = pygame.transform.scale(planet.volcano.img, (int(planet.volcano.size[0]+planet.volcano.f-planet.volcano.eruptionCycle%planet.volcano.i*planet.volcano.f/planet.volcano.i), int(planet.volcano.size[1]+planet.volcano.f-planet.volcano.eruptionCycle%planet.volcano.i*planet.volcano.f/planet.volcano.i)))
+
 
     def computeObjectTrajectory(self, objPosition, initialSpeed, steps=1):
         positionHistory = []
@@ -102,6 +112,7 @@ class GameController:
             return positionHistory[0]
         else:
             return positionHistory
+
 
     def play(self):
         done=False
@@ -143,12 +154,12 @@ class GameController:
                     if event.type == QUIT:
                         done=True
                     elif event.type == pygame.KEYDOWN:
-                        if event.key == pygame.K_LEFT:
+                        if event.key==pygame.K_DOWN:
+                            self.update_sweeping()
+                        elif event.key == pygame.K_LEFT:
                             self.prince.rotateAroundParent(6)
                         elif event.key == pygame.K_RIGHT:
                             self.prince.rotateAroundParent(-6)
-                    #bloc a rajouter dans le cas de la collision avec une étoile:
-                    #    etoile.removeEtoile
             self.immunity += 1
 
             if time.time()-start>=180:
@@ -156,19 +167,39 @@ class GameController:
             else:
                 text=myfont.render(str(int(180 -(time.time() -start)))+" seconds left !",True, (0, 0, 0), (32, 48))
 
+
+
+
             self.update_prince(self.prince)
+            self.update_etoiles()
             for planet in self.planetes:
                 planet.volcano.chauffe()
                 self.update_flowers(planet)
+
             self.PhysicEngine.updatePhysics()
+
             self.score+=self.nbFlowers
             self.display()
             self.vueScreen.window.blit(text,(1450,25))
             textScore=myfont.render("Score : "+str(self.score),True,(0,0,0),(32,48))
             self.vueScreen.window.blit(textScore,(1450,80))
+
             pygame.display.update()
+
             self.vueScreen.clock.tick(60)
 
+    def update_sweeping(self):
+        for planet in self.planetes:
+            if self.prince.isColliding(planet.volcano):
+                planet.volcano.clean()
+
+
+
+    def update_etoiles(self):
+        for etoile in self.etoiles:
+            if self.prince.isColliding(etoile):
+                etoile.removeEtoile()
+                self.score+=25 #200 points bonus
 
     def update_flowers(self,planet):
         if planet.withFlower :
