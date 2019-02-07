@@ -63,8 +63,8 @@ class GameController:
 
     def PrinceFlight(self, prince):
         prince.position = self.computeObjectTrajectory(prince.position, prince.speedVector)
-        prince.position.x = prince.position.x % 1680
-        prince.position.y = prince.position.y % 980
+        prince.position.x = prince.position.x % 1024
+        prince.position.y = prince.position.y % 768
         self.prince.rect = self.prince.img.get_rect(center=self.prince.position)
         self.prince.imgCenter = self.prince.img.get_rect(center=self.prince.rect.center)
         self.prince.maskCenter = Vector2(self.prince.imgCenter[0],self.prince.imgCenter[1])
