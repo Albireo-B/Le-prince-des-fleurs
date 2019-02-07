@@ -8,14 +8,14 @@ from Objects.Volcano import *
 from Objects.Prince import *
 from Objects.PhysicObject import *
 from Objects.Etoile import *
-
+import sys
 from Physics.PhysicEngine import *
 from Draw.DrawEngine import *
 
 import time
 
-MIN_SPEED_TO_LEAVE_PLANET = 8
-MAX_SPEED = 15
+MIN_SPEED_TO_LEAVE_PLANET = 5
+MAX_SPEED = 9
 IMMUNITY_THRESHOLD = 10
 HINT_SIZE = 5
 
@@ -192,6 +192,9 @@ class GameController:
                 if self.prince.parent != None:
                     if event.type == QUIT:
                         done=True
+                        pygame.mixer.music.stop()
+                        pygame.mixer.music.load ('../Sounds/menu.wav')
+                        pygame.mixer.music.play(-1)
                     elif event.type == pygame.KEYDOWN:
                         hasKeyEvent = True
                         if event.key==pygame.K_DOWN:
@@ -290,7 +293,7 @@ class GameController:
 
     def update_sweeping(self):
         for planet in self.planetes:
-            if self.prince.isColliding(planet.volcano) and planet.volcano.eruptionCycle<900:
+            if self.prince.isColliding(planet.volcano) and planet.volcano.eruptionCycle<1500:
                 planet.volcano.clean()
 
     def update_etoiles(self):

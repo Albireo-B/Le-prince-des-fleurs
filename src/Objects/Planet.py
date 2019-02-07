@@ -23,7 +23,7 @@ class Planet(PhysicObject):
         self.rotationSpeed=rotationSpeed
         self.prince=None
         if gravityForce == -1:
-            self.gravityForce = 50 * self.size[0]
+            self.gravityForce = 20 * self.size[0]
         else:
             self.gravityForce = gravityForce
         self.volcano=Volcano("../images/volcan0.png", position, size, self,random.randint(1,800))
