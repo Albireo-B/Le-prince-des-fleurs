@@ -35,7 +35,7 @@ class GameController:
         self.nbFlowers=0
         pygame.mixer.music.load ('../Sounds/jeu.wav')
         pygame.mixer.music.play()
-        self.prince=Prince("../images/animIntro/1.png",(50,50))
+        self.prince=Prince("../images/walk1.png",(int(74/1.5),int(120/1.5)))
         self.PhysicEngine.addPhysicObject(self.prince)
         maskPath = "../images/planetMask.png"
         self.createPlanet("../images/Planet0.png",250,250,900/1.93,350/1.28,0.4, maskPath)
@@ -192,9 +192,11 @@ class GameController:
                         if event.key==pygame.K_DOWN:
                             self.update_sweeping()
                         elif event.key == pygame.K_LEFT:
-                            self.prince.rotateAroundParent(6)
+                            self.prince.rotateAroundParent(3)
+                            self.prince.nextWalkFrame(True)
                         elif event.key == pygame.K_RIGHT:
-                            self.prince.rotateAroundParent(-6)
+                            self.prince.rotateAroundParent(-3)
+                            self.prince.nextWalkFrame(False)
                     #bloc a rajouter dans le cas de la collision avec une étoile:
                     #    etoile.removeEtoile
             if down:

@@ -52,6 +52,7 @@ class MenuController:
                         pygame.mixer.music.stop()
                         self.run()
                         self.score = ScoreController(self.gameController.score)
+                        pygame.mixer.music.load ('../Sounds/menu.wav')
                         pygame.mixer.music.play(-1)
                     if button_rect_scores.collidepoint(event.pos):#event to be changed
                         self.score = ScoreController(None)

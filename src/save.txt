@@ -1,5 +1,7 @@
 La rose
 10000
+patate
+7292
 Prince
 3780
 patate
@@ -14,7 +16,5 @@ clement
 2500
 guillaume
 2500
-patate
-1990
 patate
 1914
