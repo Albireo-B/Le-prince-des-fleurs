@@ -173,6 +173,13 @@ class GameController:
         self.immunity = 100 # immunity to planet collisions
         while not done:
             self.nbFlowers=0
+            if down:
+                speed = self.computeInitialSpeed(posMouse, self.prince.imgCenter.center, self.prince.parent)
+                if speed.length() > MIN_SPEED_TO_LEAVE_PLANET:
+                    self.trajectory = self.computeObjectTrajectory(Vector2(self.prince.imgCenter.center[0], self.prince.imgCenter.center[1]), speed, 60)
+                else:
+                    self.trajectory = []
+                
             for event in pygame.event.get():
                 if self.prince.parent != None:
                     if event.type==pygame.MOUSEBUTTONDOWN:
@@ -205,12 +212,7 @@ class GameController:
                                 self.prince.putFlower()
                     #bloc a rajouter dans le cas de la collision avec une étoile:
                     #    etoile.removeEtoile
-            if down:
-                speed = self.computeInitialSpeed(posMouse, self.prince.imgCenter.center, self.prince.parent)
-                if speed.length() > MIN_SPEED_TO_LEAVE_PLANET:
-                    self.trajectory = self.computeObjectTrajectory(Vector2(self.prince.imgCenter.center[0], self.prince.imgCenter.center[1]), speed, 60)
-                else:
-                    self.trajectory = []
+
 
             self.immunity += 1
 
@@ -247,13 +249,15 @@ class GameController:
                 self.etoileExt2=pygame.transform.scale(self.etoileExt2,(20,20))
                 self.roseExterieure=pygame.image.load("../images/planetMask.png")
                 self.roseExterieure=pygame.transform.scale(self.roseExterieure,(37,37))
+
+            self.PhysicEngine.updatePhysics()
             self.update_prince(self.prince)
             self.update_etoiles()
             for planet in self.planetes:
                 planet.volcano.chauffe()
                 self.update_flowers(planet)
 
-            self.PhysicEngine.updatePhysics()
+
             self.score+=self.nbFlowers
             self.display()
             self.window.blit(textEtoiles,(1450/1.93,135/1.28))
