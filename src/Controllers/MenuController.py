@@ -81,4 +81,5 @@ class MenuController:
         controleur = GameController()
 
     def run2(self):
-        controleur = CreditsController()
+        gameDisplay = pygame.display.set_mode((1680,980))
+        controleur = CreditsController(gameDisplay)
