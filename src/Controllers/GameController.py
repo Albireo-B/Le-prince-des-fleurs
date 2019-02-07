@@ -103,6 +103,7 @@ class GameController:
         else:
             return positionHistory
 
+
     def play(self):
         done=False
         counter,text=10,"10".rjust(3)
@@ -150,7 +151,7 @@ class GameController:
                     #bloc a rajouter dans le cas de la collision avec une étoile:
                     #    etoile.removeEtoile
             self.immunity += 1
-
+            self.update_etoiles()
             if time.time()-start>=180:
                 done=True
             else:
@@ -169,6 +170,11 @@ class GameController:
             pygame.display.update()
             self.vueScreen.clock.tick(60)
 
+    def update_etoiles(self):
+        for etoile in self.etoiles:
+            if self.prince.isColliding(etoile):
+                etoile.removeEtoile()
+                self.score+=25 #200 points bonus
 
     def update_flowers(self,planet):
         if planet.withFlower :
