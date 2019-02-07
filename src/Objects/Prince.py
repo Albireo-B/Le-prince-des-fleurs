@@ -8,6 +8,8 @@ class Prince(PhysicObject):
         self.imgsMarche = []
         self.imgVol = "../images/flyprince.png"
         self.imgJump = "../images/jump.png"
+        self.imgIdle = "../images/idle.png"
+        self.flipCounter = 0
         self.i=0
         for i in range(1,5):
             self.imgsMarche.append("../images/walk"+str(i)+".png")
@@ -17,10 +19,13 @@ class Prince(PhysicObject):
         self.imgCopie = pygame.transform.flip(self.imgCopie, 0, 1)
 
     def nextWalkFrame(self,gauche):
-        self.loadImage(self.imgsMarche[int(self.i/2)])
-        self.i = (self.i + 1)%8
-        if not gauche:
-            self.flip()
+        self.flipCounter += 1
+        if self.flipCounter > 3:
+            self.flipCounter = 0
+            self.loadImage(self.imgsMarche[int(self.i/2)])
+            self.i = (self.i + 1)%8
+            if not gauche:
+                self.flip()
 
     def putFlower(self):
         if self.parent != None and not self.parent.withFlower:

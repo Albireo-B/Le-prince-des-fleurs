@@ -19,6 +19,8 @@ MAX_SPEED = 9
 IMMUNITY_THRESHOLD = 10
 HINT_SIZE = 5
 
+PRINCE_SPEED = 1.5
+
 WIDTH = 1024
 HEIGHT = 768
 
@@ -200,10 +202,10 @@ class GameController:
                         if event.key==pygame.K_DOWN:
                             self.update_sweeping()
                         elif event.key == pygame.K_LEFT:
-                            self.prince.rotateAroundParent(3)
+                            self.prince.rotateAroundParent(PRINCE_SPEED)
                             self.prince.nextWalkFrame(True)
                         elif event.key == pygame.K_RIGHT:
-                            self.prince.rotateAroundParent(-3)
+                            self.prince.rotateAroundParent(-PRINCE_SPEED)
                             self.prince.nextWalkFrame(False)
                         elif event.key == pygame.K_UP:
                             for planet in self.planetes:
@@ -224,7 +226,7 @@ class GameController:
 
                     print(self.peutPoserFleur)
                     print(self.nbFlowers)
-
+            #Gestion du saut:
             if jump:
                 if not hasKeyEvent:
                     self.trajectory = []
@@ -235,11 +237,12 @@ class GameController:
                         self.immunity = 0
                         self.prince.loadImage(self.prince.imgVol)
                 jump = False
+
             if not hasEvents and down:
                 self.prince.loadImage(self.prince.imgJump)
-
+            elif not hasKeyEvent and not down and self.prince.parent != None:
+                self.prince.loadImage(self.prince.imgIdle)
             self.immunity += 1
-
 
             if time.time()-start>=180:
                 done=True
@@ -272,7 +275,6 @@ class GameController:
                 self.etoileExt2=pygame.transform.scale(self.etoileExt2,(20,20))
                 self.roseExterieure=pygame.image.load("../images/planetMask.png")
                 self.roseExterieure=pygame.transform.scale(self.roseExterieure,(37,37))
-
 
             self.update_prince(self.prince)
             self.update_etoiles()
