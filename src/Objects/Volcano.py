@@ -33,8 +33,7 @@ class Volcano(PhysicObject):
         if self.eruptionCycle%(2*i)<i:
             self.img = pygame.transform.scale(self.img, (int(self.size[0]+self.eruptionCycle%i*f/i), int(self.size[1]+self.eruptionCycle%i*f/i)))
         else:
-            self.img= pygame.transform.scale(self.img, (int(self.size[0]+f-self.eruptionCycle%i*f/i), int(self.size[1]+f-self.eruptionCycle%i*f/i)))
-
+            self.img = pygame.transform.scale(self.img, (int(self.size[0]+f-self.eruptionCycle%i*f/i), int(self.size[1]+f-self.eruptionCycle%i*f/i)))
 
     def eruption(self):
         self.parent.removeFlower()

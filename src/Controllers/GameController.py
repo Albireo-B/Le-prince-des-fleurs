@@ -14,6 +14,10 @@ from Physics.PhysicEngine import *
 
 import time
 
+MIN_SPEED_TO_LEAVE_PLANET = 8
+MAX_SPEED = 15
+IMMUNITY_THRESHOLD = 10
+
 class GameController:
 
     def __init__(self):
@@ -22,13 +26,16 @@ class GameController:
         self.planetes=[]
         self.etoiles=[]
         self.score=0
-        self.prince=Prince("../images/animIntro/1.png",Vector2(50,250))
+        self.nbFlowers=0
+        self.prince=Prince("../images/animIntro/1.png",(100,100))
         self.PhysicEngine.addPhysicObject(self.prince)
+
         self.createPlanet("../images/Planet0.png",50,50,500,350,-2)
         self.createPlanet("../images/Planet0.png",500,500,1100,350,0.4)
         self.createPlanet("../images/Planet1.png",300,300,375,750,-0.1)
-        self.createPlanet("../images/Planet2.png",200,200,200,150,1, 160)
-        self.createPlanet("../images/Planet2.png",100,100,1150,800,-0.7, 160)
+        self.createPlanet("../images/Planet0.png",200,200,200,150,1, 160)
+        self.createPlanet("../images/Planet1.png",100,100,1150,800,-0.7, 160)
+
         self.createEtoile("../images/Etoile.png",600,600,-1)
         self.createEtoile("../images/Etoile.png",750,50,1)
         self.createEtoile("../images/Etoile.png",200,325,-0.5)
@@ -36,6 +43,7 @@ class GameController:
         self.createEtoile("../images/Etoile.png",1650,300,3)
         self.createEtoile("../images/Etoile.png",750,920,-2)
         self.createEtoile("../images/Etoile.png",100,900,0.2)
+
         self.addPrinceOnPlanet(self.planetes[1])
         self.play()
 
@@ -52,15 +60,15 @@ class GameController:
         self.prince.imgCenter = self.prince.img.get_rect(center=self.prince.rect.center)
 
 
-    def createPlanet(self,imgPath,width,height,centerPositionx,centerPositiony,rotationAngle, radius = -1):
-        planet = Planet(imgPath,(width,height),Vector2(centerPositionx,centerPositiony),rotationAngle, radius)
+    def createPlanet(self,imgPath,width,height,centerPositionx,centerPositiony,rotationSpeed, radius = -1):
+        planet = Planet(imgPath,(width,height),Vector2(centerPositionx,centerPositiony),rotationSpeed, radius)
         self.planetes.append(planet)
         self.PhysicEngine.addPhysicObject(planet)
         self.PhysicEngine.addPhysicObject(planet.volcano)
         self.PhysicEngine.addPhysicObject(planet.flower)
 
-    def createEtoile(self,imgPath,centerPositionx,centerPositiony,rotationAngle):
-        etoile = Etoile(imgPath,centerPositionx,centerPositiony,rotationAngle)
+    def createEtoile(self,imgPath,centerPositionx,centerPositiony,rotationSpeed):
+        etoile = Etoile(imgPath,centerPositionx,centerPositiony,rotationSpeed)
         self.etoiles.append(etoile)
 
     def addPrinceOnPlanet(self,planet):
@@ -93,6 +101,8 @@ class GameController:
         down = False
         posMouse = Vector2(0,0)
         pygame.key.set_repeat(True)
+
+        self.immunity = 100 # immunity to planet collisions
         while not done:
             self.nbFlowers=0
             for event in pygame.event.get():
@@ -105,16 +115,21 @@ class GameController:
                         pos2 = Vector2(pygame.mouse.get_pos())
                         distance = posMouse.distance_to(pos2)
                         vitesse = distance*0.08
-                        self.removePrinceFromPlanet(self.prince.parent, vitesse)
+                        if vitesse > MAX_SPEED:
+                            vitesse = MAX_SPEED
+                        if vitesse > MIN_SPEED_TO_LEAVE_PLANET:
+                            self.removePrinceFromPlanet(self.prince.parent, vitesse)
+                            self.immunity = 0
                     if event.type == QUIT:
                         done=True
                     elif event.type == pygame.KEYDOWN:
                         if event.key == pygame.K_LEFT:
-                            self.prince.angleToParent += 6
+                            self.prince.rotateAroundParent(6)
                         elif event.key == pygame.K_RIGHT:
-                            self.prince.angleToParent -= 6
+                            self.prince.rotateAroundParent(-6)
                     #bloc a rajouter dans le cas de la collision avec une étoile:
                     #    etoile.removeEtoile
+            self.immunity += 1
 
             if time.time()-start>=180:
                 done=True
@@ -144,17 +159,17 @@ class GameController:
     def update_etoiles(self):
         for etoile in self.etoiles:
             etoile.rotationAngle += etoile.rotationSpeed
-            etoile.imgEtoile=pygame.transform.rotozoom(etoile.imgEtoileCopie,etoile.rotationAngle,1)
+            etoile.imgEtoile = pygame.transform.rotozoom(etoile.imgEtoileCopie,etoile.rotationAngle,1)
             etoile.etoileCenter = etoile.imgEtoile.get_rect(center=etoile.rectEtoile.center)
 
-
     def update_prince(self,prince):
-        if prince.isFlying:
-            for planet in self.planetes:
-                prince.isColliding(planet)
-            self.PrinceFlight(self.prince)
-            if prince.speedVector.length()!= 0:
+        if prince.parent == None:
+            if prince.speedVector.length() != 0:
                 prince.rotationAngle=Vector2(1,0).angle_to(Vector2(prince.speedVector.x,-prince.speedVector.y))
-            prince.imgPrince=pygame.transform.rotozoom(prince.imgCopie,prince.rotationAngle,1)
-        else:
-            self.prince.rotationAngle = self.prince.parent.rotationAngle -90 +self.prince.angleToParent
+
+            if self.immunity > IMMUNITY_THRESHOLD:
+                for planet in self.planetes:
+                    if self.prince.isColliding(planet):
+                        planet.addPrince(self.prince)
+                        break
+            self.PrinceFlight(self.prince)
