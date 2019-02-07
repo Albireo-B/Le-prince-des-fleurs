@@ -19,6 +19,10 @@ class PhysicEngine:
                     center=(obj.parent.position.x+math.cos(math.radians(-obj.angleToParent))*obj.distanceToParent*1.1,
                     obj.parent.position.y+math.sin(math.radians(-obj.angleToParent))*obj.distanceToParent*1.1)
                 )
+                obj.position = Vector2(obj.parent.position.x+math.cos(math.radians(-obj.angleToParent))*obj.distanceToParent*1.1,
+                    obj.parent.position.y+math.sin(math.radians(-obj.angleToParent))*obj.distanceToParent*1.1
+                )
+
                 obj.maskCenter = Vector2(obj.imgCenter[0], obj.imgCenter[1])
             elif isinstance(obj,Prince):
                 obj.img=pygame.transform.rotozoom(obj.imgCopie,obj.rotationAngle,1)
