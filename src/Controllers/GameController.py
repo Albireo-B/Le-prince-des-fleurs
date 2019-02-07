@@ -28,6 +28,8 @@ OUT_OF_BOUND_MARGIN = 300
 
 HINT_ARROW_SIZE = 60
 
+MAX_MOUSE_DRAG_DISTANCE = 400
+
 class GameController:
 
     def __init__(self, window, withVolcanos,niv):
@@ -163,7 +165,6 @@ class GameController:
             else:
                 self.arrowVisible = False
 
-
     def createPlanet(self, imgPath,width,height,centerPositionx,centerPositiony,rotationSpeed, imgMaskPath, gf = -1):
         planet = Planet(imgPath,(width,height),Vector2(centerPositionx,centerPositiony),rotationSpeed, imgMaskPath, gravityForce=gf)
         self.planetes.append(planet)
@@ -244,7 +245,10 @@ class GameController:
         distance = pos2.y - pos1.y
         if distance < 0:
             distance = 0
-        absSpeed = distance*0.08
+        if distance > MAX_MOUSE_DRAG_DISTANCE:
+            distance = MAX_MOUSE_DRAG_DISTANCE
+
+        absSpeed = (distance/MAX_MOUSE_DRAG_DISTANCE)*MAX_SPEED
         if absSpeed > MAX_SPEED:
             absSpeed = MAX_SPEED
         speed = (posPrince - planet.position).normalize()*absSpeed
