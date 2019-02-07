@@ -11,7 +11,6 @@ class Prince(PhysicObject):
             self.imgsMarche.append("../images/walk"+str(i)+".png")
 
     def flip(self):
-        print("virez le bateau!!!")
         self.img = pygame.transform.flip(self.img, 0, 1)
         self.imgCopie = pygame.transform.flip(self.imgCopie, 0, 1)
 
