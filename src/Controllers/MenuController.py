@@ -42,7 +42,7 @@ class MenuController:
                     if button_rect_start.collidepoint(event.pos):#event to be changed
                         pygame.mixer.music.stop()
                         self.run()
-                        score = ScoreController(self.controleur.score)
+                        score = ScoreController(self.gameController.score)
                         pygame.mixer.music.play(-1)
                     if button_rect_scores.collidepoint(event.pos):#event to be changed
                         score = ScoreController(None)
@@ -82,7 +82,7 @@ class MenuController:
         return textSurface, textSurface.get_rect()
 
     def run(self):
-        controleur = GameController()
+        self.gameController = GameController()
 
     def run2(self):
-        controleur = CreditsController()
+        self.creditController = CreditsController()
