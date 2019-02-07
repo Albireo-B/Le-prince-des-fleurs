@@ -2,6 +2,8 @@ La rose
 10000
 Prince
 3780
+patate
+3024
 le mouton
 2500
 l'étoile
@@ -12,7 +14,7 @@ clement
 2500
 guillaume
 2500
-alexis
-50
-lois
-5
+patate
+1914
+patate
+1845

@@ -23,10 +23,25 @@ class ScoreController:
                 break
             i+=2
         if i < 20:
-            self.addScore(i)
+            self.addScore(int((i-1)/2)+1)
 
 
 
     def addScore(self, pos):
-        print("Vous êtes à la place " + str(int((pos-1)/2)+1))
+        print("Vous êtes à la place " + str(pos))
         print("saisissez votre nom")
+        nom = "patate"
+        for i in range(len(self.save)-1,pos*2-2,-2):
+            if i == len(self.save)-1:
+                if i < 18:
+                    self.save.append(self.save[i-1])
+                    self.save.append(self.save[i])
+            else:
+                self.save[i+1]=self.save[i-1]
+                self.save[i+2]=self.save[i]
+        self.save[pos*2-1] = self.score
+        self.save[pos*2-2] = nom
+        with open('save.txt', 'w') as f:
+            for item in self.save:
+                f.write("%s\n" % item)
+        self.showScore()

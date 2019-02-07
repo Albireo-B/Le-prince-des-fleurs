@@ -10,6 +10,7 @@ from Objects.PhysicObject import *
 from Objects.Etoile import *
 
 from Physics.PhysicEngine import *
+from Draw.DrawEngine import *
 
 import time
 
@@ -24,21 +25,24 @@ class GameController:
         self.window = window
         self.clock = pygame.time.Clock()
         self.PhysicEngine = PhysicEngine()
+        self.DrawEngine = DrawEngine(window)
         self.planetes=[]
         self.etoiles=[]
         self.trajectory = []
         self.score=0
+        self.nbEtoile=0
+        self.peutPoserFleur=False
         self.nbFlowers=0
         pygame.mixer.music.load ('../Sounds/jeu.wav')
         pygame.mixer.music.play()
         self.prince=Prince("../images/animIntro/1.png",(100,100))
         self.PhysicEngine.addPhysicObject(self.prince)
-
-        self.createPlanet("../images/Planet4.png",50,50,500,350,-2)
-        self.createPlanet("../images/Planet0.png",500,500,1100,350,0.4)
-        self.createPlanet("../images/Planet1.png",300,300,375,750,-0.1)
-        self.createPlanet("../images/Planet3.png",200,200,200,150,1, 160)
-        self.createPlanet("../images/Planet2.png",100,100,1150,800,-0.7, 160)
+        maskPath = "../images/planetMask.png"
+        self.createPlanet("../images/Planet4.png",50,50,500,350,-2, maskPath)
+        self.createPlanet("../images/Planet0.png",500,500,1100,350,0.4, maskPath)
+        self.createPlanet("../images/Planet1.png",300,300,375,750,-0.1, maskPath)
+        self.createPlanet("../images/Planet3.png",200,200,200,150,1, maskPath)
+        self.createPlanet("../images/Planet2.png",100,100,1150,800,-0.7, maskPath)
 
         self.createEtoile("../images/Etoile.png",600,600,-1)
         self.createEtoile("../images/Etoile.png",750,50,1)
@@ -54,12 +58,14 @@ class GameController:
     def PrinceFlight(self, prince):
         prince.position = self.computeObjectTrajectory(prince.position, prince.speedVector)
         prince.position.x = prince.position.x % 1680
+        prince.position.y = prince.position.y % 980
         self.prince.rect = self.prince.img.get_rect(center=self.prince.position)
         self.prince.imgCenter = self.prince.img.get_rect(center=self.prince.rect.center)
+        self.prince.maskCenter = Vector2(self.prince.imgCenter[0],self.prince.imgCenter[1])
 
 
-    def createPlanet(self,imgPath,width,height,centerPositionx,centerPositiony,rotationSpeed, radius = -1):
-        planet = Planet(imgPath,(width,height),Vector2(centerPositionx,centerPositiony),rotationSpeed, radius)
+    def createPlanet(self,imgPath,width,height,centerPositionx,centerPositiony,rotationSpeed, imgMaskPath):
+        planet = Planet(imgPath,(width,height),Vector2(centerPositionx,centerPositiony),rotationSpeed, imgMaskPath)
         self.planetes.append(planet)
         self.PhysicEngine.addPhysicObject(planet)
         self.PhysicEngine.addPhysicObject(planet.volcano)
@@ -79,18 +85,26 @@ class GameController:
     def display(self):
         self.window.fill((255,255,255))
         for planet in self.planetes:
-            self.window.blit(planet.volcano.img, planet.volcano.imgCenter)
+            self.DrawEngine.draw(planet.volcano)
             if planet.withFlower :
-                self.window.blit(planet.flower.img, planet.flower.imgCenter)
-            self.window.blit(planet.img, planet.imgCenter)
-        self.window.blit(self.prince.img, self.prince.imgCenter)
+                self.DrawEngine.draw(planet.flower)
+            self.DrawEngine.draw(planet)
+        self.DrawEngine.draw(self.prince)
         for etoile in self.etoiles:
             if etoile.isHere :
-                self.window.blit(etoile.img,etoile.imgCenter)
+                self.DrawEngine.draw(etoile)
 
         for pos in self.trajectory:
-            pygame.draw.circle(self.window, (0,0,255), (int(pos.x), int(pos.y)), HINT_SIZE)
-
+            fade = (1 - pos[1]/MAX_SPEED)*255
+            fade1 = 0
+            if (fade < 0):
+                fade1 = - fade
+                fade = 0
+            else:
+                fade1 = fade
+            if fade1 > 255:
+                fade1 = 255
+            pygame.draw.circle(self.window, (fade, fade1, 255), (int(pos[0].x), int(pos[0].y)), HINT_SIZE)
 
     def scaling_volcano(self,planet):
         if planet.volcano.eruptionCycle%(2*planet.volcano.i)<planet.volcano.i:
@@ -111,21 +125,23 @@ class GameController:
 
             objPosition += initialSpeed
             if len(positionHistory) > 1:
-                if (objPosition - positionHistory[-1]).length() > 100:
+                if (objPosition - positionHistory[-1][0]).length() > 100:
                     break
-                elif (objPosition - positionHistory[-1]).length() > 50:
-                    positionHistory.append(Vector2(objPosition))
+                elif (objPosition - positionHistory[-1][0]).length() > 50:
+                    positionHistory.append([Vector2(objPosition), initialSpeed.length()])
             else:
-                positionHistory.append(Vector2(objPosition))
+                positionHistory.append([Vector2(objPosition), initialSpeed.length()])
 
         if steps == 1:
-            return positionHistory[0]
+            return positionHistory[0][0]
         else:
             return positionHistory
 
     def computeInitialSpeed(self, pos1, posPrince, planet):
         pos2 = Vector2(pygame.mouse.get_pos())
-        distance = pos1.distance_to(pos2)
+        distance = pos2.y - pos1.y
+        if distance < 0:
+            distance = 0
         absSpeed = distance*0.08
         if absSpeed > MAX_SPEED:
             absSpeed = MAX_SPEED
@@ -143,7 +159,6 @@ class GameController:
         down = False
         posMouse = Vector2(0,0)
         pygame.key.set_repeat(True)
-
         self.immunity = 100 # immunity to planet collisions
         while not done:
             self.nbFlowers=0
@@ -183,12 +198,21 @@ class GameController:
 
             self.immunity += 1
 
+
+
             if time.time()-start>=180:
                 done=True
             else:
                 text=myfont.render(str(int(180 -(time.time() -start)))+" seconds left !",True, (0, 0, 0), (32, 48))
+            textEtoiles=myfont.render("Stars : " + str(self.nbEtoile),True,(0,0,0),(32,48))
+            if self.nbEtoile>=2:
+                self.peutPoserFleur=True
+                while (self.nbEtoile>2):
+                    self.nbEtoile-=1
+                    self.score+=200
 
 
+            #boucle if a faire pour laffichage du texte bonus etoiles + si on peut poser lfuers
 
 
             self.update_prince(self.prince)
@@ -198,9 +222,9 @@ class GameController:
                 self.update_flowers(planet)
 
             self.PhysicEngine.updatePhysics()
-
             self.score+=self.nbFlowers
             self.display()
+            self.window.blit(textEtoiles,(1450,135))
             self.window.blit(text,(1450,25))
             textScore=myfont.render("Score : "+str(self.score),True,(0,0,0),(32,48))
             self.window.blit(textScore,(1450,80))
@@ -216,9 +240,11 @@ class GameController:
 
     def update_etoiles(self):
         for etoile in self.etoiles:
-            if self.prince.isColliding(etoile):
+            if self.prince.isColliding(etoile) and etoile.isHere:
+                self.nbEtoile+=1
                 etoile.removeEtoile()
-                self.score+=25 #200 points bonus
+
+
 
     def update_flowers(self,planet):
         if planet.withFlower:
@@ -233,6 +259,10 @@ class GameController:
                 for planet in self.planetes:
                     if self.prince.isColliding(planet):
                         planet.addPrince(self.prince)
+                        if self.peutPoserFleur and not planet.withFlower:
+                            planet.addFlower()
+                            self.nbEtoile=0
+                            self.peutPoserFleur=False
                         prince.rotateAroundParent(-Vector2(1,0).angle_to(prince.position - planet.position))
                         break
             self.PrinceFlight(self.prince)

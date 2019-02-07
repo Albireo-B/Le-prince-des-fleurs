@@ -58,7 +58,7 @@ class MenuController:
                         self.scores(screen)
                     if button_rect_credits.collidepoint(event.pos):#event to be changed
                         print('Button pressed.')
-                        sys.exit()
+                        self.run2()
                     if button_rect_rules.collidepoint(event.pos):#event to be changed
                         self.rules(screen)
                     if button_rect_quit.collidepoint(event.pos):#event to be changed
@@ -92,6 +92,10 @@ class MenuController:
 
     def run(self):
         self.gameController = GameController(self.screen)
+
+    def run2(self):
+        gameDisplay = pygame.display.set_mode((1680,980))
+        controleur = CreditsController(gameDisplay)
 
     def rules(self,screen):
         launchRules(screen)
