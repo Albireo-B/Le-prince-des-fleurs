@@ -19,6 +19,8 @@ MAX_SPEED = 9
 IMMUNITY_THRESHOLD = 10
 HINT_SIZE = 5
 
+PRINCE_SPEED = 1.5
+
 WIDTH = 1024
 HEIGHT = 768
 
@@ -36,8 +38,8 @@ class GameController:
         self.planetes = []
         self.etoiles = []
         self.trajectory = []
-        self.score=0
-        self.nbEtoile=0
+        self.score = 0
+        self.nbEtoile = 0
         self.peutPoserFleur=True
         self.nbFlowers=0
         pygame.mixer.music.load ('../Sounds/jeu.wav')
@@ -45,6 +47,7 @@ class GameController:
         self.prince=Prince("../images/walk1.png",(int(74/1.5),int(120/1.5)))
         self.PhysicEngine.addPhysicObject(self.prince)
         maskPath = "../images/planetMask.png"
+
         if self.niveau==3:
             self.createPlanet("../images/Planet0.png",250,250,800,250,0.4, maskPath)
             self.createPlanet("../images/Planet1.png",200,200,150,200,-0.1, maskPath)
@@ -107,9 +110,9 @@ class GameController:
             self.etoileExt2=pygame.transform.scale(self.etoileExt2,(20,20))
             self.roseExterieure=pygame.image.load("../images/rose.png")
             self.roseExterieure=pygame.transform.scale(self.roseExterieure,(37,37))
+
         self.addPrinceOnPlanet(self.planetes[0])
         self.play()
-
 
     def PrinceFlight(self, prince):
         prince.position = self.computeObjectTrajectory(prince.position, prince.speedVector)
@@ -216,46 +219,37 @@ class GameController:
         posMouse = Vector2(0,0)
         pygame.key.set_repeat(True)
         self.immunity = 100 # immunity to planet collisions
+        hasKeyEvent = False
+        jump = False
         while not done:
             self.nbFlowers=0
+            hasEvents = False
+
             if down:
                 speed = self.computeInitialSpeed(posMouse, self.prince.imgCenter.center, self.prince.parent)
-                if speed.length() > MIN_SPEED_TO_LEAVE_PLANET:
+                if speed.length() > MIN_SPEED_TO_LEAVE_PLANET and not hasKeyEvent:
                     self.trajectory = self.computeObjectTrajectory(Vector2(self.prince.imgCenter.center[0], self.prince.imgCenter.center[1]), speed, 60)
                 else:
                     self.trajectory = []
+            hasKeyEvent = False
 
             for event in pygame.event.get():
+                hasEvents = True
                 if self.prince.parent != None:
-                    if event.type==pygame.MOUSEBUTTONDOWN:
-                        down = True
-                        posMouse = Vector2(pygame.mouse.get_pos())
-                        self.prince.loadImage(self.prince.imgJump)
-                    elif event.type==pygame.MOUSEBUTTONUP:
-                        down = False
-                        self.trajectory = []
-                        speed = self.computeInitialSpeed(posMouse, self.prince.imgCenter.center, self.prince.parent)
-                        if speed.length() > MIN_SPEED_TO_LEAVE_PLANET:
-                            self.removePrinceFromPlanet(self.prince.parent)
-                            self.prince.speedVector = speed
-                            self.immunity = 0
-                            self.prince.loadImage(self.prince.imgVol)
-
-                    pygame.draw.circle(self.window, (0,0,255), (200, 200), 100)
-
                     if event.type == QUIT:
                         done=True
                         pygame.mixer.music.stop()
                         pygame.mixer.music.load ('../Sounds/menu.wav')
                         pygame.mixer.music.play(-1)
                     elif event.type == pygame.KEYDOWN:
+                        hasKeyEvent = True
                         if event.key==pygame.K_DOWN:
                             self.update_sweeping()
                         elif event.key == pygame.K_LEFT:
-                            self.prince.rotateAroundParent(3)
+                            self.prince.walkAround(PRINCE_SPEED)
                             self.prince.nextWalkFrame(True)
                         elif event.key == pygame.K_RIGHT:
-                            self.prince.rotateAroundParent(-3)
+                            self.prince.walkAround(-PRINCE_SPEED)
                             self.prince.nextWalkFrame(False)
                         elif event.key == pygame.K_UP:
                             for planet in self.planetes:
@@ -265,14 +259,31 @@ class GameController:
                                         self.peutPoserFleur=False
                                         planet.withFlower=True
                                         self.nbEtoile=0
-                    print(self.peutPoserFleur)
-                    print(self.nbFlowers)
+                    elif event.type==pygame.MOUSEBUTTONDOWN:
+                        down = True
+                        posMouse = Vector2(pygame.mouse.get_pos())
+                        self.prince.loadImage(self.prince.imgJump)
+                    elif event.type==pygame.MOUSEBUTTONUP:
+                        down = False
+                        jump = True
+                    pygame.draw.circle(self.window, (0,0,255), (200, 200), 100)
+            #Gestion du saut:
+            if jump:
+                if not hasKeyEvent:
+                    self.trajectory = []
+                    speed = self.computeInitialSpeed(posMouse, self.prince.imgCenter.center, self.prince.parent)
+                    if speed.length() > MIN_SPEED_TO_LEAVE_PLANET:
+                        self.removePrinceFromPlanet(self.prince.parent)
+                        self.prince.speedVector = speed
+                        self.immunity = 0
+                        self.prince.loadImage(self.prince.imgVol)
+                jump = False
 
-
-
-
+            if not hasEvents and down:
+                self.prince.loadImage(self.prince.imgJump)
+            elif not hasKeyEvent and not down and self.prince.parent != None:
+                self.prince.loadImage(self.prince.imgIdle)
             self.immunity += 1
-
 
             if time.time()-start>=180:
                 done=True
@@ -305,7 +316,6 @@ class GameController:
                 self.etoileExt2=pygame.transform.scale(self.etoileExt2,(20,20))
                 self.roseExterieure=pygame.image.load("../images/planetMask.png")
                 self.roseExterieure=pygame.transform.scale(self.roseExterieure,(37,37))
-
 
             self.update_prince(self.prince)
             self.update_etoiles()
