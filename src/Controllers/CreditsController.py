@@ -13,7 +13,7 @@ class CreditsController:
         background = pygame.image.load('../images/Planet0.png').convert_alpha()
         myFont = pygame.font.SysFont('arial',20)
         myFont2 = pygame.font.SysFont('arial',30)
-        back   = myFont.render("Back",True,[135,206,235])
+        back   = myFont2.render("Back",True,[135,206,235])
         button_rect_back=back.get_rect(topleft=(20,700))
         role11   = myFont.render("role11",True,white)
         role12   = myFont.render("role12",True,white)
