@@ -12,7 +12,9 @@ clement
 2500
 guillaume
 2500
+patate
+246
+patate
+93
 alexis
 50
-lois
-5
