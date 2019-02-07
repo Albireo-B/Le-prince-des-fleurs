@@ -18,6 +18,10 @@ class Prince(PhysicObject):
         self.img = pygame.transform.flip(self.img, 0, 1)
         self.imgCopie = pygame.transform.flip(self.imgCopie, 0, 1)
 
+    def walkAround(self, amount):
+        if not self.parent == None:
+            self.rotateAroundParent(amount * 250 / self.parent.size[0])
+
     def nextWalkFrame(self,gauche):
         self.flipCounter += 1
         if self.flipCounter > 3:

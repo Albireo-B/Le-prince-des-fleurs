@@ -36,8 +36,8 @@ class GameController:
         self.planetes = []
         self.etoiles = []
         self.trajectory = []
-        self.score=0
-        self.nbEtoile=0
+        self.score = 0
+        self.nbEtoile = 0
         self.peutPoserFleur=True
         self.nbFlowers=0
         pygame.mixer.music.load ('../Sounds/jeu.wav')
@@ -60,7 +60,6 @@ class GameController:
         self.createEtoile("../images/Etoile.png",580,375,0.2)
         self.createEtoile("../images/Etoile.png",900,550,0.3)
 
-
         self.etoileExt1=pygame.image.load("../images/planetMask.png")
         self.etoileExt2=pygame.image.load("../images/planetMask.png")
         self.etoileExt1=pygame.transform.scale(self.etoileExt1,(20,20))
@@ -69,7 +68,6 @@ class GameController:
         self.roseExterieure=pygame.transform.scale(self.roseExterieure,(37,37))
         self.addPrinceOnPlanet(self.planetes[0])
         self.play()
-
 
     def PrinceFlight(self, prince):
         prince.position = self.computeObjectTrajectory(prince.position, prince.speedVector)
@@ -202,10 +200,10 @@ class GameController:
                         if event.key==pygame.K_DOWN:
                             self.update_sweeping()
                         elif event.key == pygame.K_LEFT:
-                            self.prince.rotateAroundParent(PRINCE_SPEED)
+                            self.prince.walkAround(PRINCE_SPEED)
                             self.prince.nextWalkFrame(True)
                         elif event.key == pygame.K_RIGHT:
-                            self.prince.rotateAroundParent(-PRINCE_SPEED)
+                            self.prince.walkAround(-PRINCE_SPEED)
                             self.prince.nextWalkFrame(False)
                         elif event.key == pygame.K_UP:
                             for planet in self.planetes:
@@ -223,9 +221,6 @@ class GameController:
                         down = False
                         jump = True
                     pygame.draw.circle(self.window, (0,0,255), (200, 200), 100)
-
-                    print(self.peutPoserFleur)
-                    print(self.nbFlowers)
             #Gestion du saut:
             if jump:
                 if not hasKeyEvent:
