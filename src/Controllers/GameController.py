@@ -260,13 +260,14 @@ class GameController:
                 self.roseExterieure=pygame.image.load("../images/planetMask.png")
                 self.roseExterieure=pygame.transform.scale(self.roseExterieure,(37,37))
 
-            self.PhysicEngine.updatePhysics()
+
             self.update_prince(self.prince)
             self.update_etoiles()
             for planet in self.planetes:
                 planet.volcano.chauffe()
                 self.update_flowers(planet)
 
+            self.PhysicEngine.updatePhysics()
 
             self.score+=self.nbFlowers
             self.display()
