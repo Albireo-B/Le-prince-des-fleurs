@@ -34,11 +34,11 @@ class GameController:
         self.prince=Prince("../images/animIntro/1.png",(100,100))
         self.PhysicEngine.addPhysicObject(self.prince)
 
-        self.createPlanet("../images/Planet0.png",50,50,500,350,-2)
+        self.createPlanet("../images/Planet4.png",50,50,500,350,-2)
         self.createPlanet("../images/Planet0.png",500,500,1100,350,0.4)
         self.createPlanet("../images/Planet1.png",300,300,375,750,-0.1)
-        self.createPlanet("../images/Planet0.png",200,200,200,150,1, 160)
-        self.createPlanet("../images/Planet1.png",100,100,1150,800,-0.7, 160)
+        self.createPlanet("../images/Planet3.png",200,200,200,150,1, 160)
+        self.createPlanet("../images/Planet2.png",100,100,1150,800,-0.7, 160)
 
         self.createEtoile("../images/Etoile.png",600,600,-1)
         self.createEtoile("../images/Etoile.png",750,50,1)
@@ -209,7 +209,7 @@ class GameController:
 
     def update_sweeping(self):
         for planet in self.planetes:
-            if self.prince.isColliding(planet.volcano):
+            if self.prince.isColliding(planet.volcano) and planet.volcano.eruptionCycle<900:
                 planet.volcano.clean()
 
 

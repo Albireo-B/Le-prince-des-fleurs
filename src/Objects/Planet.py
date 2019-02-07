@@ -10,6 +10,8 @@ class Planet(PhysicObject):
         if radius > -1:
             self.size = (radius, self.size[1])
 
+        self.position=position
+
         self.withFlower=False
         self.rotationSpeed=rotationSpeed
         self.prince=None
