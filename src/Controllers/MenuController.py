@@ -13,6 +13,8 @@ class MenuController:
         i=0
         j=0
         white= (255,255,255)
+        
+        self.screen = screen
 
         fortgroud = pygame.image.load('../images/menu.png').convert()
         background = pygame.image.load('../images/menu.png').convert_alpha()
@@ -77,4 +79,4 @@ class MenuController:
         return textSurface, textSurface.get_rect()
 
     def run(self):
-        controleur = GameController()
+        controleur = GameController(self.screen)
