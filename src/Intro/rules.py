@@ -15,7 +15,7 @@ def launchRules(screen):
     mytext = pygame.font.SysFont('arial',28)
 
 
-    backtoMenu  = myFont.render("Back to Menu",True,[135,206,235])
+    backtoMenu  = myFont.render("Retour",True,[135,206,235])
     textofRuls1 = myFont.render("Règles du jeu et Histoire",True,blue)
     textofRuls2 = mytext.render("Alors que le Petit Prince menait une vie ",True,blue)
     textofRuls3 = mytext.render("paisible, il se passa un évènement inattendu.",True,blue)
