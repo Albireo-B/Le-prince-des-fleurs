@@ -45,7 +45,7 @@ class MenuController:
                         sys.exit()
                     if button_rect_credits.collidepoint(event.pos):#event to be changed
                         print('Button pressed.')
-                        sys.run2()
+                        self.run2()
                     if button_rect_quit.collidepoint(event.pos):#event to be changed
                         print('Button pressed.')
                         sys.exit()

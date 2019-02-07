@@ -4,7 +4,7 @@ import sys
 
 class CreditsController:
 
-    def __initcredit__(self, screen):
+    def __init__(self, screen):
         i=0
         j=0
         white= (255,255,255)
