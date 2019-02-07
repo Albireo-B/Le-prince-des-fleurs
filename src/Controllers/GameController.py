@@ -40,8 +40,6 @@ class GameController:
         maskPath = "../images/planetMask.png"
         self.createPlanet("../images/Planet0.png",500,500,900,350,0.4, maskPath)
         self.createPlanet("../images/Planet1.png",300,300,375,750,-0.1, maskPath)
-        self.createPlanet("../images/Planet3.png",200,200,200,150,1, maskPath)
-        self.createPlanet("../images/Planet2.png",100,100,1150,800,-0.7, maskPath)
         self.createPlanet("../images/Planet3.png",200,200,350,350,1, maskPath)
         self.createPlanet("../images/Planet4.png",100,100,400,300,-2, maskPath, -2000)
         self.createEtoile("../images/Etoile.png",600,600,-1)
@@ -114,7 +112,7 @@ class GameController:
                 fade1 = fade
             if fade1 > 255:
                 fade1 = 255
-
+            pygame.draw.circle(self.window, (fade, fade1, 255), (int(pos[0].x), int(pos[0].y)), HINT_SIZE)
 
     def scaling_volcano(self,planet):
         if planet.volcano.eruptionCycle%(2*planet.volcano.i)<planet.volcano.i:
