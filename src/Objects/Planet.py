@@ -5,11 +5,18 @@ from Objects.PhysicObject import *
 from Objects.Flower import *
 
 class Planet(PhysicObject):
-    def __init__(self, imgPath, size, position, rotationSpeed, radius=-1):
+    def __init__(self, imgPath, size, position, rotationSpeed, imgMaskPath, maskSize = (100,100)):
         super().__init__(position, None, imgPath, size)
-        if radius > -1:
-            self.size = (radius, self.size[1])
-            
+
+        self.size = (self.size[0], self.size[1])
+
+        self.imgMask = pygame.image.load(imgMaskPath).convert_alpha()
+        maskSize = size
+        self.imgMask = pygame.transform.scale(self.imgCopie, maskSize)
+        self.updateMask(self.imgMask)
+
+        self.position=position
+
         self.withFlower=False
         self.rotationSpeed=rotationSpeed
         self.prince=None
@@ -21,14 +28,12 @@ class Planet(PhysicObject):
     def addPrince(self,prince):
         self.prince = prince
         self.prince.setParent(self)
-        self.addFlower()
+        
 
-    def removePrince(self, initialSpeed):
+    def removePrince(self):
         if self.prince != None:
             self.prince.volcano = None
             self.prince.position = Vector2(self.prince.imgCenter.center)
-            self.prince.speedVector = (self.prince.position - self.position).normalize()*initialSpeed
-            # self.prince.initialSpeed=Vector2(distance)
             self.prince.setParent(None)
             self.prince=None
 
