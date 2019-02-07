@@ -14,8 +14,8 @@ from Draw.DrawEngine import *
 
 import time
 
-MIN_SPEED_TO_LEAVE_PLANET = 8
-MAX_SPEED = 15
+MIN_SPEED_TO_LEAVE_PLANET = 5
+MAX_SPEED = 9
 IMMUNITY_THRESHOLD = 10
 HINT_SIZE = 5
 
