@@ -1,5 +1,5 @@
 import pygame
-from Credits.Credits import Credits
+from Controllers.CreditsControlller import CreditsController
 
 def main_credits():
     pygame.init()
