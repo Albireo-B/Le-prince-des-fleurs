@@ -1,7 +1,7 @@
 import pygame
 from pygame.locals import *
 from Controllers.GameController import GameController
-#from Controllers.CreditsControlller import CreditsController
+from Controllers.CreditsController import CreditsController
 import sys
 
 white = (255,255,255)

@@ -26,8 +26,9 @@ class CreditsController:
                         sys.exit()
 
 
-
             screen.blit(quit,(50,900))
+
+            screen.blit(background, (400,0))
             pygame.display.update()
 
     def text_objects(self, text, font):
