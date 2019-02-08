@@ -260,6 +260,7 @@ class GameController:
         return speed
 
     def play(self):
+        self.imgControle=''
         done=False
         counter,text=10,"10".rjust(3)
         pygame.time.set_timer(pygame.USEREVENT,1000)
@@ -302,6 +303,8 @@ class GameController:
                         elif event.key == pygame.K_RIGHT:
                             self.prince.walkAround(-PRINCE_SPEED)
                             self.prince.nextWalkFrame(False)
+                        elif event.key == pygame.K_SPACE:
+                            self.imgControle='wewew'
                         elif event.key == pygame.K_UP:
                             for planet in self.planetes:
                                 if self.prince.isColliding(planet):
