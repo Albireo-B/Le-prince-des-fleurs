@@ -23,7 +23,6 @@ class MenuController:
         myFont = pygame.font.SysFont('arial',38)
         start  = myFont.render("Jouer",True,[135,206,235])
         button_rect_start=start.get_rect(topleft=(50,200))
-        #button_rect_start=start.fill(black)
         scores = myFont.render("Scores",True,[135,206,235])
         button_rect_scores=scores.get_rect(topleft=(50,300))
         credits= myFont.render("Credits",True,[135,206,235])
