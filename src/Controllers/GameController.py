@@ -95,20 +95,17 @@ class GameController:
             self.createEtoile("../images/Etoile.png",375,260,-1.2)
             self.createEtoile("../images/Etoile.png",580,375,0.2)
             self.createEtoile("../images/Etoile.png",900,550,0.3)
-            self.etoileExt1=pygame.image.load("../images/planetMask.png")
-            self.etoileExt2=pygame.image.load("../images/planetMask.png")
+            self.etoileExt1=pygame.image.load("../images/EtoileGrisee.png")
+            self.etoileExt2=pygame.image.load("../images/EtoileGrisee.png")
             self.etoileExt1=pygame.transform.scale(self.etoileExt1,(20,20))
             self.etoileExt2=pygame.transform.scale(self.etoileExt2,(20,20))
-            self.roseExterieure=pygame.image.load("../images/rose.png")
+            self.roseExterieure=pygame.image.load("../images/roseGrisee.png")
             self.roseExterieure=pygame.transform.scale(self.roseExterieure,(37,37))
         else:
-            self.withVolcanos=False
+            self.withVolcanos=True
             self.createPlanet("../images/Planet0.png",250,250,800,250,0.4, maskPath)
             self.createPlanet("../images/Planet1.png",200,200,150,200,-0.1, maskPath)
-            self.createPlanet("../images/Planet3.png",175,175,175,600,-0.7, maskPath)
-            self.createPlanet("../images/Planet4.png",100,100,450,400,1, maskPath, -2000)
-            self.createPlanet("../images/Planet2.png",150,150,750,600,-0.7, maskPath)
-            self.createPlanet("../images/Planet1.png",120,120,500,80,-0.7, maskPath)
+            self.createPlanet("../images/Planet4.png",175,175,450,600,-0.7, maskPath,-2000)
             self.createEtoile("../images/Etoile.png",330,570,-0.7)
             self.createEtoile("../images/Etoile.png",375,40,0.7)
             self.createEtoile("../images/Etoile.png",100,350,-0.5)
@@ -117,11 +114,11 @@ class GameController:
             self.createEtoile("../images/Etoile.png",375,260,-1.2)
             self.createEtoile("../images/Etoile.png",580,375,0.2)
             self.createEtoile("../images/Etoile.png",900,550,0.3)
-            self.etoileExt1=pygame.image.load("../images/planetMask.png")
-            self.etoileExt2=pygame.image.load("../images/planetMask.png")
+            self.etoileExt1=pygame.image.load("../images/EtoileGrisee.png")
+            self.etoileExt2=pygame.image.load("../images/EtoileGrisee.png")
             self.etoileExt1=pygame.transform.scale(self.etoileExt1,(20,20))
             self.etoileExt2=pygame.transform.scale(self.etoileExt2,(20,20))
-            self.roseExterieure=pygame.image.load("../images/rose.png")
+            self.roseExterieure=pygame.image.load("../images/roseGrisee.png")
             self.roseExterieure=pygame.transform.scale(self.roseExterieure,(37,37))
 
         self.addPrinceOnPlanet(self.planetes[0])
@@ -134,7 +131,7 @@ class GameController:
             prince.speedVector.y = -prince.speedVector.y*.5
 
         if prince.position.x < -OUT_OF_BOUND_MARGIN*1.5:
-            prince.setPosition(Vector2(WIDHT+OUT_OF_BOUND_MARGIN*1.5, prince.position.y))
+            prince.setPosition(Vector2(WIDTH+OUT_OF_BOUND_MARGIN*1.5, prince.position.y))
             prince.speedVector.x *= .7
         if prince.position.x > HEIGHT + OUT_OF_BOUND_MARGIN*1.5:
             prince.setPosition(Vector2(-OUT_OF_BOUND_MARGIN*1.5, prince.position.y))
@@ -277,7 +274,6 @@ class GameController:
         while not done:
             self.nbFlowers=0
             hasEvents = False
-
             if down:
                 speed = self.computeInitialSpeed(posMouse, self.prince.imgCenter.center, self.prince.parent)
                 if speed.length() > MIN_SPEED_TO_LEAVE_PLANET and not hasKeyEvent:
@@ -376,6 +372,9 @@ class GameController:
             for planet in self.planetes:
                 if self.withVolcanos:
                     planet.volcano.chauffe()
+                    if planet.withFlower and planet.volcano.eruptionCycle>=1699 :
+                            self.score-=500
+                            print(';oinms de points')
                 self.update_flowers(planet)
 
             self.PhysicEngine.updatePhysics()
