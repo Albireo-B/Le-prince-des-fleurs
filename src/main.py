@@ -8,7 +8,7 @@ def main():
 
     gameDisplay = pygame.display.set_mode((1024,768))
     pygame.display.set_caption('Le Prince Des Fleurs')
-    #launchIntro(gameDisplay)
+    launchIntro(gameDisplay)
     menuController = MenuController(gameDisplay)
 
 main()

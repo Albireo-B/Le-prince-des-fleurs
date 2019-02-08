@@ -35,7 +35,7 @@ class MenuController:
         button_rect_rules=quit.get_rect(topleft=(50,475))
         lore   = myFont.render("histoire",True,[135,206,235])
         button_rect_lore=quit.get_rect(topleft=(50,575))
-        pygame.mixer.music.load ('../Sounds/menu.wav')
+        pygame.mixer.music.load ('../Sounds/menu.ogg')
         pygame.mixer.music.play(-1)
         self.background=pygame.image.load("../images/background.jpg").convert()
         self.background=pygame.transform.scale(self.background,(1024,768))

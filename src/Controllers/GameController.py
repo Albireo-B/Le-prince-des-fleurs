@@ -295,7 +295,7 @@ class GameController:
                     if event.type == QUIT:
                         done=True
                         pygame.mixer.music.stop()
-                        pygame.mixer.music.load('../Sounds/menu.wav')
+                        pygame.mixer.music.load('../Sounds/menu.ogg')
                         pygame.mixer.music.play(-1)
                     elif event.type == pygame.KEYDOWN:
                         hasKeyEvent = True
@@ -312,7 +312,7 @@ class GameController:
                         elif event.key == pygame.K_ESCAPE:
                             done=True
                             pygame.mixer.music.stop()
-                            pygame.mixer.music.load('../Sounds/menu.wav')
+                            pygame.mixer.music.load('../Sounds/menu.ogg')
                             pygame.mixer.music.play(-1)
                         elif event.key == pygame.K_UP:
                             for planet in self.planetes:
