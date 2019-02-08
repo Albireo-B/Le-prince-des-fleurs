@@ -36,8 +36,11 @@ class MenuController:
         pygame.mixer.music.play(-1)
         self.background=pygame.image.load("../images/background.jpg").convert()
         self.background=pygame.transform.scale(self.background,(1024,768))
+        self.titre=pygame.image.load("../images/titre.png").convert_alpha()
+        #self.titre=pygame.transform.scale(self.titre,(1024,768))
         while True:
             self.screen.blit(self.background,(0,0))
+            self.screen.blit(self.titre,(0,0))
             for event in pygame.event.get():
                 if event.type==QUIT:
                     pygame.quit()
