@@ -378,7 +378,6 @@ class GameController:
                     planet.volcano.chauffe()
                     if planet.withFlower and planet.volcano.eruptionCycle>=1699 :
                             self.score-=500
-                            print(';oinms de points')
                 self.update_flowers(planet)
 
             self.PhysicEngine.updatePhysics()

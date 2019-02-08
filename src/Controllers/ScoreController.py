@@ -57,9 +57,6 @@ class ScoreController:
                         self.screen.blit(self.myFont.render(self.nom, True, [255,255,255]),[340, 670])
                         self.showScore()
                         pygame.display.update()
-
-                print(self.latence)
-                print(self.lastchar)
                 if self.latence==0:
                     self.lastchar=''
                 else:
