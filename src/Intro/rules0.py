@@ -8,8 +8,7 @@ def launchRules(screen):
     j=0
     blue= (0,90,255)
     fortgroud = pygame.image.load('../images/Planet1.png').convert()
-    background = pygame.image.load('../images/Planet3.png').convert_alpha()
-    background = pygame.transform.scale(background, (1020,1020))
+    background = pygame.image.load('../images/Planet1.png').convert_alpha()
     background3=pygame.image.load("../images/background.jpg").convert()
     background3=pygame.transform.scale(background3,(1024,768))
     myFont = pygame.font.SysFont('arial',38)
@@ -37,9 +36,7 @@ def launchRules(screen):
         # position of buttons can be changed
         i=420
         background2 = pygame.transform.scale(background, (600+i,592+i))
-        screen.blit(background, (-15,-120))
-        screen.blit(text, (0,100))
-        screen.blit(backtoMenu,(10,700))
+        screen.blit(text, (0,0))
 
 
 
