@@ -3,7 +3,7 @@ import time
 from pygame.locals import *
 import math
 
-def launchRules(screen):
+def launchCtrl(screen):
     i=0
     j=0
     blue= (0,90,255)
@@ -16,7 +16,7 @@ def launchRules(screen):
 
 
     backtoMenu  = myFont.render("Retour",True,[135,206,235])
-    text = pygame.image.load("../images/text.png").convert_alpha()
+    text = pygame.image.load("../images/controles.png").convert_alpha()
 
 
     #here we put all the rules of the game
@@ -37,7 +37,5 @@ def launchRules(screen):
         i=420
         background2 = pygame.transform.scale(background, (600+i,592+i))
         screen.blit(text, (0,0))
-
-
 
         pygame.display.update()
