@@ -18,7 +18,7 @@ class ScoreController:
         self.screen.blit(self.back,[10,700])
         self.screen.blit(self.planet, (25,-50))
         self.score = score
-        self.latence=17
+        self.latence=19
         self.lastchar=''
         fichier = open("save.txt", "r")
         self.save=fichier.read().split("\n")
@@ -46,14 +46,15 @@ class ScoreController:
                                     if event.unicode.isalpha() or event.unicode.isdigit():
                                         self.nom+= event.unicode
                             self.lastchar=event.unicode
-                            self.latence=17
+                            self.latence=19
                         self.screen.blit(self.background,(0,0))
                         self.screen.blit(self.back,[10,700])
                         self.screen.blit(self.planet, (25,-50))
                         self.screen.blit(self.myFont.render("Votre score : " + str(self.score), True, [255,255,255]),[340, 550])
                         self.screen.blit(self.myFont.render("Vous êtes à la place " + str(self.pos), True, [255,255,255]),[340, 590])
                         self.screen.blit(self.myFont.render("saisissez votre nom :", True, [255,255,255]),[340, 630])
-                        self.screen.blit(self.saveb,[825,700])
+                        if self.nom!="":
+                            self.screen.blit(self.saveb,[825,700])
                         self.screen.blit(self.myFont.render(self.nom, True, [255,255,255]),[340, 670])
                         self.showScore()
                         pygame.display.update()
@@ -69,15 +70,16 @@ class ScoreController:
                     if self.button_rect_back.collidepoint(event.pos):#event to be changed
                         return
                     if self.button_rect_saveb.collidepoint(event.pos):#event to be changed
-                        if self.nom != None:
-                            self.addscore()
-                            self.nom = None
-                            self.screen.blit(self.background,(0,0))
-                            self.screen.blit(self.back,[10,700])
-                            self.screen.blit(self.planet, (25,-50))
-                            self.screen.blit(self.myFont.render("Votre score : " + str(self.score), True, [255,255,255]),[340, 550])
-                            self.screen.blit(self.myFont.render("Vous êtes à la place " + str(self.pos), True, [255,255,255]),[340, 590])
-                            self.showScore()
+                        if self.nom != None :
+                            if self.nom != "":
+                                self.addscore()
+                                self.nom = None
+                                self.screen.blit(self.background,(0,0))
+                                self.screen.blit(self.back,[10,700])
+                                self.screen.blit(self.planet, (25,-50))
+                                self.screen.blit(self.myFont.render("Votre score : " + str(self.score), True, [255,255,255]),[340, 550])
+                                self.screen.blit(self.myFont.render("Vous êtes à la place " + str(self.pos), True, [255,255,255]),[340, 590])
+                                self.showScore()
 
     def showScore(self):
         i=0
@@ -104,7 +106,6 @@ class ScoreController:
     def saisieNom(self):
         self.screen.blit(self.myFont.render("Vous êtes à la place " + str(self.pos), True, [255,255,255]),[340, 590])
         self.screen.blit(self.myFont.render("saisissez votre nom :", True, [255,255,255]),[340, 630])
-        self.screen.blit(self.saveb,[825,700])
         pygame.display.update()
         self.saisie=True
         self.nom = ""

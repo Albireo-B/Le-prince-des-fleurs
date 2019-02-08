@@ -7,11 +7,9 @@ black = (0,0,0)
 skyblue = (135,206,235)
 
 
-
 class ChoixController:
 
     def __init__(self, screen):
-
         i=0
         j=0
         white= (255,255,255)
