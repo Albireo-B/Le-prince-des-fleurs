@@ -19,6 +19,7 @@ class ChoixController:
         self.myFont = pygame.font.SysFont('arial',38)
         self.message=self.myFont.render("",True,white)
         self.score=0
+        self.titre=pygame.image.load("../images/titre.png").convert_alpha()
         self.fortgroud = pygame.image.load('../images/menu.png').convert_alpha()
         choix  = self.myFont.render("Choisissez votre niveau : ",True,[135,206,235])
         dida1 = self.myFont.render("Didacticiel 1",True,[135,206,235])
@@ -51,6 +52,7 @@ class ChoixController:
         self.message9=self.myFont.render(self.message9,True,white)
         while True:
             self.screen.blit(self.background,(0,0))
+            self.screen.blit(self.titre,(0,0))
             if i<=30:
                 screen.blit(self.fortgroud, (400,130-i))
             else:
