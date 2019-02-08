@@ -37,7 +37,6 @@ def launchRules(screen):
         i=420
         background2 = pygame.transform.scale(background, (600+i,592+i))
         screen.blit(text, (0,0))
-        screen.blit(backtoMenu,(10,700))
 
 
 
