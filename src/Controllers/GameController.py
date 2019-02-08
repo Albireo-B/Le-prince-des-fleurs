@@ -307,7 +307,7 @@ class GameController:
                         elif event.key == pygame.K_UP:
                             for planet in self.planetes:
                                 if self.prince.isColliding(planet):
-                                    if self.peutPoserFleur and self.prince.parent !=None and not planet.withFlower:
+                                    if self.peutPoserFleur and self.prince.parent !=None and not planet.withFlower and planet.volcano.eruptionCycle<1500:
                                         self.prince.putFlower()
                                         self.peutPoserFleur=False
                                         planet.withFlower=True
@@ -342,7 +342,7 @@ class GameController:
             if time.time()-start>=180:
                 done=True
             else:
-                text=myfont.render(str(int(180 -(time.time() -start)))+" seconds left",True, (255, 255, 255), (32, 48))
+                text=myfont.render(str(int(180 -(time.time() -start)))+" secondes restantes",True, (255, 255, 255), (32, 48))
             if self.nbEtoile>=2:
                 self.peutPoserFleur=True
                 while (self.nbEtoile>2):
@@ -352,9 +352,9 @@ class GameController:
             if self.nbEtoile==1:
                 self.etoileExt1=pygame.image.load("../images/Etoile.png")
                 self.etoileExt1=pygame.transform.scale(self.etoileExt1,(20,20))
-                self.etoileExt2=pygame.image.load("../images/planetMask.png")
+                self.etoileExt2=pygame.image.load("../images/EtoileGrisee.png")
                 self.etoileExt2=pygame.transform.scale(self.etoileExt2,(20,20))
-                self.roseExterieure=pygame.image.load("../images/planetMask.png")
+                self.roseExterieure=pygame.image.load("../images/roseGrisee.png")
                 self.roseExterieure=pygame.transform.scale(self.roseExterieure,(37,37))
             elif self.nbEtoile==2:
                 self.etoileExt1=pygame.image.load("../images/Etoile.png")
@@ -364,11 +364,11 @@ class GameController:
                 self.roseExterieure=pygame.image.load("../images/rose.png")
                 self.roseExterieure=pygame.transform.scale(self.roseExterieure,(37,37))
             else:
-                self.etoileExt1=pygame.image.load("../images/planetMask.png")
+                self.etoileExt1=pygame.image.load("../images/EtoileGrisee.png")
                 self.etoileExt1=pygame.transform.scale(self.etoileExt1,(20,20))
-                self.etoileExt2=pygame.image.load("../images/planetMask.png")
+                self.etoileExt2=pygame.image.load("../images/EtoileGrisee.png")
                 self.etoileExt2=pygame.transform.scale(self.etoileExt2,(20,20))
-                self.roseExterieure=pygame.image.load("../images/planetMask.png")
+                self.roseExterieure=pygame.image.load("../images/roseGrisee.png")
                 self.roseExterieure=pygame.transform.scale(self.roseExterieure,(37,37))
 
             self.update_prince(self.prince)
@@ -383,7 +383,7 @@ class GameController:
             self.score+=self.nbFlowers
             self.display()
 
-            self.window.blit(text,(850,10))
+            self.window.blit(text,(800,10))
             textScore=myfont.render("Score : "+str(self.score),True,(255,255,255),(32,48))
             self.window.blit(textScore,(850,35))
             pygame.display.update()
