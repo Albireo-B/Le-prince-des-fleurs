@@ -18,6 +18,7 @@ class ScoreController:
         self.screen.blit(self.back,[10,700])
         self.screen.blit(self.planet, (25,-50))
         self.score = score
+        self.latence=17
         self.lastchar=''
         fichier = open("save.txt", "r")
         self.save=fichier.read().split("\n")
@@ -45,6 +46,7 @@ class ScoreController:
                                     if event.unicode.isalpha() or event.unicode.isdigit():
                                         self.nom+= event.unicode
                             self.lastchar=event.unicode
+                            self.latence=17
                         self.screen.blit(self.background,(0,0))
                         self.screen.blit(self.back,[10,700])
                         self.screen.blit(self.planet, (25,-50))
@@ -55,8 +57,14 @@ class ScoreController:
                         self.screen.blit(self.myFont.render(self.nom, True, [255,255,255]),[340, 670])
                         self.showScore()
                         pygame.display.update()
-                else:
+
+                print(self.latence)
+                print(self.lastchar)
+                if self.latence==0:
                     self.lastchar=''
+                else:
+                    self.latence-=1
+
 
 
                 if event.type== pygame.MOUSEBUTTONDOWN:
