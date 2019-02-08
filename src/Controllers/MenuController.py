@@ -22,16 +22,16 @@ class MenuController:
         self.screen = screen
         self.fortgroud = pygame.image.load('../images/menu.png').convert_alpha()
         myFont = pygame.font.SysFont('arial',38)
-        start  = myFont.render("Start",True,[135,206,235])
+        start  = myFont.render("Jouer",True,[135,206,235])
         button_rect_start=start.get_rect(topleft=(50,200))
         #button_rect_start=start.fill(black)
         scores = myFont.render("Scores",True,[135,206,235])
         button_rect_scores=scores.get_rect(topleft=(50,300))
         credits= myFont.render("Credits",True,[135,206,235])
         button_rect_credits=credits.get_rect(topleft=(50,400))
-        quit   = myFont.render("Quit",True,[135,206,235])
+        quit   = myFont.render("Quitter",True,[135,206,235])
         button_rect_quit=quit.get_rect(topleft=(50,600))
-        rules   = myFont.render("Rules",True,[135,206,235])
+        rules   = myFont.render("Regles",True,[135,206,235])
         button_rect_rules=quit.get_rect(topleft=(50,500))
         pygame.mixer.music.load ('../Sounds/menu.wav')
         pygame.mixer.music.play(-1)
@@ -47,6 +47,7 @@ class MenuController:
                     if button_rect_start.collidepoint(event.pos):#event to be changed
                         pygame.mixer.music.stop()
                         choixController=ChoixController(screen)
+                        self.score = ScoreController(choixController.score)
                     if button_rect_scores.collidepoint(event.pos):#event to be changed
                         self.score = ScoreController(None)
                         self.scores(screen)
