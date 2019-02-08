@@ -3,7 +3,7 @@ import pygame
 from pygame.math import Vector2
 from Objects.PhysicObject import *
 
-RESPAWN_THRESHOLD = 50
+RESPAWN_THRESHOLD = 150
 class Etoile(PhysicObject):
 
     def __init__(self,imgPath,positionx, positiony,rotationAngle):
