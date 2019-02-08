@@ -6,6 +6,8 @@ from Controllers.GameController import GameController
 from Controllers.ScoreController import ScoreController
 from Controllers.CreditsController import CreditsController
 from Controllers.ChoixController import ChoixController
+from Intro.controles0 import *
+from Intro.controles import *
 import sys
 import math
 
@@ -55,7 +57,7 @@ class MenuController:
                     if button_rect_credits.collidepoint(event.pos):#event to be changed
                         self.run2()
                     if button_rect_rules.collidepoint(event.pos):#event to be changed
-                        print("oups")
+                        self.truRules()
                     if button_rect_lore.collidepoint(event.pos):#event to be changed
                         self.rules(screen)
                     if button_rect_quit.collidepoint(event.pos):#event to be changed
@@ -80,6 +82,9 @@ class MenuController:
 
     def run2(self):
         controleur = CreditsController(self.screen)
+
+    def truRules(self):
+        launchCtrl0(self.screen)
 
     def rules(self,screen):
         launchRules(screen)

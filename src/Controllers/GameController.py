@@ -12,6 +12,7 @@ from Intro.controles import *
 import sys
 from Physics.PhysicEngine import *
 from Draw.DrawEngine import *
+from Intro.controles import *
 
 import time
 
