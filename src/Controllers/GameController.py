@@ -309,6 +309,11 @@ class GameController:
                             self.prince.nextWalkFrame(False)
                         elif event.key == pygame.K_SPACE:
                             launchCtrl(self.window)
+                        elif event.key == pygame.K_ESCAPE:
+                            done=True
+                            pygame.mixer.music.stop()
+                            pygame.mixer.music.load('../Sounds/menu.wav')
+                            pygame.mixer.music.play(-1)
                         elif event.key == pygame.K_UP:
                             for planet in self.planetes:
                                 if self.prince.isColliding(planet):
