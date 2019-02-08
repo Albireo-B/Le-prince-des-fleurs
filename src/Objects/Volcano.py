@@ -10,7 +10,6 @@ class Volcano(PhysicObject):
 
     def __init__(self, imgPath, position, size, parent, eruptionCycle):
         super().__init__(position, parent, imgPath, (int(size[0]*.7), int(size[1]*.7)))
-        self.rumbleSound = pygame.mixer.Sound('../Sounds/volcano.ogg')
         self.eruptionSound = pygame.mixer.Sound('../Sounds/eruption.wav')
         self.parent=parent
         self.i=1
