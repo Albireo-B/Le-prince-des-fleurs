@@ -2,12 +2,12 @@ import pygame
 from pygame.locals import *
 from Intro.intro import*
 from Intro.rules import*
-from Intro.scores import *
 from Controllers.GameController import GameController
 from Controllers.ScoreController import ScoreController
 from Controllers.CreditsController import CreditsController
 from Controllers.ChoixController import ChoixController
 import sys
+import math
 
 white = (255,255,255)
 black = (0,0,0)
@@ -17,7 +17,6 @@ class MenuController:
 
     def __init__(self, screen):
         i=0
-        j=0
         white= (255,255,255)
         self.screen = screen
         self.fortgroud = pygame.image.load('../images/menu.png').convert_alpha()
@@ -31,14 +30,17 @@ class MenuController:
         button_rect_credits=credits.get_rect(topleft=(50,400))
         quit   = myFont.render("Quitter",True,[135,206,235])
         button_rect_quit=quit.get_rect(topleft=(50,600))
-        rules   = myFont.render("Regles",True,[135,206,235])
+        rules   = myFont.render("Règles",True,[135,206,235])
         button_rect_rules=quit.get_rect(topleft=(50,500))
         pygame.mixer.music.load ('../Sounds/menu.wav')
         pygame.mixer.music.play(-1)
         self.background=pygame.image.load("../images/background.jpg").convert()
         self.background=pygame.transform.scale(self.background,(1024,768))
+        self.titre=pygame.image.load("../images/titre.png").convert_alpha()
+        #self.titre=pygame.transform.scale(self.titre,(1024,768))
         while True:
             self.screen.blit(self.background,(0,0))
+            self.screen.blit(self.titre,(0,0))
             for event in pygame.event.get():
                 if event.type==QUIT:
                     pygame.quit()
@@ -49,8 +51,7 @@ class MenuController:
                         choixController=ChoixController(screen)
                         self.score = ScoreController(choixController.score)
                     if button_rect_scores.collidepoint(event.pos):#event to be changed
-                        self.score = ScoreController(None)
-                        self.scores(screen)
+                        self.score = ScoreController(None,self.screen)
                     if button_rect_credits.collidepoint(event.pos):#event to be changed
                         self.run2()
                     if button_rect_rules.collidepoint(event.pos):#event to be changed
@@ -65,16 +66,8 @@ class MenuController:
             screen.blit(rules,(50,500))
             screen.blit(quit,(50,600))
 
-            if i<=30:
-                screen.blit(self.fortgroud, (400,130-i))
-            else:
-                screen.blit(self.fortgroud, (400,100+j))
-                j+=0.05
-            if j>30:
-                screen.blit(self.fortgroud, (400,100+j))
-                i=0
-                j=0
-            i+=0.05
+            screen.blit(self.fortgroud, (400,100 + math.sin(i)*20))
+            i+=.002
 
             pygame.display.update()
 
@@ -87,6 +80,3 @@ class MenuController:
 
     def rules(self,screen):
         launchRules(screen)
-
-    def scores(self,screen):
-        launchScores(screen,self.score.save)

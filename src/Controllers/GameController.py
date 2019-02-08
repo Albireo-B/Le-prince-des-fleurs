@@ -24,11 +24,24 @@ PRINCE_SPEED = 1.5
 WIDTH = 1024
 HEIGHT = 768
 
+OUT_OF_BOUND_MARGIN = 300
+
+HINT_ARROW_SIZE = 60
+
+MAX_MOUSE_DRAG_DISTANCE = 400
+
 class GameController:
 
     def __init__(self, window, withVolcanos,niv):
         self.niveau=niv
         self.window = window
+
+        self.jumpSound = pygame.mixer.Sound('../Sounds/jump.wav')
+        self.landSound = pygame.mixer.Sound('../Sounds/land.wav')
+        self.starSound = pygame.mixer.Sound('../Sounds/bell.wav')
+
+        self.princeHideHint = Object(Vector2(0,0), None, "../images/arrow.png", (HINT_ARROW_SIZE, HINT_ARROW_SIZE))
+        self.arrowVisible = False
         self.withVolcanos=withVolcanos
         self.clock = pygame.time.Clock()
         self.background=pygame.image.load("../images/background.jpg").convert()
@@ -115,13 +128,48 @@ class GameController:
         self.play()
 
     def PrinceFlight(self, prince):
-        prince.position = self.computeObjectTrajectory(prince.position, prince.speedVector)
-        prince.position.x = prince.position.x % 1024
-        prince.position.y = prince.position.y % 768
-        self.prince.rect = self.prince.img.get_rect(center=self.prince.position)
-        self.prince.imgCenter = self.prince.img.get_rect(center=self.prince.rect.center)
-        self.prince.maskCenter = Vector2(self.prince.imgCenter[0],self.prince.imgCenter[1])
+        prince.setPosition(self.computeObjectTrajectory(prince.position, prince.speedVector))
 
+        if prince.position.y < -OUT_OF_BOUND_MARGIN or prince.position.y > HEIGHT + OUT_OF_BOUND_MARGIN:
+            prince.speedVector.y = -prince.speedVector.y*.5
+
+        if prince.position.x < -OUT_OF_BOUND_MARGIN*1.5:
+            prince.setPosition(Vector2(WIDHT+OUT_OF_BOUND_MARGIN*1.5, prince.position.y))
+            prince.speedVector.x *= .7
+        if prince.position.x > HEIGHT + OUT_OF_BOUND_MARGIN*1.5:
+            prince.setPosition(Vector2(-OUT_OF_BOUND_MARGIN*1.5, prince.position.y))
+            prince.speedVector.x *= .3
+
+        self.arrowVisible = True
+        if prince.position.x < 0:
+            if prince.position.y < 0:
+                self.princeHideHint.setPosition(Vector2(HINT_ARROW_SIZE/2, HINT_ARROW_SIZE/2))
+                self.princeHideHint.setRotation(135)
+            elif prince.position.y > HEIGHT:
+                self.princeHideHint.setPosition(Vector2(HINT_ARROW_SIZE/2, HEIGHT - HINT_ARROW_SIZE/2))
+                self.princeHideHint.setRotation(-135)
+            else:
+                self.princeHideHint.setPosition(Vector2(HINT_ARROW_SIZE/2, prince.position.y + HINT_ARROW_SIZE/2))
+                self.princeHideHint.setRotation(180)
+        elif prince.position.x > WIDTH:
+            if prince.position.y < 0:
+                self.princeHideHint.setPosition(Vector2(WIDTH - HINT_ARROW_SIZE/2, HINT_ARROW_SIZE/2))
+                self.princeHideHint.setRotation(45)
+            elif prince.position.y > HEIGHT:
+                self.princeHideHint.setPosition(Vector2(WIDTH - HINT_ARROW_SIZE/2, HEIGHT - HINT_ARROW_SIZE/2))
+                self.princeHideHint.setRotation(-45)
+            else:
+                self.princeHideHint.setPosition(Vector2(WIDTH - HINT_ARROW_SIZE/2, prince.position.y + HINT_ARROW_SIZE/2))
+                self.princeHideHint.setRotation(0)
+        else:
+            if prince.position.y < 0:
+                self.princeHideHint.setPosition(Vector2(prince.position.x + HINT_ARROW_SIZE/2, HINT_ARROW_SIZE/2))
+                self.princeHideHint.setRotation(90)
+            elif prince.position.y > HEIGHT:
+                self.princeHideHint.setPosition(Vector2(prince.position.x + HINT_ARROW_SIZE/2, HEIGHT - HINT_ARROW_SIZE/2))
+                self.princeHideHint.setRotation(-90)
+            else:
+                self.arrowVisible = False
 
     def createPlanet(self, imgPath,width,height,centerPositionx,centerPositiony,rotationSpeed, imgMaskPath, gf = -1):
         planet = Planet(imgPath,(width,height),Vector2(centerPositionx,centerPositiony),rotationSpeed, imgMaskPath, gravityForce=gf)
@@ -144,7 +192,7 @@ class GameController:
     def display(self):
         self.window.blit(self.background,(0,0))
         for planet in self.planetes:
-            if planet.withFlower :
+            if planet.withFlower:
                 self.DrawEngine.draw(planet.flower)
             self.DrawEngine.draw(planet)
             if planet.prince != None:
@@ -170,6 +218,8 @@ class GameController:
             if fade1 > 255:
                 fade1 = 255
             pygame.draw.circle(self.window, (fade, fade1, 255), (int(pos[0].x), int(pos[0].y)), HINT_SIZE)
+        if self.arrowVisible:
+            self.DrawEngine.draw(self.princeHideHint)
 
 
     def computeObjectTrajectory(self, objPosition, initialSpeed, steps=1):
@@ -201,7 +251,10 @@ class GameController:
         distance = pos2.y - pos1.y
         if distance < 0:
             distance = 0
-        absSpeed = distance*0.08
+        if distance > MAX_MOUSE_DRAG_DISTANCE:
+            distance = MAX_MOUSE_DRAG_DISTANCE
+
+        absSpeed = (distance/MAX_MOUSE_DRAG_DISTANCE)*MAX_SPEED
         if absSpeed > MAX_SPEED:
             absSpeed = MAX_SPEED
         speed = (posPrince - planet.position).normalize()*absSpeed
@@ -216,7 +269,7 @@ class GameController:
         while time.time() - start < .5:
             a = pygame.event.get()
         down = False
-        posMouse = Vector2(0,0)
+        posMouse = Vector2(0, 0)
         pygame.key.set_repeat(True)
         self.immunity = 100 # immunity to planet collisions
         hasKeyEvent = False
@@ -239,7 +292,7 @@ class GameController:
                     if event.type == QUIT:
                         done=True
                         pygame.mixer.music.stop()
-                        pygame.mixer.music.load ('../Sounds/menu.wav')
+                        pygame.mixer.music.load('../Sounds/menu.wav')
                         pygame.mixer.music.play(-1)
                     elif event.type == pygame.KEYDOWN:
                         hasKeyEvent = True
@@ -273,6 +326,7 @@ class GameController:
                     self.trajectory = []
                     speed = self.computeInitialSpeed(posMouse, self.prince.imgCenter.center, self.prince.parent)
                     if speed.length() > MIN_SPEED_TO_LEAVE_PLANET:
+                        pygame.mixer.Sound.play(self.jumpSound)
                         self.removePrinceFromPlanet(self.prince.parent)
                         self.prince.speedVector = speed
                         self.immunity = 0
@@ -344,6 +398,7 @@ class GameController:
         for etoile in self.etoiles:
             if self.prince.isColliding(etoile) and etoile.isHere:
                 self.nbEtoile+=1
+                pygame.mixer.Sound.play(self.starSound)
                 etoile.removeEtoile()
             etoile.updateRespawnCptr()
 
@@ -354,11 +409,14 @@ class GameController:
     def update_prince(self,prince):
         if prince.parent == None:
             if prince.speedVector.length() != 0:
-                prince.rotationAngle=Vector2(1,0).angle_to(Vector2(prince.speedVector.x,-prince.speedVector.y))
+                prince.setRotation(Vector2(1,0).angle_to(Vector2(prince.speedVector.x,-prince.speedVector.y)))
+                prince.updateMask(prince.img)
 
             if self.immunity > IMMUNITY_THRESHOLD:
                 for planet in self.planetes:
                     if self.prince.isColliding(planet):
+                        pygame.mixer.Sound.play(self.landSound)
+                        self.arrowVisible = False
                         planet.addPrince(self.prince)
                         prince.rotateAroundParent(-Vector2(1,0).angle_to(prince.position - planet.position))
                         break

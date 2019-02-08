@@ -143,16 +143,16 @@ class ChoixController:
                     if button_rect_niv1.collidepoint(event.pos):#event to be changed
                         pygame.mixer.music.stop()
                         self.run(1)
-                        self.score= ScoreController(self.gameController.score)
-                    elif button_rect_niv2.collidepoint(event.pos):#event to be changed
+                        self.score= ScoreController(self.gameController.score,self.screen)
+                    if button_rect_niv2.collidepoint(event.pos):#event to be changed
                         pygame.mixer.music.stop()
                         self.run(2)
-                        self.score= ScoreController(self.gameController.score)
-                    elif button_rect_niv3.collidepoint(event.pos):#event to be changed
+                        self.score= ScoreController(self.gameController.score,self.screen)
+                    if button_rect_niv3.collidepoint(event.pos):#event to be changed
                         pygame.mixer.music.stop()
                         self.run(3)
-                        self.score= ScoreController(self.gameController.score)
-                    elif button_rect_retour.collidepoint(event.pos):#event to be changed
+                        self.score= ScoreController(self.gameController.score,self.screen)
+                    if button_rect_retour.collidepoint(event.pos):#event to be changed
                         return
 
             # position of buttons can be changed
