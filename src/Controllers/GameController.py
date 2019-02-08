@@ -36,6 +36,10 @@ class GameController:
         self.niveau=niv
         self.window = window
 
+        self.jumpSound = pygame.mixer.Sound('../Sounds/jump.wav')
+        self.landSound = pygame.mixer.Sound('../Sounds/land.wav')
+        self.starSound = pygame.mixer.Sound('../Sounds/bell.wav')
+
         self.princeHideHint = Object(Vector2(0,0), None, "../images/arrow.png", (HINT_ARROW_SIZE, HINT_ARROW_SIZE))
         self.arrowVisible = False
         self.withVolcanos=withVolcanos
@@ -322,6 +326,7 @@ class GameController:
                     self.trajectory = []
                     speed = self.computeInitialSpeed(posMouse, self.prince.imgCenter.center, self.prince.parent)
                     if speed.length() > MIN_SPEED_TO_LEAVE_PLANET:
+                        pygame.mixer.Sound.play(self.jumpSound)
                         self.removePrinceFromPlanet(self.prince.parent)
                         self.prince.speedVector = speed
                         self.immunity = 0
@@ -393,6 +398,7 @@ class GameController:
         for etoile in self.etoiles:
             if self.prince.isColliding(etoile) and etoile.isHere:
                 self.nbEtoile+=1
+                pygame.mixer.Sound.play(self.starSound)
                 etoile.removeEtoile()
             etoile.updateRespawnCptr()
 
@@ -409,6 +415,7 @@ class GameController:
             if self.immunity > IMMUNITY_THRESHOLD:
                 for planet in self.planetes:
                     if self.prince.isColliding(planet):
+                        pygame.mixer.Sound.play(self.landSound)
                         self.arrowVisible = False
                         planet.addPrince(self.prince)
                         prince.rotateAroundParent(-Vector2(1,0).angle_to(prince.position - planet.position))
