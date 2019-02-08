@@ -8,6 +8,7 @@ from Objects.Volcano import *
 from Objects.Prince import *
 from Objects.PhysicObject import *
 from Objects.Etoile import *
+from Intro.controles import *
 import sys
 from Physics.PhysicEngine import *
 from Draw.DrawEngine import *
@@ -36,7 +37,7 @@ class GameController:
     def __init__(self, window, withVolcanos, niv):
         self.niveau=niv
         self.window = window
-
+        self.myfont=pygame.font.SysFont("Consolas",18)
         self.jumpSound = pygame.mixer.Sound('../Sounds/jump.wav')
         self.landSound = pygame.mixer.Sound('../Sounds/land.wav')
         self.starSound = pygame.mixer.Sound('../Sounds/bell.wav')
@@ -62,6 +63,8 @@ class GameController:
         self.prince=Prince("../images/walk1.png",(int(74/1.5),int(120/1.5)))
         self.PhysicEngine.addPhysicObject(self.prince)
         maskPath = "../images/planetMask.png"
+        self.help=self.myfont.render("Appuyez sur ESPACE pour avoir de l'aide",True, (255, 255, 255), (32, 48))
+
 
         if self.niveau==3:
             self.createPlanet("../images/Planet0.png",250,250,800,250,0.4, maskPath)
@@ -264,7 +267,7 @@ class GameController:
         done=False
         counter,text=10,"10".rjust(3)
         pygame.time.set_timer(pygame.USEREVENT,1000)
-        myfont=pygame.font.SysFont("Consolas",18)
+
         start = time.time()
         while time.time() - start < .5:
             a = pygame.event.get()
@@ -304,7 +307,7 @@ class GameController:
                             self.prince.walkAround(-PRINCE_SPEED)
                             self.prince.nextWalkFrame(False)
                         elif event.key == pygame.K_SPACE:
-                            self.imgControle='wewew'
+                            launchCtrl(self.window)
                         elif event.key == pygame.K_UP:
                             for planet in self.planetes:
                                 if self.prince.isColliding(planet):
@@ -343,7 +346,7 @@ class GameController:
             if time.time()-start>=180:
                 done=True
             else:
-                text=myfont.render(str(int(180 -(time.time() -start)))+" secondes restantes",True, (255, 255, 255), (32, 48))
+                text=self.myfont.render(str(int(180 -(time.time() -start)))+" secondes restantes",True, (255, 255, 255), (32, 48))
             if self.nbEtoile>=2:
                 self.peutPoserFleur=True
                 while (self.nbEtoile>2):
@@ -386,9 +389,10 @@ class GameController:
 
             self.score+=self.nbFlowers
             self.display()
+            self.window.blit(self.help,(10,730))
 
             self.window.blit(text,(800,10))
-            textScore=myfont.render("Score : "+str(self.score),True,(255,255,255),(32,48))
+            textScore=self.myfont.render("Score : "+str(self.score),True,(255,255,255),(32,48))
             self.window.blit(textScore,(850,35))
             pygame.display.update()
             self.clock.tick(60)

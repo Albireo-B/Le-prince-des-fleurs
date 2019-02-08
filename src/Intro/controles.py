@@ -28,9 +28,8 @@ def launchCtrl(screen):
         for event in pygame.event.get():
             if event.type==QUIT:
                 pygame.quit()
-            if event.type== pygame.MOUSEBUTTONDOWN:
-                pygame.mouse.get_pos()
-                if button_rect_backtoMenu.collidepoint(event.pos):#event to be changed
+            if event.type==KEYUP:
+                if event.key==K_SPACE:
                     return
 
         # position of buttons can be changed
