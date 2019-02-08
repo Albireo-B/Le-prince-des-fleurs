@@ -32,13 +32,14 @@ MAX_MOUSE_DRAG_DISTANCE = 400
 
 class GameController:
 
-    def __init__(self, window, withVolcanos,niv):
+    def __init__(self, window, withVolcanos, niv):
         self.niveau=niv
         self.window = window
 
         self.jumpSound = pygame.mixer.Sound('../Sounds/jump.wav')
         self.landSound = pygame.mixer.Sound('../Sounds/land.wav')
         self.starSound = pygame.mixer.Sound('../Sounds/bell.wav')
+        self.sweepSound = pygame.mixer.Sound('../Sounds/sweep.wav')
 
         self.princeHideHint = Object(Vector2(0,0), None, "../images/arrow.png", (HINT_ARROW_SIZE, HINT_ARROW_SIZE))
         self.arrowVisible = False
@@ -134,9 +135,9 @@ class GameController:
             prince.speedVector.y = -prince.speedVector.y*.5
 
         if prince.position.x < -OUT_OF_BOUND_MARGIN*1.5:
-            prince.setPosition(Vector2(WIDHT+OUT_OF_BOUND_MARGIN*1.5, prince.position.y))
+            prince.setPosition(Vector2(WIDTH+OUT_OF_BOUND_MARGIN*1.5, prince.position.y))
             prince.speedVector.x *= .7
-        if prince.position.x > HEIGHT + OUT_OF_BOUND_MARGIN*1.5:
+        if prince.position.x > WIDTH + OUT_OF_BOUND_MARGIN*1.5:
             prince.setPosition(Vector2(-OUT_OF_BOUND_MARGIN*1.5, prince.position.y))
             prince.speedVector.x *= .3
 
@@ -392,6 +393,7 @@ class GameController:
     def update_sweeping(self):
         for planet in self.planetes:
             if self.prince.isColliding(planet.volcano) and planet.volcano.eruptionCycle<1500:
+                pygame.mixer.Sound.play(self.sweepSound)
                 planet.volcano.clean()
 
     def update_etoiles(self):
