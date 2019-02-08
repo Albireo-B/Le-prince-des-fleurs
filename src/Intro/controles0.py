@@ -3,7 +3,7 @@ import time
 from pygame.locals import *
 import math
 
-def launchRules(screen):
+def launchCtrl0(screen):
     i=0
     j=0
     blue= (0,90,255)
@@ -16,7 +16,7 @@ def launchRules(screen):
 
 
     backtoMenu  = myFont.render("Retour",True,[135,206,235])
-    text = pygame.image.load("../images/text.png").convert_alpha()
+    text = pygame.image.load("../images/controles.png").convert_alpha()
 
 
     #here we put all the rules of the game
@@ -28,16 +28,19 @@ def launchRules(screen):
         for event in pygame.event.get():
             if event.type==QUIT:
                 pygame.quit()
+            if event.type==KEYUP:
+                if event.key==K_SPACE:
+                    return
             if event.type== pygame.MOUSEBUTTONDOWN:
                 pygame.mouse.get_pos()
                 if button_rect_backtoMenu.collidepoint(event.pos):#event to be changed
+                    pygame.mixer.music.stop()
                     return
 
         # position of buttons can be changed
         i=420
         background2 = pygame.transform.scale(background, (600+i,592+i))
         screen.blit(text, (0,0))
-
-
+        screen.blit(backtoMenu,(10,700))
 
         pygame.display.update()
