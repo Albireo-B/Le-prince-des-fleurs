@@ -124,15 +124,17 @@ class GameController:
         self.play()
 
     def PrinceFlight(self, prince):
-        prince.position = self.computeObjectTrajectory(prince.position, prince.speedVector)
+        prince.setPosition(self.computeObjectTrajectory(prince.position, prince.speedVector))
 
         if prince.position.y < -OUT_OF_BOUND_MARGIN or prince.position.y > HEIGHT + OUT_OF_BOUND_MARGIN:
             prince.speedVector.y = -prince.speedVector.y*.5
 
-        posPrince = Vector2((prince.position.x + OUT_OF_BOUND_MARGIN) % (WIDTH + 2*OUT_OF_BOUND_MARGIN) - OUT_OF_BOUND_MARGIN,
-                        prince.position.y
-                        )
-        prince.setPosition(posPrince)
+        if prince.position.x < -OUT_OF_BOUND_MARGIN*1.5:
+            prince.setPosition(Vector2(WIDHT+OUT_OF_BOUND_MARGIN*1.5, prince.position.y))
+            prince.speedVector.x *= .7
+        if prince.position.x > HEIGHT + OUT_OF_BOUND_MARGIN*1.5:
+            prince.setPosition(Vector2(-OUT_OF_BOUND_MARGIN*1.5, prince.position.y))
+            prince.speedVector.x *= .3
 
         self.arrowVisible = True
         if prince.position.x < 0:
