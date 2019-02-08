@@ -49,7 +49,6 @@ class MenuController:
                     if button_rect_start.collidepoint(event.pos):#event to be changed
                         pygame.mixer.music.stop()
                         choixController=ChoixController(screen)
-                        self.score = ScoreController(choixController.score)
                     if button_rect_scores.collidepoint(event.pos):#event to be changed
                         self.score = ScoreController(None,self.screen)
                     if button_rect_credits.collidepoint(event.pos):#event to be changed
