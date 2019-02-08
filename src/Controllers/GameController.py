@@ -18,6 +18,7 @@ MIN_SPEED_TO_LEAVE_PLANET = 5
 MAX_SPEED = 9
 IMMUNITY_THRESHOLD = 10
 HINT_SIZE = 5
+LOST_FLOWER_MALUS = 2000
 
 PRINCE_SPEED = 1.5
 
@@ -374,7 +375,7 @@ class GameController:
                 if self.withVolcanos:
                     planet.volcano.chauffe()
                     if planet.withFlower and planet.volcano.eruptionCycle>=1699 :
-                            self.score-=500
+                            self.score-=LOST_FLOWER_MALUS
                             print(';oinms de points')
                 self.update_flowers(planet)
 
