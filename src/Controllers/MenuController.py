@@ -7,6 +7,7 @@ from Controllers.ScoreController import ScoreController
 from Controllers.CreditsController import CreditsController
 from Controllers.ChoixController import ChoixController
 import sys
+import math
 
 white = (255,255,255)
 black = (0,0,0)
@@ -16,7 +17,6 @@ class MenuController:
 
     def __init__(self, screen):
         i=0
-        j=0
         white= (255,255,255)
         self.screen = screen
         self.fortgroud = pygame.image.load('../images/menu.png').convert_alpha()
@@ -65,16 +65,8 @@ class MenuController:
             screen.blit(rules,(50,500))
             screen.blit(quit,(50,600))
 
-            if i<=30:
-                screen.blit(self.fortgroud, (400,130-i))
-            else:
-                screen.blit(self.fortgroud, (400,100+j))
-                j+=0.05
-            if j>30:
-                screen.blit(self.fortgroud, (400,100+j))
-                i=0
-                j=0
-            i+=0.05
+            screen.blit(self.fortgroud, (400,100 + math.sin(i)*20))
+            i+=.002
 
             pygame.display.update()
 
