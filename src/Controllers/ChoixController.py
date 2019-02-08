@@ -63,15 +63,15 @@ class ChoixController:
                 i=0
                 j=0
             i+=0.05
-            self.screen.blit(self.message1,(480,320))
-            self.screen.blit(self.message2,(465,360))
-            self.screen.blit(self.message3,(450,400))
-            self.screen.blit(self.message4,(435,440))
-            self.screen.blit(self.message5,(450,480))
-            self.screen.blit(self.message6,(465,520))
-            self.screen.blit(self.message7,(480,560))
-            self.screen.blit(self.message8,(495,600))
-            self.screen.blit(self.message9,(510,640))
+            self.screen.blit(self.message1,(480,310))
+            self.screen.blit(self.message2,(465,350))
+            self.screen.blit(self.message3,(450,390))
+            self.screen.blit(self.message4,(435,430))
+            self.screen.blit(self.message5,(450,470))
+            self.screen.blit(self.message6,(465,510))
+            self.screen.blit(self.message7,(480,550))
+            self.screen.blit(self.message8,(495,590))
+            self.screen.blit(self.message9,(510,630))
             for event in pygame.event.get():
                 if event.type==pygame.MOUSEMOTION:
                     pygame.mouse.get_pos()
