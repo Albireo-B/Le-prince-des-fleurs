@@ -50,6 +50,7 @@ class ScoreController:
                         self.screen.blit(self.planet, (25,-50))
                         self.screen.blit(self.myFont.render("Votre score : " + str(self.score), True, [255,255,255]),[340, 550])
                         self.screen.blit(self.myFont.render("Vous êtes à la place " + str(self.pos), True, [255,255,255]),[340, 590])
+                        self.screen.blit(self.myFont.render("saisissez votre nom :", True, [255,255,255]),[340, 630])
                         self.screen.blit(self.saveb,[825,700])
                         self.screen.blit(self.myFont.render(self.nom, True, [255,255,255]),[340, 670])
                         self.showScore()
