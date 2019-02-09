@@ -295,8 +295,6 @@ class GameController:
                     if event.type == QUIT:
                         done=True
                         pygame.mixer.music.stop()
-                        pygame.mixer.music.load('../Sounds/menu.ogg')
-                        pygame.mixer.music.play(-1)
                     elif event.type == pygame.KEYDOWN:
                         hasKeyEvent = True
                         if event.key==pygame.K_DOWN:

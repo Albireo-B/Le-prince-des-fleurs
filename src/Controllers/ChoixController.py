@@ -175,3 +175,5 @@ class ChoixController:
 
     def run(self,niv):
         self.gameController = GameController(self.screen,True,niv)
+        pygame.mixer.music.load('../Sounds/menu.ogg')
+        pygame.mixer.music.play(-1)
