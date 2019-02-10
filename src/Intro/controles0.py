@@ -34,7 +34,6 @@ def launchCtrl0(screen):
             if event.type== pygame.MOUSEBUTTONDOWN:
                 pygame.mouse.get_pos()
                 if button_rect_backtoMenu.collidepoint(event.pos):#event to be changed
-                    pygame.mixer.music.stop()
                     return
 
         # position of buttons can be changed
