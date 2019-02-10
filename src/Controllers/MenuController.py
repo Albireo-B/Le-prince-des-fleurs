@@ -35,11 +35,11 @@ class MenuController:
         button_rect_rules=quit.get_rect(topleft=(50,475))
         lore   = myFont.render("histoire",True,[135,206,235])
         button_rect_lore=quit.get_rect(topleft=(50,575))
-        pygame.mixer.music.load ('../Sounds/menu.ogg')
-        pygame.mixer.music.play(-1)
+
         self.background=pygame.image.load("../images/background.jpg").convert()
         self.background=pygame.transform.scale(self.background,(1024,768))
         self.titre=pygame.image.load("../images/titre.png").convert_alpha()
+        self.playMenuMusic()
         #self.titre=pygame.transform.scale(self.titre,(1024,768))
         while True:
             self.screen.blit(self.background,(0,0))
@@ -52,6 +52,7 @@ class MenuController:
                     if button_rect_start.collidepoint(event.pos):#event to be changed
                         pygame.mixer.music.stop()
                         choixController=ChoixController(screen)
+                        self.playMenuMusic()
                     if button_rect_scores.collidepoint(event.pos):#event to be changed
                         self.score = ScoreController(None,self.screen)
                     if button_rect_credits.collidepoint(event.pos):#event to be changed
@@ -75,6 +76,10 @@ class MenuController:
             i+=.002
 
             pygame.display.update()
+
+    def playMenuMusic(self):
+        pygame.mixer.music.load ('../Sounds/menu.ogg')
+        pygame.mixer.music.play(-1)
 
     def text_objects(self, text, font):
         textSurface = font.render(text, True, black)

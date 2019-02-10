@@ -311,17 +311,13 @@ class GameController:
                             launchCtrl(self.window)
                         elif event.key == pygame.K_ESCAPE:
                             done=True
-                            pygame.mixer.music.stop()
-                            pygame.mixer.music.load('../Sounds/menu.ogg')
-                            pygame.mixer.music.play(-1)
                         elif event.key == pygame.K_UP:
-                            for planet in self.planetes:
-                                if self.prince.isColliding(planet):
-                                    if self.peutPoserFleur and self.prince.parent !=None and not planet.withFlower and planet.volcano.eruptionCycle<1500:
-                                        self.prince.putFlower()
-                                        self.peutPoserFleur=False
-                                        planet.withFlower=True
-                                        self.nbEtoile=0
+                            if self.prince.parent != None:
+                                if self.peutPoserFleur and not self.prince.parent.withFlower:
+                                    self.prince.putFlower()
+                                    self.peutPoserFleur=False
+                                    planet.withFlower=True
+                                    self.nbEtoile=0
                     elif event.type==pygame.MOUSEBUTTONDOWN:
                         down = True
                         posMouse = Vector2(pygame.mouse.get_pos())
