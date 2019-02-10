@@ -1,5 +1,6 @@
 import pygame,sys
 from pygame.locals import *
+import math
 from Controllers.GameController import GameController
 from Controllers.ScoreController import ScoreController
 white = (255,255,255)
@@ -11,6 +12,7 @@ class ChoixController:
 
     def __init__(self, screen):
         i=0
+        self.clock = pygame.time.Clock()
         self.runned = False
         j=0
         white= (255,255,255)
@@ -52,16 +54,8 @@ class ChoixController:
         while True:
             self.screen.blit(self.background,(0,0))
             self.screen.blit(self.titre,(0,0))
-            if i<=30:
-                screen.blit(self.fortgroud, (400,130-i))
-            else:
-                self.screen.blit(self.fortgroud, (400,100+j))
-                j+=0.05
-            if j>30:
-                self.screen.blit(self.fortgroud, (400,100+j))
-                i=0
-                j=0
-            i+=0.05
+            screen.blit(self.fortgroud, (400,100 + math.sin(i)*20))
+            i+=0.02
             self.screen.blit(self.message1,(480,310))
             self.screen.blit(self.message2,(465,350))
             self.screen.blit(self.message3,(450,390))
@@ -172,6 +166,7 @@ class ChoixController:
             screen.blit(niv1,(50,500))
             screen.blit(retour,(50,600))
             pygame.display.update()
+            self.clock.tick(60)
 
 
     def run(self,niv):

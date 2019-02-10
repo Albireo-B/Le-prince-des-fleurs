@@ -19,6 +19,7 @@ class MenuController:
 
     def __init__(self, screen):
         i=0
+        self.clock = pygame.time.Clock()
         white= (255,255,255)
         self.screen = screen
         self.fortgroud = pygame.image.load('../images/menu.png').convert_alpha()
@@ -73,9 +74,10 @@ class MenuController:
             screen.blit(quit,(50,675))
 
             screen.blit(self.fortgroud, (400,100 + math.sin(i)*20))
-            i+=.002
+            i+=.02
 
             pygame.display.update()
+            self.clock.tick(60)
 
     def playMenuMusic(self):
         pygame.mixer.music.load ('../Sounds/menu.ogg')

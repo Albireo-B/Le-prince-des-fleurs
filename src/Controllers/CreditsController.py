@@ -71,7 +71,7 @@ class CreditsController:
             screen.blit(perso3,(160,600))
             screen.blit(lieu,(880,700))
             screen.blit(date,(880,720))
-
+            
             pygame.display.update()
 
     def text_objects(self, text, font):
