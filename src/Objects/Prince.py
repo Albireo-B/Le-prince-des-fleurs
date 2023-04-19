@@ -24,7 +24,7 @@ class Prince(PhysicObject):
 
     def nextWalkFrame(self,gauche):
         self.flipCounter += 1
-        if self.flipCounter > 3:
+        if self.flipCounter > 60:
             self.flipCounter = 0
             self.loadImage(self.imgsMarche[int(self.i/2)])
             self.i = (self.i + 1)%8

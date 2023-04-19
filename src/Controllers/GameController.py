@@ -22,7 +22,7 @@ IMMUNITY_THRESHOLD = 10
 HINT_SIZE = 5
 LOST_FLOWER_MALUS = 2000
 
-PRINCE_SPEED = 1.5
+PRINCE_SPEED = 0.05
 
 WIDTH = 1024
 HEIGHT = 768
@@ -49,7 +49,7 @@ class GameController:
         self.withVolcanos=withVolcanos
         self.clock = pygame.time.Clock()
         self.background=pygame.image.load("../images/background.jpg").convert()
-        self.background=pygame.transform.scale(self.background,(1024,768))
+        self.background=pygame.transform.scale(self.background,(WIDTH,HEIGHT))
         self.PhysicEngine = PhysicEngine()
         self.DrawEngine = DrawEngine(window)
         self.planetes = []
@@ -64,7 +64,7 @@ class GameController:
         self.prince=Prince("../images/walk1.png",(int(74/1.5),int(120/1.5)))
         self.PhysicEngine.addPhysicObject(self.prince)
         maskPath = "../images/planetMask.png"
-        self.help=self.myfont.render("Appuyez sur ESPACE pour avoir de l'aide",True, (255, 255, 255), (32, 48))
+        self.help=self.myfont.render("Appuyez sur ESPACE pour avoir de l'aide",True, (255, 255, 255))#, (32, 48))
 
 
         if self.niveau==3:
@@ -348,7 +348,7 @@ class GameController:
             if time.time()-start>=180:
                 done=True
             else:
-                text=self.myfont.render(str(int(180 -(time.time() -start)))+" secondes restantes",True, (255, 255, 255), (32, 48))
+                text=self.myfont.render(str(int(180 -(time.time() -start)))+" secondes restantes",True, (255, 255, 255))#, (32, 48))
             if self.nbEtoile>=2:
                 self.peutPoserFleur=True
                 while (self.nbEtoile>2):
@@ -394,7 +394,7 @@ class GameController:
             self.window.blit(self.help,(10,730))
 
             self.window.blit(text,(800,10))
-            textScore=self.myfont.render("Score : "+str(self.score),True,(255,255,255),(32,48))
+            textScore=self.myfont.render("Score : "+str(self.score),True,(255,255,255))#,(32,48))
             self.window.blit(textScore,(850,35))
             pygame.display.update()
             self.clock.tick(60)
